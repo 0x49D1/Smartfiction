@@ -1,0 +1,74 @@
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\ApplicationIcon.png
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\Background.png
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\WP7_FeedReader.dll
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\WP7_FeedReader.pdb
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\AppManifest.xaml
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\WP7_FeedReader.xap
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\obj\Debug\ResolveAssemblyReference.cache
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\obj\Debug\App.g.cs
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\obj\Debug\MainPage.g.cs
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\obj\Debug\WP7_FeedReader.g.resources
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\obj\Debug\WP7_FeedReader.dll
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\obj\Debug\WP7_FeedReader.pdb
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\obj\Debug\XapCacheFile.xml
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\obj\Debug\ManageFeeds.g.cs
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\System.ServiceModel.Syndication.dll
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\System.Xml.Serialization.dll
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\System.ServiceModel.Syndication.xml
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\System.Xml.Serialization.xml
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\de\System.ServiceModel.Syndication.resources.dll
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\es\System.ServiceModel.Syndication.resources.dll
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\fr\System.ServiceModel.Syndication.resources.dll
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\it\System.ServiceModel.Syndication.resources.dll
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\ja\System.ServiceModel.Syndication.resources.dll
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\ko\System.ServiceModel.Syndication.resources.dll
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\ru\System.ServiceModel.Syndication.resources.dll
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\zh-Hans\System.ServiceModel.Syndication.resources.dll
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\zh-Hant\System.ServiceModel.Syndication.resources.dll
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\de\System.Xml.Serialization.resources.dll
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\es\System.Xml.Serialization.resources.dll
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\fr\System.Xml.Serialization.resources.dll
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\it\System.Xml.Serialization.resources.dll
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\ja\System.Xml.Serialization.resources.dll
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\ko\System.Xml.Serialization.resources.dll
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\ru\System.Xml.Serialization.resources.dll
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\zh-Hans\System.Xml.Serialization.resources.dll
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\Bin\Debug\zh-Hant\System.Xml.Serialization.resources.dll
+c:\users\dennis\documents\visual studio 2010\Projects\WP7_FeedReader\WP7_FeedReader\obj\Debug\DetailsView.g.cs
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\ApplicationIcon.png
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\Background.png
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\WP7_FeedReader.dll
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\WP7_FeedReader.pdb
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\AppManifest.xaml
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\WP7_FeedReader.xap
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\System.Xml.Serialization.dll
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\System.ServiceModel.Syndication.xml
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\System.Xml.Serialization.xml
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\de\System.ServiceModel.Syndication.resources.dll
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\es\System.ServiceModel.Syndication.resources.dll
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\fr\System.ServiceModel.Syndication.resources.dll
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\it\System.ServiceModel.Syndication.resources.dll
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\ja\System.ServiceModel.Syndication.resources.dll
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\ko\System.ServiceModel.Syndication.resources.dll
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\ru\System.ServiceModel.Syndication.resources.dll
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\zh-Hans\System.ServiceModel.Syndication.resources.dll
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\zh-Hant\System.ServiceModel.Syndication.resources.dll
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\de\System.Xml.Serialization.resources.dll
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\es\System.Xml.Serialization.resources.dll
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\fr\System.Xml.Serialization.resources.dll
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\it\System.Xml.Serialization.resources.dll
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\ja\System.Xml.Serialization.resources.dll
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\ko\System.Xml.Serialization.resources.dll
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\ru\System.Xml.Serialization.resources.dll
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\zh-Hans\System.Xml.Serialization.resources.dll
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\zh-Hant\System.Xml.Serialization.resources.dll
+D:\Work\WP7_FeedReader\WP7_FeedReader\obj\Debug\WP7_FeedReader.csprojResolveAssemblyReference.cache
+D:\Work\WP7_FeedReader\WP7_FeedReader\obj\Debug\App.g.i.cs
+D:\Work\WP7_FeedReader\WP7_FeedReader\obj\Debug\DetailsView.g.i.cs
+D:\Work\WP7_FeedReader\WP7_FeedReader\obj\Debug\MainPage.g.i.cs
+D:\Work\WP7_FeedReader\WP7_FeedReader\obj\Debug\ManageFeeds.g.i.cs
+D:\Work\WP7_FeedReader\WP7_FeedReader\obj\Debug\WP7_FeedReader.g.resources
+D:\Work\WP7_FeedReader\WP7_FeedReader\obj\Debug\WP7_FeedReader.dll
+D:\Work\WP7_FeedReader\WP7_FeedReader\obj\Debug\WP7_FeedReader.pdb
+D:\Work\WP7_FeedReader\WP7_FeedReader\obj\Debug\XapCacheFile.xml
+D:\Work\WP7_FeedReader\WP7_FeedReader\Bin\Debug\Fonts\bpg_glaho_sylfaen.ttf
