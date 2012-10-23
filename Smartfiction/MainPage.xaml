@@ -6,6 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -23,7 +24,7 @@
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="24,24,0,12">
             <TextBlock x:Name="ApplicationTitle" Text="SMARTFICTION Качественная литература по будням. Коротко." Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock x:Name="PageTitle" Text="Последние добавления" Margin="-3,-8,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock x:Name="PageTitle" Text="Последние" Margin="-3,-8,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
@@ -32,7 +33,13 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Margin="0,10,0,10">
-                            <TextBlock x:Name="ItemName" FontFamily=".\Fonts\bpg_glaho_sylfaen.ttf#Sylfaen" Text="{Binding ItemTitle}" Style="{StaticResource PhoneTextNormalStyle}"></TextBlock>
+                            <toolkit:ContextMenuService.ContextMenu>
+                                <toolkit:ContextMenu>
+                                    <toolkit:MenuItem Header="Добавить в избранное" Click="MenuItem_Click"/>
+                                </toolkit:ContextMenu>
+                            </toolkit:ContextMenuService.ContextMenu>
+                            <TextBlock x:Name="ItemName" FontFamily=".\Fonts\bpg_glaho_sylfaen.ttf#Sylfaen" Text="{Binding ItemTitle}" Style="{StaticResource PhoneTextBlockBase}"></TextBlock>
+                            <TextBlock x:Name="ItemPublishDate" FontFamily=".\Fonts\bpg_glaho_sylfaen.ttf#Sylfaen" Text="{Binding ItemPublishDate, StringFormat='dd.MM.yyyy'}" Style="{StaticResource PhoneTextSmallStyle}"></TextBlock>
                             <TextBlock x:Name="ItemDetails" FontFamily=".\Fonts\bpg_glaho_sylfaen.ttf#Sylfaen" Text="{Binding ItemDetails}" Style="{StaticResource PhoneTextSubtleStyle}"></TextBlock>
                         </StackPanel>
                     </DataTemplate>

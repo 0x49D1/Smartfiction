@@ -45,5 +45,10 @@ namespace Smartfiction
                 NavigationService.Navigate(new Uri("/DetailsView.xaml?item=" + MainList.SelectedIndex, UriKind.Relative));
             }
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("To favorits!");
+        }
     }
 }

@@ -45,10 +45,10 @@ namespace Smartfiction.FeedHelper
                             new ViewModel.ItemModel()
                             {
                                 ItemDetails = sItem.Summary.Text,
-                                ItemTitle = sItem.Title.Text,
+                                ItemTitle = sItem.Title.Text, 
+                                ItemPublishDate =  sItem.PublishDate.DateTime,
                                 ItemLink = sItem.Links[0].Uri.ToString()
-                            }
-                                );
+                            });
                     }
                 }
             }
