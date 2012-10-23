@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Tasks;
 
 namespace Smartfiction
 {
@@ -19,6 +20,8 @@ namespace Smartfiction
         public MainPage()
         {
             InitializeComponent();
+
+            FeedHelper.FeedData.GetItems();
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
@@ -30,7 +33,7 @@ namespace Smartfiction
 
         private void manageFeeds_Click(object sender, EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/ManageFeeds.xaml",UriKind.Relative));
+            NavigationService.Navigate(new Uri("/ManageFeeds.xaml", UriKind.Relative));
         }
 
         private void reloadFeeds_Click(object sender, EventArgs e)
@@ -49,6 +52,15 @@ namespace Smartfiction
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("To favorits!");
+        }
+
+        private void ShareItem_Click(object sender, RoutedEventArgs e)
+        {
+            ShareLinkTask slt = new ShareLinkTask();
+            slt.LinkUri = new Uri("http://test.test");
+            slt.Title = "Title!";
+            slt.Message = "Message";
+            slt.Show();
         }
     }
 }
