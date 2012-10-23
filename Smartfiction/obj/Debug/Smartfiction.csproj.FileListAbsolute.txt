@@ -71,3 +71,6 @@ D:\Work\Smartfiction\Smartfiction\obj\Debug\Smartfiction.dll
 D:\Work\Smartfiction\Smartfiction\obj\Debug\Smartfiction.pdb
 D:\Work\Smartfiction\Smartfiction\obj\Debug\XapCacheFile.xml
 D:\Work\Smartfiction\Smartfiction\Bin\Debug\Smartfiction.xap
+D:\Work\Smartfiction\Smartfiction\Bin\Debug\Microsoft.Phone.Controls.Toolkit.dll
+D:\Work\Smartfiction\Smartfiction\Bin\Debug\Microsoft.Phone.Controls.dll
+D:\Work\Smartfiction\Smartfiction\Bin\Debug\Microsoft.Phone.Controls.xml

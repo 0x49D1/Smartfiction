@@ -47,6 +47,21 @@ namespace Smartfiction.ViewModel
             }
         }
 
+
+        private DateTime itemPublishDate;
+        public DateTime ItemPublishDate
+        {
+            get { return itemPublishDate; }
+            set
+            {
+                if (value != itemPublishDate)
+                {
+                    itemPublishDate = value;
+                    NotifyPropertyChanged("ItemPublishDate");
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String propertyName)
         {
