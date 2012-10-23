@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smartfiction", "Smartfiction.csproj", "{022BEDA4-8C50-49E5-B57F-B30F0131515C}"
+# Visual Studio 2010 Express for Windows Phone
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smartfiction", "Smartfiction\Smartfiction.csproj", "{BFF5B9DD-EE05-4DA3-A6F8-6B7DBD03FB04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,12 +9,12 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{022BEDA4-8C50-49E5-B57F-B30F0131515C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{022BEDA4-8C50-49E5-B57F-B30F0131515C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{022BEDA4-8C50-49E5-B57F-B30F0131515C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{022BEDA4-8C50-49E5-B57F-B30F0131515C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{022BEDA4-8C50-49E5-B57F-B30F0131515C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{022BEDA4-8C50-49E5-B57F-B30F0131515C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{BFF5B9DD-EE05-4DA3-A6F8-6B7DBD03FB04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFF5B9DD-EE05-4DA3-A6F8-6B7DBD03FB04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFF5B9DD-EE05-4DA3-A6F8-6B7DBD03FB04}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{BFF5B9DD-EE05-4DA3-A6F8-6B7DBD03FB04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFF5B9DD-EE05-4DA3-A6F8-6B7DBD03FB04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFF5B9DD-EE05-4DA3-A6F8-6B7DBD03FB04}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
