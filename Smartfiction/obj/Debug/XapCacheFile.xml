@@ -1,16 +1,14 @@
-﻿<xapCache source="D:\Work\Smartfiction\Smartfiction\Bin\Debug\Smartfiction.xap" wasSigned="False" certificateThumbprint="" TimeStampUrl="" lastWriteTime="10/23/2012 4:52:48 PM">
-  <file source="D:\Work\Smartfiction\Smartfiction\Bin\Debug\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="10/23/2012 2:40:28 PM" />
-  <file source="D:\Work\Smartfiction\Smartfiction\Background.png" archivePath="Background.png" lastWriteTime="8/5/2010 1:04:34 AM" />
-  <file source="D:\Work\Smartfiction\Smartfiction\ApplicationIcon.png" archivePath="ApplicationIcon.png" lastWriteTime="8/5/2010 1:04:34 AM" />
-  <file source="D:\Work\Smartfiction\Smartfiction\obj\Debug\Smartfiction.dll" archivePath="Smartfiction.dll" lastWriteTime="10/23/2012 4:52:48 PM" />
-  <file source="D:\Work\Smartfiction\packages\SilverlightToolkitWP.4.2012.10.9\lib\sl4-windowsphone71\Microsoft.Phone.Controls.Toolkit.dll" archivePath="Microsoft.Phone.Controls.Toolkit.dll" lastWriteTime="10/23/2012 4:04:29 PM" />
-  <file source="D:\Work\Smartfiction\Smartfiction\Bin\Debug\System.ServiceModel.Syndication.dll" archivePath="System.ServiceModel.Syndication.dll" lastWriteTime="4/1/2010 12:46:10 AM" />
-  <file source="C:\Program Files (x86)\Microsoft SDKs\Windows Phone\v7.1\Libraries\Silverlight\Microsoft.Phone.Controls.dll" archivePath="Microsoft.Phone.Controls.dll" lastWriteTime="3/19/2012 4:29:06 PM" />
-  <file source="D:\Work\Smartfiction\Smartfiction\Bin\Debug\System.Xml.Serialization.dll" archivePath="System.Xml.Serialization.dll" lastWriteTime="4/1/2010 12:46:10 AM" />
+﻿<xapCache source="D:\Work\Smartfiction\Smartfiction\Bin\Debug\Smartfiction_Debug_AnyCPU.xap" wasSigned="False" certificateThumbprint="" TimeStampUrl="" lastWriteTime="10/31/2012 10:51:08 AM">
+  <file source="D:\Work\Smartfiction\Smartfiction\obj\Debug\Smartfiction.dll" archivePath="Smartfiction.dll" lastWriteTime="10/31/2012 10:51:08 AM" />
   <file source="D:\Work\Smartfiction\Smartfiction\README_FIRST.txt" archivePath="README_FIRST.txt" lastWriteTime="10/23/2012 4:04:30 PM" />
   <file source="D:\Work\Smartfiction\Smartfiction\SplashScreenImage.jpg" archivePath="SplashScreenImage.jpg" lastWriteTime="8/5/2010 1:04:34 AM" />
-  <file source="D:\Work\Smartfiction\Smartfiction\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="10/23/2012 4:06:51 PM" />
+  <file source="D:\Work\Smartfiction\Smartfiction\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="10/31/2012 10:47:18 AM" />
   <file source="D:\Work\Smartfiction\Smartfiction\Bin\Debug\Fonts\bpg_glaho_sylfaen.ttf" archivePath="Fonts\bpg_glaho_sylfaen.ttf" lastWriteTime="10/23/2012 1:45:21 PM" />
   <file source="D:\Work\Smartfiction\Smartfiction\Bin\Debug\ApplicationIcon.png" archivePath="ApplicationIcon.png" lastWriteTime="8/5/2010 1:04:34 AM" />
   <file source="D:\Work\Smartfiction\Smartfiction\Bin\Debug\Background.png" archivePath="Background.png" lastWriteTime="8/5/2010 1:04:34 AM" />
+  <file source="D:\Work\Smartfiction\packages\SilverlightToolkitWP.4.2012.10.9\lib\sl4-windowsphone71\Microsoft.Phone.Controls.Toolkit.dll" archivePath="Microsoft.Phone.Controls.Toolkit.dll" lastWriteTime="10/23/2012 4:04:29 PM" />
+  <file source="D:\Work\Smartfiction\Smartfiction\Bin\Debug\System.ServiceModel.Syndication.dll" archivePath="System.ServiceModel.Syndication.dll" lastWriteTime="4/1/2010 12:46:10 AM" />
+  <file source="C:\Program Files (x86)\Microsoft SDKs\Windows Phone\v8.0\Libraries\Microsoft.Phone.Controls.dll" archivePath="Microsoft.Phone.Controls.dll" lastWriteTime="9/26/2012 2:30:38 PM" />
+  <file source="D:\Work\Smartfiction\Smartfiction\Bin\Debug\System.ServiceModel.Syndication.xml" archivePath="System.ServiceModel.Syndication.xml" lastWriteTime="2/26/2010 2:01:10 AM" />
+  <file source="D:\Work\Smartfiction\Smartfiction\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="10/31/2012 10:47:19 AM" />
 </xapCache>
