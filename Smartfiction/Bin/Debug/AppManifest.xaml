@@ -4,6 +4,5 @@
     <AssemblyPart x:Name="Microsoft.Phone.Controls.Toolkit" Source="Microsoft.Phone.Controls.Toolkit.dll" />
     <AssemblyPart x:Name="System.ServiceModel.Syndication" Source="System.ServiceModel.Syndication.dll" />
     <AssemblyPart x:Name="Microsoft.Phone.Controls" Source="Microsoft.Phone.Controls.dll" />
-    <AssemblyPart x:Name="System.Xml.Serialization" Source="System.Xml.Serialization.dll" />
   </Deployment.Parts>
 </Deployment>

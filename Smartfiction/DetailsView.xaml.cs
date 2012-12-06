@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Tasks;
 
 namespace Smartfiction
 {
@@ -28,6 +29,9 @@ namespace Smartfiction
             {
                 int _index = int.Parse(index);
 
+                //WebBrowserTask wbt = new WebBrowserTask();
+                //wbt.Uri = new Uri(App.Model.FeedItems[_index].ItemLink);
+                //wbt.Show();
                 webBrowser1.Navigate(new Uri(App.Model.FeedItems[_index].ItemLink));
             }
         }
