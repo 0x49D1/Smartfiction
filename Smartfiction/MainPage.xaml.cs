@@ -1,25 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Tasks;
+using Smartfiction.Model;
 
 namespace Smartfiction
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        private const string strConnectionString = @"isostore:/SmartfictionDB.sdf"; 
         // Constructor
+        // http://code.msdn.microsoft.com/wpapps/Database-in-Windows-Phone-7-d69c13c9
         public MainPage()
         {
             InitializeComponent();
+
+            using (StoryDataContext context = new StoryDataContext(strConnectionString))
+            {
+                if (context.DatabaseExists() == false)
+                {
+                    context.CreateDatabase();
+                    MessageBox.Show("Story Database Created Successfully!!!");
+                }
+                else
+                {
+                    MessageBox.Show("Story Database already exists!!!");
+                }
+            } 
 
             FeedHelper.FeedData.GetItems();
         }
@@ -57,9 +65,10 @@ namespace Smartfiction
         private void ShareItem_Click(object sender, RoutedEventArgs e)
         {
             ShareLinkTask slt = new ShareLinkTask();
-            slt.LinkUri = new Uri("http://test.test");
-            slt.Title = "Title!";
-            slt.Message = "Message";
+            Smartfiction.ViewModel.ItemModel item = (Smartfiction.ViewModel.ItemModel)((MenuItem)sender).DataContext;
+            slt.LinkUri = new Uri(item.ItemLink);
+            slt.Title = item.ItemTitle;
+            slt.Message = "";
             slt.Show();
         }
     }
