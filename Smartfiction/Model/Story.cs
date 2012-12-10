@@ -10,7 +10,7 @@ namespace Smartfiction.Model
     [Table]
     public class Story
     {
-        [Column(IsPrimaryKey = true)]
+        [Column(IsPrimaryKey = true, IsDbGenerated = true, DbType = "INT NOT NULL Identity", CanBeNull = false, AutoSync = AutoSync.OnInsert)]
         public int StoryID { get; set; }
 
         [Column(CanBeNull = false)]
@@ -21,7 +21,10 @@ namespace Smartfiction.Model
 
         [Column(CanBeNull = false)]
         public string Link { get; set; }
-        
+
+        [Column(CanBeNull = true)]
+        public string Details { get; set; }
+
         [Column(CanBeNull = false)]
         public DateTime DateCreated { get; set; }
     }
