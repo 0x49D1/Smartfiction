@@ -20,33 +20,54 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
+        <ProgressBar Name="pbProgress" Visibility="Collapsed"/>
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="24,24,0,12">
-            <TextBlock x:Name="ApplicationTitle" Text="SMARTFICTION Качественная литература по будням. Коротко." Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock x:Name="PageTitle" Text="Последние" Margin="-3,-8,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-        </StackPanel>
+        <phone:Pivot Title="SMARTFICTION Качественная литература по будням. Коротко." >
 
-        <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentGrid" Grid.Row="1">
-            <ListBox x:Name="MainList" ItemsSource="{Binding FeedItems}" Margin="13,0,13,0" SelectionChanged="ListBox_SelectionChanged">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Margin="0,10,0,10">
-                            <toolkit:ContextMenuService.ContextMenu>
-                                <toolkit:ContextMenu>
-                                    <toolkit:MenuItem Header="Добавить в избранное" Click="MenuItem_Click"/>
-                                    <toolkit:MenuItem Header="Share" Click="ShareItem_Click"/>
-                                </toolkit:ContextMenu>
-                            </toolkit:ContextMenuService.ContextMenu>
-                            <TextBlock x:Name="ItemName"  Text="{Binding ItemTitle}" Style="{StaticResource PhoneTextTitle2Style}"></TextBlock>
-                            <TextBlock x:Name="ItemPublishDate" Text="{Binding ItemPublishDate, StringFormat='dd.MM.yyyy'}" Style="{StaticResource PhoneTextSmallStyle}"></TextBlock>
-                            <TextBlock x:Name="ItemDetails" Text="{Binding ItemDetails}" Style="{StaticResource PhoneTextSubtleStyle}"></TextBlock>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Grid>
+            <phone:PivotItem Header="Последние" >
+                <!--ContentPanel - place additional content here-->
+                <Grid x:Name="ContentGrid" Grid.Row="1">
+
+                    <ListBox x:Name="MainList" ItemsSource="{Binding FeedItems}" Margin="13,0,13,0" SelectionChanged="ListBox_SelectionChanged">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,10,0,10">
+                                    <toolkit:ContextMenuService.ContextMenu>
+                                        <toolkit:ContextMenu>
+                                            <toolkit:MenuItem Header="Добавить в избранное" Click="MenuItem_Click"/>
+                                            <toolkit:MenuItem Header="Share" Click="ShareItem_Click"/>
+                                        </toolkit:ContextMenu>
+                                    </toolkit:ContextMenuService.ContextMenu>
+                                    <TextBlock x:Name="ItemName"  Text="{Binding ItemTitle}" Style="{StaticResource PhoneTextTitle2Style}"></TextBlock>
+                                    <TextBlock x:Name="ItemPublishDate" Text="{Binding ItemPublishDate, StringFormat='dd.MM.yyyy'}" Style="{StaticResource PhoneTextSmallStyle}"></TextBlock>
+                                    <TextBlock x:Name="ItemDetails" Text="{Binding ItemDetails}" Style="{StaticResource PhoneTextSubtleStyle}"></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </phone:PivotItem>
+            <phone:PivotItem Header="Избранные" >
+                <Grid x:Name="FavoritsGrid" Grid.Row="1">
+                    <ListBox x:Name="FavoritsList" ItemsSource="{Binding}" Margin="13,0,13,0" >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,10,0,10">
+                                    <toolkit:ContextMenuService.ContextMenu>
+                                        <toolkit:ContextMenu>
+                                            <toolkit:MenuItem Header="Удалить из избранных" Click="RemoveFavorit_click"/>
+                                            <toolkit:MenuItem Header="Share" Click="ShareItem_Click"/>
+                                        </toolkit:ContextMenu>
+                                    </toolkit:ContextMenuService.ContextMenu>
+                                    <TextBlock x:Name="ItemName"  Text="{Binding Title}" Style="{StaticResource PhoneTextTitle2Style}"></TextBlock>
+                                    <TextBlock x:Name="ItemPublishDate" Text="{Binding DatePublished, StringFormat='dd.MM.yyyy'}" Style="{StaticResource PhoneTextSmallStyle}"></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </phone:PivotItem>
+        </phone:Pivot>
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>

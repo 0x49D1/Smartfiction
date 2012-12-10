@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.ServiceModel;
 using System.ServiceModel.Syndication;
 using System.Diagnostics;
+using System.Windows;
+using System.Windows.Controls;
 using System.Xml;
 using System.Net;
 using System.IO;
@@ -15,8 +17,12 @@ namespace Smartfiction.FeedHelper
     {
         public ObservableCollection<string> FeedList { get; set; }
 
+        public static ProgressBar pb = new ProgressBar();
+
         public static void GetItems()
         {
+            pb.IsIndeterminate = true;
+            pb.Visibility = Visibility.Visible;
             App.Model.FeedItems.Clear();
 
             foreach (string item in App.Data.FeedList)
@@ -51,6 +57,8 @@ namespace Smartfiction.FeedHelper
                             });
                     }
                 }
+                pb.IsIndeterminate = false;
+                pb.Visibility = Visibility.Collapsed;
             }
         }
     }
