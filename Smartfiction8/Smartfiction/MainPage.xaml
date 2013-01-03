@@ -71,7 +71,7 @@
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem x:Name="reloadFeeds" Text="Обновить" Click="reloadFeeds_Click"></shell:ApplicationBarMenuItem>
-                <shell:ApplicationBarMenuItem x:Name="about" Text="О Программе" Click="about_Click"></shell:ApplicationBarMenuItem>
+                <shell:ApplicationBarMenuItem x:Name="about" Text="О Программе/Помощь" Click="about_Click"></shell:ApplicationBarMenuItem>
                 <!--<shell:ApplicationBarMenuItem x:Name="manageFeeds" Text="manage feeds" Click="manageFeeds_Click"></shell:ApplicationBarMenuItem>-->
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>

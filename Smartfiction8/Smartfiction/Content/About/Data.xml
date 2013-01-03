@@ -46,6 +46,11 @@
               Label="Support:" />
       </Links>
     </MainItem>
+    <Item Title="Помощь"
+      Type="text">
+Списки можно обновлять из меню(3 точки внизу экрана)
+При долгом нажатии на элемент списка выпадает дополнительное меню, позволяющее перенести элемент в избранное или поделиться ссылкой.
+    </Item>
     <!-- For each additional pivot item, add a separate Item entry. Ideas for items are: license, tutorial or help, version history, show room for other apps from you etc. -->
     <!-- The Title attribute defines the title of the pivot item -->
     <!-- Each Item can be a remote item (fetched from a Uri) or a local item (using its content), or both (local content is the fallback value if fetching the network content fails) -->
