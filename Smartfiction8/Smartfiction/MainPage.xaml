@@ -10,7 +10,7 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Portrait" Orientation="Portrait"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
     mc:Ignorable="d" 
     shell:SystemTray.IsVisible="True">
     <!--LayoutRoot contains the root grid where all other page content is placed-->
@@ -35,7 +35,7 @@
                                             <toolkit:MenuItem Header="Поделиться" Click="ShareItem_Click"/>
                                         </toolkit:ContextMenu>
                                     </toolkit:ContextMenuService.ContextMenu>
-                                    <TextBlock x:Name="ItemName"  Text="{Binding ItemTitle}" Style="{StaticResource PhoneTextTitle2Style}"></TextBlock>
+                                    <TextBlock x:Name="ItemName"  Text="{Binding Title}" Style="{StaticResource PhoneTextTitle2Style}"></TextBlock>
                                     <TextBlock x:Name="ItemPublishDate" Text="{Binding ItemPublishDate, StringFormat='dd.MM.yyyy'}" Style="{StaticResource PhoneTextSmallStyle}"></TextBlock>
                                     <TextBlock x:Name="ItemDetails" Text="{Binding ItemDetails}" Style="{StaticResource PhoneTextSubtleStyle}" TextWrapping="Wrap"></TextBlock>
                                 </StackPanel>
@@ -69,8 +69,9 @@
 
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar.refresh.png" Text="Обновить" Click="reloadFeeds_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar.shuffle.png" Text="Случайный" Click="randomFeeds_Click"/>
             <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem x:Name="reloadFeeds" Text="Обновить" Click="reloadFeeds_Click"></shell:ApplicationBarMenuItem>
                 <shell:ApplicationBarMenuItem x:Name="about" Text="О Программе/Помощь" Click="about_Click"></shell:ApplicationBarMenuItem>
                 <!--<shell:ApplicationBarMenuItem x:Name="manageFeeds" Text="manage feeds" Click="manageFeeds_Click"></shell:ApplicationBarMenuItem>-->
             </shell:ApplicationBar.MenuItems>

@@ -152,7 +152,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ApplicationIcon.png" />
     <Content Include="Assets\AlignmentGrid.png" />
     <Content Include="Assets\ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -172,8 +171,11 @@
     <Content Include="Assets\Tiles\IconicTileSmall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Background.png" />
-    <Content Include="Content\About\Data.xml" />
+    <Content Include="Content\About\Data.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Images\appbar.refresh.png" />
+    <Content Include="Images\appbar.shuffle.png" />
     <Content Include="Images\logo.jpg" />
     <Content Include="README_FIRST.txt" />
     <Content Include="SplashScreenImage.jpg" />

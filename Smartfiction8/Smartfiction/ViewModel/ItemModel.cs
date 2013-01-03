@@ -6,7 +6,7 @@ namespace Smartfiction.ViewModel
     public class ItemModel : INotifyPropertyChanged
     {
         private string itemTitle;
-        public string ItemTitle
+        public string Title
         {
             get { return itemTitle; }
             set 
@@ -14,7 +14,7 @@ namespace Smartfiction.ViewModel
                 if (value != itemTitle)
                 {
                     itemTitle = value;
-                    NotifyPropertyChanged("ItemTitle");
+                    NotifyPropertyChanged("Title");
                 }
             }
         }
@@ -34,7 +34,7 @@ namespace Smartfiction.ViewModel
         }
 
         private string itemLink;
-        public string ItemLink
+        public string Link
         {
             get { return itemLink; }
             set
@@ -42,7 +42,7 @@ namespace Smartfiction.ViewModel
                 if (value != itemLink)
                 {
                     itemLink = value;
-                    NotifyPropertyChanged("ItemLink");
+                    NotifyPropertyChanged("Link");
                 }
             }
         }

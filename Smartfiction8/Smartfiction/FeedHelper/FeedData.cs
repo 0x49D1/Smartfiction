@@ -61,9 +61,9 @@ namespace Smartfiction.FeedHelper
                             new ViewModel.ItemModel()
                             {
                                 ItemDetails = sItem.Summary.Text,
-                                ItemTitle = sItem.Title.Text,
+                                Title = sItem.Title.Text,
                                 ItemPublishDate = sItem.PublishDate.DateTime,
-                                ItemLink = sItem.Links[0].Uri.ToString()
+                                Link = sItem.Links[0].Uri.ToString()
                             });
                     }
                 }
