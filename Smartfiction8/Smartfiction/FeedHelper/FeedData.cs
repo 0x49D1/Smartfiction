@@ -15,7 +15,17 @@ namespace Smartfiction.FeedHelper
 
         public static ProgressIndicator pb = new ProgressIndicator();
 
-        private static List<string> l = new List<string>() { "загрузка...", "подождите...", "забираем последние..." };
+        private static List<string> l = new List<string>()
+                                            {
+                                                "загрузка...", 
+                                                "подождите...", 
+                                                "забираем последние...",
+                                                "мартышки работают...",
+                                                "нет, мы не чистим вашу память...",
+                                                "уже скоро...",
+                                                "совсем чуть чуть...",
+                                                "подождем?..."
+                                            };
 
         public static void GetItems()
         {
