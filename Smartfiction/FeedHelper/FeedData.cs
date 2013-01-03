@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ServiceModel;
 using System.ServiceModel.Syndication;
-using System.Diagnostics;
-using System.Windows;
-using System.Windows.Controls;
 using System.Xml;
 using System.Net;
 using System.IO;
-using System.Text;
+using Microsoft.Phone.Shell;
 
 namespace Smartfiction.FeedHelper
 {
@@ -17,12 +13,16 @@ namespace Smartfiction.FeedHelper
     {
         public ObservableCollection<string> FeedList { get; set; }
 
-        public static ProgressBar pb = new ProgressBar();
+        public static ProgressIndicator pb = new ProgressIndicator();
+
+        private static List<string> l = new List<string>() { "загрузка...", "подождите...", "забираем последние..." };
 
         public static void GetItems()
         {
             pb.IsIndeterminate = true;
-            pb.Visibility = Visibility.Visible;
+            pb.IsVisible = true;
+            pb.Text = l[new Random().Next(l.Count)]; // Get random loading captions
+
             App.Model.FeedItems.Clear();
 
             foreach (string item in App.Data.FeedList)
@@ -51,14 +51,14 @@ namespace Smartfiction.FeedHelper
                             new ViewModel.ItemModel()
                             {
                                 ItemDetails = sItem.Summary.Text,
-                                ItemTitle = sItem.Title.Text, 
-                                ItemPublishDate =  sItem.PublishDate.DateTime,
+                                ItemTitle = sItem.Title.Text,
+                                ItemPublishDate = sItem.PublishDate.DateTime,
                                 ItemLink = sItem.Links[0].Uri.ToString()
                             });
                     }
                 }
                 pb.IsIndeterminate = false;
-                pb.Visibility = Visibility.Collapsed;
+                pb.IsVisible = false;
             }
         }
     }

@@ -1683,7 +1683,7 @@
       <param name="version">The syndication version to use while writing.</param>
     </member>
     <member name="T:System.ServiceModel.Syndication.SyndicationVersions">
-      <summary>A class that represents the syndication versions supported by Silverlight version 4 Release Candidate.</summary>
+      <summary>A class that represents the syndication versions supported by Silverlight version 3.</summary>
     </member>
     <member name="F:System.ServiceModel.Syndication.SyndicationVersions.Atom10">
       <summary>Represents support for the Atom 1.0 specification.</summary>

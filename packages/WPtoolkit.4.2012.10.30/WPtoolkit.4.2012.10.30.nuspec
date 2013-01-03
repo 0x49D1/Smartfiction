@@ -36,5 +36,8 @@ Removed GestureListener</releaseNotes>
     <copyright>http://phone.codeplex.com/license</copyright>
     <language>en-US</language>
     <tags>wptoolkit toolkit windowsphone wp7 wp7dev phone tk wp7tk controls mango wp8 apollo</tags>
+    <references>
+      <reference file="Microsoft.Phone.Controls.Toolkit.dll" />
+    </references>
   </metadata>
 </package>
