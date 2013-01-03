@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using Smartfiction.Model;
 using System.Linq;
@@ -20,21 +21,30 @@ namespace Smartfiction
         {
             InitializeComponent();
 
-            FeedHelper.FeedData.pb = pbProgress;
-            using (StoryDataContext context = new StoryDataContext(strConnectionString))
-            {
-                //context.DeleteDatabase();
-                if (context.DatabaseExists() == false)
-                {
-                    context.CreateDatabase();
-                }
-            }
+            this.Loaded += (s, e) =>
+                               {
+                                   FeedHelper.FeedData.pb = new ProgressIndicator();
+                                   SystemTray.SetProgressIndicator(this, FeedHelper.FeedData.pb);
 
-            FavoritsList.DataContext = this.Favorits;
+                                   using (StoryDataContext context = new StoryDataContext(strConnectionString))
+                                   {
+                                       //context.DeleteDatabase();
+                                       if (context.DatabaseExists() == false)
+                                       {
+                                           context.CreateDatabase();
+                                       }
+                                   }
 
-            FeedHelper.FeedData.GetItems();
+                                   FavoritsList.DataContext = this.Favorits;
 
-            RefreshFavorits();
+                                   FeedHelper.FeedData.GetItems();
+
+                                   RefreshFavorits();
+
+
+                               };
+
+
         }
 
         private void RefreshFavorits()

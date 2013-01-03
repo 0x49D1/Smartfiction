@@ -77,10 +77,8 @@ d:\Work\Debug Versions\Smartfiction\Smartfiction\Bin\Debug\fr\System.ServiceMode
 d:\Work\Debug Versions\Smartfiction\Smartfiction\Bin\Debug\it\System.ServiceModel.Syndication.resources.dll
 d:\Work\Debug Versions\Smartfiction\Smartfiction\Bin\Debug\ja\System.ServiceModel.Syndication.resources.dll
 d:\Work\Debug Versions\Smartfiction\Smartfiction\Bin\Debug\ko\System.ServiceModel.Syndication.resources.dll
-d:\Work\Debug Versions\Smartfiction\Smartfiction\Bin\Debug\ru\System.ServiceModel.Syndication.resources.dll
 d:\Work\Debug Versions\Smartfiction\Smartfiction\Bin\Debug\zh-Hans\System.ServiceModel.Syndication.resources.dll
 d:\Work\Debug Versions\Smartfiction\Smartfiction\Bin\Debug\zh-Hant\System.ServiceModel.Syndication.resources.dll
-d:\Work\Debug Versions\Smartfiction\Smartfiction\obj\Debug\Smartfiction.csprojResolveAssemblyReference.cache
 d:\Work\Debug Versions\Smartfiction\Smartfiction\obj\Debug\App.g.cs
 d:\Work\Debug Versions\Smartfiction\Smartfiction\obj\Debug\DetailsView.g.cs
 d:\Work\Debug Versions\Smartfiction\Smartfiction\obj\Debug\MainPage.g.cs
@@ -89,3 +87,16 @@ d:\Work\Debug Versions\Smartfiction\Smartfiction\obj\Debug\Smartfiction.g.resour
 d:\Work\Debug Versions\Smartfiction\Smartfiction\obj\Debug\Smartfiction.dll
 d:\Work\Debug Versions\Smartfiction\Smartfiction\obj\Debug\Smartfiction.pdb
 d:\Work\Debug Versions\Smartfiction\Smartfiction\obj\Debug\XapCacheFile.xml
+D:\Work\Debug Versions\Smartfiction\Smartfiction\Bin\Debug\Microsoft.Phone.Controls.dll
+D:\Work\Debug Versions\Smartfiction\Smartfiction\Bin\Debug\System.ServiceModel.Syndication.dll
+D:\Work\Debug Versions\Smartfiction\Smartfiction\Bin\Debug\System.Xml.Serialization.dll
+D:\Work\Debug Versions\Smartfiction\Smartfiction\Bin\Debug\Microsoft.Phone.Controls.xml
+D:\Work\Debug Versions\Smartfiction\Smartfiction\Bin\Debug\System.Xml.Serialization.xml
+D:\Work\Debug Versions\Smartfiction\Smartfiction\Bin\Debug\de\System.Xml.Serialization.resources.dll
+D:\Work\Debug Versions\Smartfiction\Smartfiction\Bin\Debug\es\System.Xml.Serialization.resources.dll
+D:\Work\Debug Versions\Smartfiction\Smartfiction\Bin\Debug\fr\System.Xml.Serialization.resources.dll
+D:\Work\Debug Versions\Smartfiction\Smartfiction\Bin\Debug\it\System.Xml.Serialization.resources.dll
+D:\Work\Debug Versions\Smartfiction\Smartfiction\Bin\Debug\ja\System.Xml.Serialization.resources.dll
+D:\Work\Debug Versions\Smartfiction\Smartfiction\Bin\Debug\ko\System.Xml.Serialization.resources.dll
+D:\Work\Debug Versions\Smartfiction\Smartfiction\Bin\Debug\zh-Hans\System.Xml.Serialization.resources.dll
+D:\Work\Debug Versions\Smartfiction\Smartfiction\Bin\Debug\zh-Hant\System.Xml.Serialization.resources.dll
