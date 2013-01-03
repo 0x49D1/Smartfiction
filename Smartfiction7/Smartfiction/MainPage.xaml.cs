@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Phone.Controls;
@@ -7,6 +8,7 @@ using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using Smartfiction.Model;
 using System.Linq;
+using Smartfiction.ViewModel;
 
 namespace Smartfiction
 {
@@ -84,16 +86,22 @@ namespace Smartfiction
             }
         }
 
+        private void randomFeeds_Click(object sender, EventArgs e)
+        {
+            string url = HttpUtility.UrlEncode("http://smartfiction.ru/random?random");
+            NavigationService.Navigate(new Uri(string.Format("/DetailsView.xaml?randURI={0}", url), UriKind.Relative));
+        }
+
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             Smartfiction.ViewModel.ItemModel item = (Smartfiction.ViewModel.ItemModel)((MenuItem)sender).DataContext;
             using (StoryDataContext context = new StoryDataContext(strConnectionString))
             {
                 Story s = new Story();
-                s.Title = item.ItemTitle;
+                s.Title = item.Title;
                 s.DateCreated = DateTime.Now;
                 s.DatePublished = item.ItemPublishDate;
-                s.Link = item.ItemLink;
+                s.Link = item.Link;
                 s.Details = item.ItemDetails;
 
                 context.Stories.InsertOnSubmit(s);
@@ -107,9 +115,19 @@ namespace Smartfiction
         private void ShareItem_Click(object sender, RoutedEventArgs e)
         {
             ShareLinkTask slt = new ShareLinkTask();
-            Smartfiction.ViewModel.ItemModel item = (Smartfiction.ViewModel.ItemModel)((MenuItem)sender).DataContext;
-            slt.LinkUri = new Uri(item.ItemLink);
-            slt.Title = item.ItemTitle;
+            if (((MenuItem) sender).DataContext as Story != null)
+            {
+                var item = ((MenuItem) sender).DataContext as Story;
+                slt.LinkUri = new Uri(item.Link);
+                slt.Title = item.Title;
+            }
+            else
+            {
+                var item = ((MenuItem)sender).DataContext as ItemModel;
+                slt.LinkUri = new Uri(item.Link);
+                slt.Title = item.Title;
+            }
+
             slt.Message = "";
             slt.Show();
         }

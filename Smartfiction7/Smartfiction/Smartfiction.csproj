@@ -186,6 +186,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\About\Data.xml" />
+    <Content Include="Images\appbar.refresh.png" />
+    <Content Include="Images\appbar.shuffle.png" />
+    <Content Include="Images\logo.jpg" />
     <Content Include="Properties\WMAppManifest.xml" />
     <Content Include="README_FIRST.txt" />
     <Content Include="SplashScreenImage.jpg" />
