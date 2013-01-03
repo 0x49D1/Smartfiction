@@ -126,6 +126,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Content Include="Content\About\AboutStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
     <Page Include="DetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -169,6 +173,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Background.png" />
+    <Content Include="Content\About\Data.xml" />
     <Content Include="Images\logo.jpg" />
     <Content Include="README_FIRST.txt" />
     <Content Include="SplashScreenImage.jpg" />
@@ -195,6 +200,9 @@
     </Reference>
     <Reference Include="System.ServiceModel.Syndication">
       <HintPath>C:\Program Files (x86)\Microsoft SDKs\Silverlight\v4.0\Libraries\Client\System.ServiceModel.Syndication.dll</HintPath>
+    </Reference>
+    <Reference Include="YourLastAboutDialog">
+      <HintPath>..\packages\YLAD.2.0.0\lib\sl40-wp71\YourLastAboutDialog.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
