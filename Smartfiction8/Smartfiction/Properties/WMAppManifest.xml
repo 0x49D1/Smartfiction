@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{2000117e-eb15-4eca-afb2-0c24192ffebc}" Title="Smartfiction" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Smartfiction author" Description="Client for Smartfiction.ru" Publisher="Smartfiction" PublisherID="{cd786ca3-dabb-479b-ba87-5ae63baaab2a}">
+  <App xmlns="" ProductID="{2000117e-eb15-4eca-afb2-0c24192ffebc}" Title="Smartfiction" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Smartfiction author" Description="Client for Smartfiction.ru" Publisher="Smartfiction" PublisherID="{ab5f1881-1b5f-4893-a710-c0ed17e4b2f7}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
@@ -19,7 +19,8 @@
           <SmallImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileSmall.png</SmallImageURI>
           <Count>0</Count>
           <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileMedium.png</BackgroundImageURI>
-          <Title> </Title>
+          <Title>
+          </Title>
           <BackContent>
           </BackContent>
           <BackBackgroundImageURI>

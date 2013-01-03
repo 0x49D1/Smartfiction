@@ -9,7 +9,7 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Portrait" Orientation="Portrait"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
 
     <!--LayoutRoot contains the root grid where all other page content is placed-->
@@ -20,8 +20,14 @@
         </Grid.RowDefinitions>
         <TextBlock Name="tbCaption" FontSize="{StaticResource PhoneFontSizeLarge}"></TextBlock>
         <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.Row="1">
-            <!--<TextBlock TextWrapping="Wrap" Name="tbresult"></TextBlock>-->
             <phone:WebBrowser Name="webBrowser1"/>
         </ScrollViewer>
     </Grid>
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" Mode="Minimized">
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem x:Name="share" Text="Поделиться" Click="share_Click"></shell:ApplicationBarMenuItem>
+            </shell:ApplicationBar.MenuItems>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>
