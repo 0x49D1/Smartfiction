@@ -23,6 +23,9 @@ namespace Smartfiction
 
             this.Loaded += (s, e) =>
                                {
+                                   if (App.Model.FeedItems.Count != 0)
+                                       return;
+
                                    FeedHelper.FeedData.pb = new ProgressIndicator();
                                    SystemTray.SetProgressIndicator(this, FeedHelper.FeedData.pb);
 
@@ -122,6 +125,11 @@ namespace Smartfiction
             }
 
             RefreshFavorits();
+        }
+
+        private void about_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/YourLastAboutDialog;component/AboutPage.xaml", UriKind.Relative));
         }
     }
 }
