@@ -102,5 +102,21 @@ namespace Smartfiction
             slt.Message = "";
             slt.Show();
         }
+
+        private void nightMode_Click(object sender, EventArgs e)
+        {
+            var item = (ApplicationBarMenuItem)sender;
+
+            if (Math.Abs(webBrowser1.Opacity - 1) < 0.1)
+            {
+                webBrowser1.Opacity = 0.6;
+                item.Text = "Дневной режим";
+            }
+            else
+            {
+                webBrowser1.Opacity = 1;
+                item.Text = "Ночной режим";
+            }
+        }
     }
 }
