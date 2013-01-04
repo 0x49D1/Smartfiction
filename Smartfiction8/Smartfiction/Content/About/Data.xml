@@ -26,7 +26,7 @@
     <!-- The Label (and review buttong content) attributes can override the default values to what you like, and also help with localization -->
     <!-- By default, the "Buy this app!" button is only shown when the app runs in trial mode (more on trial mode and how to configure YLAD accordingly here:
           http://ylad.codeplex.com/documentation). Explicitly set any of the button contents to an empty string to override the default behavior, and remove the button from the page. -->
-    <MainItem Title="about"
+    <MainItem Title="О программе"
               AppAuthorLabel="by"
               AppDescriptionLabel="Description:"
               AppPublisherLabel="Publisher:"
@@ -47,7 +47,7 @@
       </Links>
     </MainItem>
     <Item Title="Помощь"
-      Type="text">
+      Type="text">Какая-никакая помощь!
 Списки можно обновлять из меню(3 точки внизу экрана)
 При долгом нажатии на элемент списка выпадает дополнительное меню, позволяющее перенести элемент в избранное или поделиться ссылкой.
     </Item>
@@ -55,10 +55,16 @@
     <!-- The Title attribute defines the title of the pivot item -->
     <!-- Each Item can be a remote item (fetched from a Uri) or a local item (using its content), or both (local content is the fallback value if fetching the network content fails) -->
     <!-- Supported types are "text" and "xaml", where text is nicely formatted automatically, and XAML is handled by the built-in XamlReader -->
-    <Item Title="history"
+    <Item Title="История"
           Type="text">
+      1.1.0.0
+      Добавились живые плитки
+      Добавлен режим ночного чтения
+      Исправление ошибок
+      Добавлена опция просмора рассказа из избранного
+      Всякие мелкие "удобства"
       1.0.0.0
-      This is the initial public version.      
+      Релиз ради релиза и старта!
     </Item>
   </Items>
 </About>

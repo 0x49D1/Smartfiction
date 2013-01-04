@@ -27,6 +27,7 @@
         <shell:ApplicationBar IsVisible="True" Mode="Minimized">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem x:Name="share" Text="Поделиться" Click="share_Click"></shell:ApplicationBarMenuItem>
+                <shell:ApplicationBarMenuItem x:Name="nightMode" Text="Ночной режим" Click="nightMode_Click"></shell:ApplicationBarMenuItem>
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
