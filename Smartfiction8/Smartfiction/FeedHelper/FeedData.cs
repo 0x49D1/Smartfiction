@@ -6,6 +6,7 @@ using System.Xml;
 using System.Net;
 using System.IO;
 using Microsoft.Phone.Shell;
+using Smartfiction.ViewModel;
 
 namespace Smartfiction.FeedHelper
 {
@@ -24,17 +25,26 @@ namespace Smartfiction.FeedHelper
                                                 "нет, мы не чистим вашу память...",
                                                 "уже скоро...",
                                                 "совсем чуть чуть...",
-                                                "подождем?..."
+                                                "подождем?...",
+                                                "наводимся на цель...",
+                                                "ищем рассказы...",
+                                                "ждем ответа..."
                                             };
 
         public static void GetItems()
         {
+            AgentStarter.StartPeriodicAgent();
             pb.IsIndeterminate = true;
             pb.IsVisible = true;
             pb.Text = l[new Random().Next(l.Count)]; // Get random loading captions
 
             App.Model.FeedItems.Clear();
 
+            GetFeed();
+        }
+
+        public static void GetFeed()
+        {
             foreach (string item in App.Data.FeedList)
             {
                 WebClient client = new WebClient();
