@@ -79,9 +79,12 @@ namespace Smartfiction
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (MainList.SelectedItems.Count != 0)
+            if (((ListBox)sender).SelectedItems.Count != 0)
             {
-                NavigationService.Navigate(new Uri("/DetailsView.xaml?item=" + MainList.SelectedIndex, UriKind.Relative));
+                dynamic item = ((ListBox)sender).SelectedItem;
+                string itemURL = HttpUtility.UrlEncode(item.Link);
+                
+                NavigationService.Navigate(new Uri("/DetailsView.xaml?item=" + itemURL, UriKind.Relative));
             }
         }
 

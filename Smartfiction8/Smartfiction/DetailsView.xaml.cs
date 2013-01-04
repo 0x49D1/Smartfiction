@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Net;
 using System.Windows;
 using BugSense;
@@ -25,7 +24,7 @@ namespace Smartfiction
 
         void DetailsView_Loaded(object sender, RoutedEventArgs e)
         {
-            string index = "";
+            string itemURL = "";
             string randURI = "";
             pi.IsIndeterminate = true;
             pi.IsVisible = true;
@@ -34,14 +33,14 @@ namespace Smartfiction
             wc = new WebClient();
             wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_OpenReadCompleted);
 
-            if (NavigationContext.QueryString.TryGetValue("item", out index))
+            if (NavigationContext.QueryString.TryGetValue("item", out itemURL))
             {
-                int _index = int.Parse(index);
+                itemURL = HttpUtility.UrlDecode(itemURL);
 
                 try
                 {
 
-                    wc.DownloadStringAsync(new Uri(App.Model.FeedItems[_index].Link + "?json=1"));
+                    wc.DownloadStringAsync(new Uri(itemURL + "?json=1"));
                 }
                 catch (Exception exception)
                 {
@@ -82,7 +81,8 @@ namespace Smartfiction
 
         private void webClient_OpenReadCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
-
+            if (e.Cancelled)
+                return;
             Dispatcher.BeginInvoke(() =>
                                        {
                                            value = JsonConvert.DeserializeObject<PostRoot>(e.Result);

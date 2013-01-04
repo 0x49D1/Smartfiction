@@ -120,6 +120,7 @@
     </Compile>
     <Compile Include="ViewModel\ItemModel.cs" />
     <Compile Include="ViewModel\MainModel.cs" />
+    <Compile Include="ViewModel\AgentStarter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -176,6 +177,7 @@
     </Content>
     <Content Include="Images\appbar.refresh.png" />
     <Content Include="Images\appbar.shuffle.png" />
+    <Content Include="Images\black.png" />
     <Content Include="Images\logo.jpg" />
     <Content Include="README_FIRST.txt" />
     <Content Include="SplashScreenImage.jpg" />
@@ -206,6 +208,12 @@
     <Reference Include="YourLastAboutDialog">
       <HintPath>..\packages\YLAD.2.0.0\lib\sl40-wp71\YourLastAboutDialog.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LiveTileScheduledTaskAgent\LiveTileScheduledTaskAgent.csproj">
+      <Project>{4D0A9D0E-8972-48D5-AA23-C1A00E27E85A}</Project>
+      <Name>LiveTileScheduledTaskAgent</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
