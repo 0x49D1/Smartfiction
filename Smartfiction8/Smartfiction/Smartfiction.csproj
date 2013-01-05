@@ -106,10 +106,12 @@
     </Compile>
     <Compile Include="Model\Author.cs" />
     <Compile Include="Model\Category.cs" />
+    <Compile Include="Model\ConnectionFactory.cs" />
     <Compile Include="Model\Post.cs" />
     <Compile Include="Model\PostRoot.cs" />
     <Compile Include="Model\Story.cs" />
     <Compile Include="Model\StoryDataContext.cs" />
+    <Compile Include="Model\StoryRepository.cs" />
     <Compile Include="Model\Tag.cs" />
     <Compile Include="ObservableCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
