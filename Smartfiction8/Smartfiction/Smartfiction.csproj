@@ -179,6 +179,7 @@
     <Content Include="Images\appbar.shuffle.png" />
     <Content Include="Images\black.png" />
     <Content Include="Images\logo.jpg" />
+    <Content Include="Images\white.png" />
     <Content Include="README_FIRST.txt" />
     <Content Include="SplashScreenImage.jpg" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />

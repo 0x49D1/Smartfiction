@@ -109,7 +109,7 @@ namespace Smartfiction
 
             if (Math.Abs(webBrowser1.Opacity - 1) < 0.1)
             {
-                webBrowser1.Opacity = 0.6;
+                webBrowser1.Opacity = 0.65;
                 item.Text = "Дневной режим";
             }
             else
