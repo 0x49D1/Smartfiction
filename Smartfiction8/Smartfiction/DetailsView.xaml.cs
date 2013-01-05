@@ -16,14 +16,73 @@ namespace Smartfiction
         private PostRoot value;
         private static WebClient wc;
 
+        string tempJS = @"<script>function initialize() { 
+  window.external.notify('scrollHeight=' + document.body.scrollHeight.toString()); 
+  window.external.notify('clientHeight=' + document.body.clientHeight.toString()); 
+  window.onscroll = onScroll; 
+}
+ 
+function onScroll(e) { 
+  var scrollPosition = document.body.scrollTop; 
+  window.external.notify('scrollTop=' + scrollPosition.toString()); 
+}
+ 
+window.onload = initialize;</script>";
+
         public DetailsView()
         {
             InitializeComponent();
             this.Loaded += new RoutedEventHandler(DetailsView_Loaded);
+            ContentWebBrowser.ScriptNotify += ContentWebBrowser_ScriptNotify;
+        }
+        private int _visibleHeight = 0;
+        private int _scrollHeight = 0;
+
+        private void ContentWebBrowser_ScriptNotify(object sender, NotifyEventArgs e)
+        {
+
+            // split 
+            var parts = e.Value.Split('=');
+            if (parts.Length != 2)
+            {
+                return;
+            }
+
+            // parse
+            int number = 0;
+            if (!int.TryParse(parts[1], out number))
+            {
+                return;
+            }
+
+            // decide what to do
+            if (parts[0] == "scrollHeight")
+            {
+                _scrollHeight = number;
+                if (_visibleHeight > 0)
+                {
+                    DisplayScrollBar.Maximum = _scrollHeight - _visibleHeight;
+                }
+            }
+            else if (parts[0] == "clientHeight")
+            {
+                _visibleHeight = number;
+                if (_scrollHeight > 0)
+                {
+                    DisplayScrollBar.Maximum = _scrollHeight - _visibleHeight;
+                }
+            }
+            else if (parts[0] == "scrollTop")
+            {
+                DisplayScrollBar.Value = number;
+            }
         }
 
         void DetailsView_Loaded(object sender, RoutedEventArgs e)
         {
+
+
+
             string itemURL = "";
             string randURI = "";
             pi.IsIndeterminate = true;
@@ -89,7 +148,7 @@ namespace Smartfiction
                                            tbCaption.Text = caption[0];
                                            if (caption.Length > 1)
                                                tbCaptionAuthor.Text = caption[1].Trim();
-                                           webBrowser1.NavigateToString(value.post.content);
+                                           ContentWebBrowser.NavigateToString(tempJS + value.post.content);
                                            pi.IsVisible = false;
 
                                            ApplicationBarMenuItem mi = ApplicationBar.MenuItems[1] as ApplicationBarMenuItem;
@@ -124,14 +183,14 @@ namespace Smartfiction
         {
             var item = (ApplicationBarMenuItem)sender;
 
-            if (Math.Abs(webBrowser1.Opacity - 1) < 0.1)
+            if (Math.Abs(ContentWebBrowser.Opacity - 1) < 0.1)
             {
-                webBrowser1.Opacity = 0.65;
+                ContentWebBrowser.Opacity = 0.65;
                 item.Text = "Дневной режим";
             }
             else
             {
-                webBrowser1.Opacity = 1;
+                ContentWebBrowser.Opacity = 1;
                 item.Text = "Ночной режим";
             }
         }
