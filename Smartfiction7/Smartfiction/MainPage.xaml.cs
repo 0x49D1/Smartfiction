@@ -14,7 +14,7 @@ namespace Smartfiction
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        private const string strConnectionString = @"isostore:/SmartfictionDB.sdf";
+
         public ObservableCollection<Story> Favorits { get; set; }
 
         // Constructor
@@ -26,12 +26,15 @@ namespace Smartfiction
             this.Loaded += (s, e) =>
                                {
                                    if (App.Model.FeedItems.Count != 0)
+                                   {
+                                       RefreshFavorits();
                                        return;
+                                   }
 
                                    FeedHelper.FeedData.pb = new ProgressIndicator();
                                    SystemTray.SetProgressIndicator(this, FeedHelper.FeedData.pb);
 
-                                   using (StoryDataContext context = new StoryDataContext(strConnectionString))
+                                   using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
                                    {
                                        //context.DeleteDatabase();
                                        if (context.DatabaseExists() == false)
@@ -45,18 +48,16 @@ namespace Smartfiction
                                    FeedHelper.FeedData.GetItems();
 
                                    RefreshFavorits();
-
-
                                };
 
 
         }
 
-        private void RefreshFavorits()
+        public void RefreshFavorits()
         {
-            using (StoryDataContext context = new StoryDataContext(strConnectionString))
+            using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
             {
-                Favorits = new ObservableCollection<Story>(context.Stories.ToList());
+                Favorits = new ObservableCollection<Story>(context.Stories.OrderByDescending(s => s.DateCreated).ToList());
                 FavoritsList.DataContext = Favorits; // todo fix this
             }
         }
@@ -68,11 +69,6 @@ namespace Smartfiction
             base.OnNavigatedTo(e);
         }
 
-        private void manageFeeds_Click(object sender, EventArgs e)
-        {
-            NavigationService.Navigate(new Uri("/ManageFeeds.xaml", UriKind.Relative));
-        }
-
         private void reloadFeeds_Click(object sender, EventArgs e)
         {
             FeedHelper.FeedData.GetItems();
@@ -80,9 +76,21 @@ namespace Smartfiction
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (MainList.SelectedItems.Count != 0)
+            if (((ListBox)sender).SelectedItems.Count != 0)
             {
-                NavigationService.Navigate(new Uri("/DetailsView.xaml?item=" + MainList.SelectedIndex, UriKind.Relative));
+                string itemURL = "";
+                if (((ListBox)sender).SelectedItem is Story)
+                {
+                    var item = ((ListBox)sender).SelectedItem as Story;
+                    itemURL = HttpUtility.UrlEncode(item.Link);
+                }
+                else
+                {
+                    var item = ((ListBox)sender).SelectedItem as ItemModel;
+                    itemURL = HttpUtility.UrlEncode(item.Link);
+                }
+
+                NavigationService.Navigate(new Uri("/DetailsView.xaml?item=" + itemURL, UriKind.Relative));
             }
         }
 
@@ -92,55 +100,40 @@ namespace Smartfiction
             NavigationService.Navigate(new Uri(string.Format("/DetailsView.xaml?randURI={0}", url), UriKind.Relative));
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            Smartfiction.ViewModel.ItemModel item = (Smartfiction.ViewModel.ItemModel)((MenuItem)sender).DataContext;
-            using (StoryDataContext context = new StoryDataContext(strConnectionString))
-            {
-                Story s = new Story();
-                s.Title = item.Title;
-                s.DateCreated = DateTime.Now;
-                s.DatePublished = item.ItemPublishDate;
-                s.Link = item.Link;
-                s.Details = item.ItemDetails;
-
-                context.Stories.InsertOnSubmit(s);
-
-                context.SubmitChanges();
-            }
-
-            RefreshFavorits();
-        }
-
         private void ShareItem_Click(object sender, RoutedEventArgs e)
         {
             ShareLinkTask slt = new ShareLinkTask();
-            if (((MenuItem) sender).DataContext as Story != null)
+            if (((ListBox)sender).SelectedItem is Story)
             {
-                var item = ((MenuItem) sender).DataContext as Story;
+                var item = ((MenuItem)sender).DataContext as Story;
+
                 slt.LinkUri = new Uri(item.Link);
                 slt.Title = item.Title;
             }
             else
             {
                 var item = ((MenuItem)sender).DataContext as ItemModel;
+
                 slt.LinkUri = new Uri(item.Link);
                 slt.Title = item.Title;
             }
-
             slt.Message = "";
             slt.Show();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Smartfiction.ViewModel.ItemModel item = (Smartfiction.ViewModel.ItemModel)((MenuItem)sender).DataContext;
+
+            StoryRepository.AddNewStory(item.Title, item.ItemPublishDate, item.Link, item.ItemDetails);
+            RefreshFavorits();
         }
 
         private void RemoveFavorit_click(object sender, RoutedEventArgs e)
         {
             Story item = (Story)((MenuItem)sender).DataContext;
-            using (StoryDataContext context = new StoryDataContext(strConnectionString))
-            {
-                context.Stories.Attach(item);
-                context.Stories.DeleteOnSubmit(item);
-                context.SubmitChanges();
-            }
+
+            StoryRepository.RemoveStory(item);
 
             RefreshFavorits();
         }
@@ -148,6 +141,22 @@ namespace Smartfiction
         private void about_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/YourLastAboutDialog;component/AboutPage.xaml", UriKind.Relative));
+        }
+
+        private void copy_Click(object sender, RoutedEventArgs e)
+        {
+            if (((ListBox)sender).SelectedItem is Story)
+            {
+                var item = ((MenuItem)sender).DataContext as Story;
+
+                Clipboard.SetText(item.Title + " " + item.Link);
+            }
+            else
+            {
+                var item = ((MenuItem)sender).DataContext as ItemModel;
+
+                Clipboard.SetText(item.Title + " " + item.Link);
+            }
         }
     }
 }

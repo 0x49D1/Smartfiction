@@ -24,11 +24,11 @@ namespace Smartfiction
 
             this.Loaded += (s, e) =>
                                {
-                                   RefreshFavorits();
-
                                    if (App.Model.FeedItems.Count != 0)
+                                   {
+                                       RefreshFavorits();
                                        return;
-
+                                   }
                                    FeedHelper.FeedData.pb = new ProgressIndicator();
                                    SystemTray.SetProgressIndicator(this, FeedHelper.FeedData.pb);
 
@@ -44,6 +44,7 @@ namespace Smartfiction
                                    FavoritsList.DataContext = this.Favorits;
 
                                    FeedHelper.FeedData.GetItems();
+                                   RefreshFavorits();
                                };
 
 
