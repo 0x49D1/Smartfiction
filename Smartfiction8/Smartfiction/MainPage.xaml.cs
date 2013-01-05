@@ -13,7 +13,7 @@ namespace Smartfiction
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        private const string strConnectionString = @"isostore:/SmartfictionDB.sdf";
+
         public ObservableCollection<Story> Favorits { get; set; }
 
         // Constructor
@@ -24,13 +24,15 @@ namespace Smartfiction
 
             this.Loaded += (s, e) =>
                                {
+                                   RefreshFavorits();
+
                                    if (App.Model.FeedItems.Count != 0)
                                        return;
 
                                    FeedHelper.FeedData.pb = new ProgressIndicator();
                                    SystemTray.SetProgressIndicator(this, FeedHelper.FeedData.pb);
 
-                                   using (StoryDataContext context = new StoryDataContext(strConnectionString))
+                                   using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
                                    {
                                        //context.DeleteDatabase();
                                        if (context.DatabaseExists() == false)
@@ -42,20 +44,16 @@ namespace Smartfiction
                                    FavoritsList.DataContext = this.Favorits;
 
                                    FeedHelper.FeedData.GetItems();
-
-                                   RefreshFavorits();
-
-
                                };
 
 
         }
 
-        private void RefreshFavorits()
+        public void RefreshFavorits()
         {
-            using (StoryDataContext context = new StoryDataContext(strConnectionString))
+            using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
             {
-                Favorits = new ObservableCollection<Story>(context.Stories.ToList());
+                Favorits = new ObservableCollection<Story>(context.Stories.OrderByDescending(s => s.DateCreated).ToList());
                 FavoritsList.DataContext = Favorits; // todo fix this
             }
         }
@@ -65,11 +63,6 @@ namespace Smartfiction
             this.DataContext = App.Model;
 
             base.OnNavigatedTo(e);
-        }
-
-        private void manageFeeds_Click(object sender, EventArgs e)
-        {
-            NavigationService.Navigate(new Uri("/ManageFeeds.xaml", UriKind.Relative));
         }
 
         private void reloadFeeds_Click(object sender, EventArgs e)
@@ -83,7 +76,7 @@ namespace Smartfiction
             {
                 dynamic item = ((ListBox)sender).SelectedItem;
                 string itemURL = HttpUtility.UrlEncode(item.Link);
-                
+
                 NavigationService.Navigate(new Uri("/DetailsView.xaml?item=" + itemURL, UriKind.Relative));
             }
         }
@@ -92,26 +85,6 @@ namespace Smartfiction
         {
             string url = HttpUtility.UrlEncode("http://smartfiction.ru/random?random");
             NavigationService.Navigate(new Uri(string.Format("/DetailsView.xaml?randURI={0}", url), UriKind.Relative));
-        }
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            Smartfiction.ViewModel.ItemModel item = (Smartfiction.ViewModel.ItemModel)((MenuItem)sender).DataContext;
-            using (StoryDataContext context = new StoryDataContext(strConnectionString))
-            {
-                Story s = new Story();
-                s.Title = item.Title;
-                s.DateCreated = DateTime.Now;
-                s.DatePublished = item.ItemPublishDate;
-                s.Link = item.Link;
-                s.Details = item.ItemDetails;
-
-                context.Stories.InsertOnSubmit(s);
-
-                context.SubmitChanges();
-            }
-
-            RefreshFavorits();
         }
 
         private void ShareItem_Click(object sender, RoutedEventArgs e)
@@ -125,15 +98,19 @@ namespace Smartfiction
             slt.Show();
         }
 
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Smartfiction.ViewModel.ItemModel item = (Smartfiction.ViewModel.ItemModel)((MenuItem)sender).DataContext;
+
+            StoryRepository.AddNewStory(item.Title, item.ItemPublishDate, item.Link, item.ItemDetails);
+            RefreshFavorits();
+        }
+
         private void RemoveFavorit_click(object sender, RoutedEventArgs e)
         {
             Story item = (Story)((MenuItem)sender).DataContext;
-            using (StoryDataContext context = new StoryDataContext(strConnectionString))
-            {
-                context.Stories.Attach(item);
-                context.Stories.DeleteOnSubmit(item);
-                context.SubmitChanges();
-            }
+
+            StoryRepository.RemoveStory(item);
 
             RefreshFavorits();
         }
@@ -141,6 +118,13 @@ namespace Smartfiction
         private void about_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/YourLastAboutDialog;component/AboutPage.xaml", UriKind.Relative));
+        }
+
+        private void copy_Click(object sender, RoutedEventArgs e)
+        {
+            dynamic item = ((MenuItem)sender).DataContext;
+
+            Clipboard.SetText(item.Title + " " + item.Link);
         }
     }
 }

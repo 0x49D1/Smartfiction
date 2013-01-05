@@ -39,7 +39,6 @@ namespace Smartfiction
 
                 try
                 {
-
                     wc.DownloadStringAsync(new Uri(itemURL + "?json=1"));
                 }
                 catch (Exception exception)
@@ -86,9 +85,16 @@ namespace Smartfiction
             Dispatcher.BeginInvoke(() =>
                                        {
                                            value = JsonConvert.DeserializeObject<PostRoot>(e.Result);
-                                           tbCaption.Text = value.post.title;
+                                           var caption = value.post.title.Split('.');
+                                           tbCaption.Text = caption[0];
+                                           if (caption.Length > 1)
+                                               tbCaptionAuthor.Text = caption[1].Trim();
                                            webBrowser1.NavigateToString(value.post.content);
                                            pi.IsVisible = false;
+
+                                           ApplicationBarMenuItem mi = ApplicationBar.MenuItems[1] as ApplicationBarMenuItem;
+                                           if (mi != null)
+                                               mi.Text = StoryRepository.CheckStoryTitle(value.post.title) ? "Удалить из избранного" : "Добвить в избранное";
                                        });
 
         }
@@ -101,6 +107,17 @@ namespace Smartfiction
             slt.Title = value.post.title;
             slt.Message = "";
             slt.Show();
+        }
+
+        private void favorit_Click(object sender, EventArgs e)
+        {
+            if (StoryRepository.CheckStoryTitle(value.post.title))
+                StoryRepository.RemoveStory(value.post.title);
+            else
+                StoryRepository.AddNewStory(value.post.title,
+                                                DateTime.Parse(value.post.date),
+                                                value.post.url,
+                                                value.post.excerpt);
         }
 
         private void nightMode_Click(object sender, EventArgs e)
@@ -117,6 +134,12 @@ namespace Smartfiction
                 webBrowser1.Opacity = 1;
                 item.Text = "Ночной режим";
             }
+        }
+
+        private void copy_Click(object sender, EventArgs e)
+        {
+            if (value.post != null)
+                Clipboard.SetText(value.post.title + " " + value.post.url);
         }
     }
 }
