@@ -21,9 +21,19 @@
         </Grid.RowDefinitions>
         <TextBlock Name="tbCaption" Grid.Row="0" FontSize="{StaticResource PhoneFontSizeLarge}"></TextBlock>
         <TextBlock Name="tbCaptionAuthor" Grid.Row="1" FontSize="{StaticResource PhoneFontSizeSmall}"></TextBlock>
-        <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Visible"  Grid.Row="2">
-            <phone:WebBrowser Name="webBrowser1"/>
-        </ScrollViewer>
+        <Grid x:Name="ContentPanel"
+        Grid.Row="2">
+            <phone:WebBrowser IsScriptEnabled="True" Name="ContentWebBrowser"
+                              Margin="0 0 5 0"/>
+            <ScrollBar x:Name="DisplayScrollBar"
+                    Orientation="Vertical"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Stretch"
+                    Minimum="0"
+                    Maximum="100"
+                    Value="0" />
+        </Grid>
+
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" Mode="Minimized">
