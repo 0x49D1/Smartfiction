@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Net;
 using System.Windows;
 using BugSense;
@@ -25,7 +24,7 @@ namespace Smartfiction
 
         void DetailsView_Loaded(object sender, RoutedEventArgs e)
         {
-            string index = "";
+            string itemURL = "";
             string randURI = "";
             pi.IsIndeterminate = true;
             pi.IsVisible = true;
@@ -34,14 +33,13 @@ namespace Smartfiction
             wc = new WebClient();
             wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_OpenReadCompleted);
 
-            if (NavigationContext.QueryString.TryGetValue("item", out index))
+            if (NavigationContext.QueryString.TryGetValue("item", out itemURL))
             {
-                int _index = int.Parse(index);
+                itemURL = HttpUtility.UrlDecode(itemURL);
 
                 try
                 {
-
-                    wc.DownloadStringAsync(new Uri(App.Model.FeedItems[_index].Link + "?json=1"));
+                    wc.DownloadStringAsync(new Uri(itemURL + "?json=1"));
                 }
                 catch (Exception exception)
                 {
@@ -82,13 +80,21 @@ namespace Smartfiction
 
         private void webClient_OpenReadCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
-
+            if (e.Cancelled)
+                return;
             Dispatcher.BeginInvoke(() =>
                                        {
                                            value = JsonConvert.DeserializeObject<PostRoot>(e.Result);
-                                           tbCaption.Text = value.post.title;
+                                           var caption = value.post.title.Split('.');
+                                           tbCaption.Text = caption[0];
+                                           if (caption.Length > 1)
+                                               tbCaptionAuthor.Text = caption[1].Trim();
                                            webBrowser1.NavigateToString(value.post.content);
                                            pi.IsVisible = false;
+
+                                           ApplicationBarMenuItem mi = ApplicationBar.MenuItems[1] as ApplicationBarMenuItem;
+                                           if (mi != null)
+                                               mi.Text = StoryRepository.CheckStoryTitle(value.post.title) ? "Удалить из избранного" : "Добвить в избранное";
                                        });
 
         }
@@ -101,6 +107,39 @@ namespace Smartfiction
             slt.Title = value.post.title;
             slt.Message = "";
             slt.Show();
+        }
+
+        private void favorit_Click(object sender, EventArgs e)
+        {
+            if (StoryRepository.CheckStoryTitle(value.post.title))
+                StoryRepository.RemoveStory(value.post.title);
+            else
+                StoryRepository.AddNewStory(value.post.title,
+                                                DateTime.Parse(value.post.date),
+                                                value.post.url,
+                                                value.post.excerpt);
+        }
+
+        private void nightMode_Click(object sender, EventArgs e)
+        {
+            var item = (ApplicationBarMenuItem)sender;
+
+            if (Math.Abs(webBrowser1.Opacity - 1) < 0.1)
+            {
+                webBrowser1.Opacity = 0.65;
+                item.Text = "Дневной режим";
+            }
+            else
+            {
+                webBrowser1.Opacity = 1;
+                item.Text = "Ночной режим";
+            }
+        }
+
+        private void copy_Click(object sender, EventArgs e)
+        {
+            if (value.post != null)
+                Clipboard.SetText(value.post.title + " " + value.post.url);
         }
     }
 }

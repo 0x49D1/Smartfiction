@@ -139,13 +139,16 @@
     </Compile>
     <Compile Include="Model\Author.cs" />
     <Compile Include="Model\Category.cs" />
+    <Compile Include="Model\ConnectionFactory.cs" />
     <Compile Include="Model\Post.cs" />
     <Compile Include="Model\PostRoot.cs" />
     <Compile Include="Model\Story.cs" />
     <Compile Include="Model\StoryDataContext.cs" />
+    <Compile Include="Model\StoryRepository.cs" />
     <Compile Include="Model\Tag.cs" />
     <Compile Include="ObservableCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\AgentStarter.cs" />
     <Compile Include="ViewModel\ItemModel.cs" />
     <Compile Include="ViewModel\MainModel.cs" />
   </ItemGroup>
@@ -188,7 +191,9 @@
     <Content Include="Content\About\Data.xml" />
     <Content Include="Images\appbar.refresh.png" />
     <Content Include="Images\appbar.shuffle.png" />
+    <Content Include="Images\black.png" />
     <Content Include="Images\logo.jpg" />
+    <Content Include="Images\white.png" />
     <Content Include="Properties\WMAppManifest.xml" />
     <Content Include="README_FIRST.txt" />
     <Content Include="SplashScreenImage.jpg" />
@@ -196,6 +201,12 @@
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LiveTileScheduledTaskAgent\LiveTileScheduledTaskAgent.csproj">
+      <Project>{EC11B894-228E-4890-B4CE-CF8B1236D181}</Project>
+      <Name>LiveTileScheduledTaskAgent</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />

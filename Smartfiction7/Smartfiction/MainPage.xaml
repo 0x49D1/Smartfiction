@@ -32,6 +32,7 @@
                                 <StackPanel Margin="0,10,0,10">
                                     <toolkit:ContextMenuService.ContextMenu>
                                         <toolkit:ContextMenu>
+                                            <toolkit:MenuItem Header="Скопировать ссылку" Click="copy_Click"/>
                                             <toolkit:MenuItem Header="Добавить в избранное" Click="MenuItem_Click"/>
                                             <toolkit:MenuItem Header="Поделиться" Click="ShareItem_Click"/>
                                         </toolkit:ContextMenu>
@@ -47,12 +48,13 @@
             </controls:PivotItem>
             <controls:PivotItem Header="Избранные" >
                 <Grid x:Name="FavoritsGrid" Grid.Row="1">
-                    <ListBox x:Name="FavoritsList" ItemsSource="{Binding}" Margin="13,0,13,0" >
+                    <ListBox x:Name="FavoritsList" ItemsSource="{Binding}" Margin="13,0,13,0"  SelectionChanged="ListBox_SelectionChanged">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="0,10,0,10">
                                     <toolkit:ContextMenuService.ContextMenu>
                                         <toolkit:ContextMenu>
+                                            <toolkit:MenuItem Header="Скопировать ссылку" Click="copy_Click"/>
                                             <toolkit:MenuItem Header="Удалить из избранных" Click="RemoveFavorit_click"/>
                                             <toolkit:MenuItem Header="Поделиться" Click="ShareItem_Click"/>
                                         </toolkit:ContextMenu>
