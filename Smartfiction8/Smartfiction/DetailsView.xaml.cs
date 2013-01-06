@@ -136,7 +136,7 @@ namespace Smartfiction
                 if (StoryRepository.AddNewStory(value.post.title,
                                                 DateTime.Parse(value.post.date),
                                                 value.post.url,
-                                                value.post.excerpt))
+                                                value.post.excerpt) > 0)
                     mi.Text = RemoveFromFavoritsString;
             }
         }
