@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace Smartfiction.ViewModel
 {
-    public class ItemModel : INotifyPropertyChanged
+    public class ContentItem : INotifyPropertyChanged
     {
         private string itemTitle;
         public string Title

@@ -6,6 +6,7 @@ using Microsoft.Phone.Shell;
 using System.IO.IsolatedStorage;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using Smartfiction.Model;
 
 namespace Smartfiction
 {
@@ -15,12 +16,13 @@ namespace Smartfiction
         public PhoneApplicationFrame RootFrame { get; private set; }
 
         public static FeedHelper.FeedData Data;
-        public static ViewModel.MainModel Model;
+        public static ViewModel.MainViewModel ViewModel;
 
         // Constructor
         public App()
         {
             BugSenseHandler.Instance.Init(this, "a9b557af");
+            
             Data = new FeedHelper.FeedData();
             Data.FeedList = new ObservableCollection<string>();
 
@@ -35,10 +37,19 @@ namespace Smartfiction
             if (Data.FeedList.Count == 0)
                 App.Data.FeedList.Add("http://smartfiction.ru/feed/");
 
-            Model = new ViewModel.MainModel();
+            using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
+            {
+                //context.DeleteDatabase();
+                if (context.DatabaseExists() == false)
+                {
+                    context.CreateDatabase();
+                }
+            }
+
+            ViewModel = new ViewModel.MainViewModel();
 
             //ADDED
-            Model.FeedItems = new ObservableCollection<ViewModel.ItemModel>();
+            ViewModel.FeedItems = new ObservableCollection<ViewModel.ContentItem>();
             BugSenseHandler.Instance.UnhandledException += Application_UnhandledException; 
             //UnhandledException += Application_UnhandledException;
             InitializeComponent();
