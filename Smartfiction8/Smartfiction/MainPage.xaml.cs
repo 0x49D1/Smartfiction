@@ -24,6 +24,9 @@ namespace Smartfiction
 
             this.Loaded += (s, e) =>
                                {
+                                   MainList.SelectedIndex = -1;
+                                   FavoritsList.SelectedIndex = -1;
+
                                    if (App.Model.FeedItems.Count != 0)
                                    {
                                        RefreshFavorits();
@@ -46,8 +49,6 @@ namespace Smartfiction
                                    FeedHelper.FeedData.GetItems();
                                    RefreshFavorits();
                                };
-
-
         }
 
         public void RefreshFavorits()
