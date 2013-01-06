@@ -47,7 +47,7 @@
             </phone:PivotItem>
             <phone:PivotItem Header="Избранные" >
                 <Grid x:Name="FavoritsGrid" Grid.Row="1">
-                    <ListBox x:Name="FavoritsList" ItemsSource="{Binding}" Margin="13,0,13,0"  SelectionChanged="ListBox_SelectionChanged">
+                    <ListBox x:Name="FavoritsList" ItemsSource="{Binding Favorits}" Margin="13,0,13,0"  SelectionChanged="ListBox_SelectionChanged">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="0,10,0,10">

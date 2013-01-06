@@ -25,23 +25,18 @@ namespace Smartfiction
 
             this.Loaded += (s, e) =>
                                {
+                                   RefreshFavorits();
+                                   MainList.SelectedIndex = -1;
+                                   FavoritsList.SelectedIndex = -1;
+
                                    if (App.Model.FeedItems.Count != 0)
                                    {
-                                       RefreshFavorits();
                                        return;
                                    }
 
                                    FeedHelper.FeedData.pb = new ProgressIndicator();
                                    SystemTray.SetProgressIndicator(this, FeedHelper.FeedData.pb);
 
-                                   using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
-                                   {
-                                       //context.DeleteDatabase();
-                                       if (context.DatabaseExists() == false)
-                                       {
-                                           context.CreateDatabase();
-                                       }
-                                   }
 
                                    FavoritsList.DataContext = this.Favorits;
 

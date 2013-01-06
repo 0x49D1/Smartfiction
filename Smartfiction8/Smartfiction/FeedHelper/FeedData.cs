@@ -68,7 +68,7 @@ namespace Smartfiction.FeedHelper
                     if ((sItem != null) && (sItem.Summary != null) && (sItem.Title != null))
                     {
                         App.Model.FeedItems.Add(
-                            new ViewModel.ItemModel()
+                            new ViewModel.ContentItem()
                             {
                                 ItemDetails = sItem.Summary.Text,
                                 Title = sItem.Title.Text,
