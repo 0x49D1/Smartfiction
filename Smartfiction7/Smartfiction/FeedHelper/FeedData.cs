@@ -38,7 +38,7 @@ namespace Smartfiction.FeedHelper
             pb.IsVisible = true;
             pb.Text = l[new Random().Next(l.Count)]; // Get random loading captions
 
-            App.Model.FeedItems.Clear();
+            App.ViewModel.FeedItems.Clear();
 
             GetFeed();
         }
@@ -67,8 +67,8 @@ namespace Smartfiction.FeedHelper
                 {
                     if ((sItem != null) && (sItem.Summary != null) && (sItem.Title != null))
                     {
-                        App.Model.FeedItems.Add(
-                            new ViewModel.ItemModel()
+                        App.ViewModel.FeedItems.Add(
+                            new ViewModel.ContentItem()
                             {
                                 ItemDetails = sItem.Summary.Text,
                                 Title = sItem.Title.Text,

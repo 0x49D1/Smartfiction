@@ -99,8 +99,10 @@ namespace Smartfiction
                                            //    value.post.content = "<div style='background-color:black;color:white;margin:0;padding:0'>" + value.post.content + "</div>";
                                            //ContentWebBrowser.Background = new SolidColorBrush(Colors.Black);
                                            //}
-                                    
-                                           ContentWebBrowser.NavigateToString(JSInjectionScript + value.post.content);
+                                           value.post.content = value.post.content.Remove(0,
+                                                                                          value.post.content.IndexOf(
+                                                                                              "</script>") + 9);
+                                           ContentWebBrowser.NavigateToString("<html><head></head><body>" + JSInjectionScript + FastConvertExtendedASCII(value.post.content) + "</body></html>");
                                            pi.IsVisible = false;
 
                                            ApplicationBarMenuItem mi = ApplicationBar.MenuItems[1] as ApplicationBarMenuItem;
@@ -108,6 +110,68 @@ namespace Smartfiction
                                                mi.Text = StoryRepository.CheckStoryTitle(value.post.title) ? RemoveFromFavoritsString : AddToFavoritsString;
                                        });
 
+        }
+
+        private static string FastConvertExtendedASCII(string HTML)
+        {
+            char[] s = HTML.ToCharArray();
+
+            // Getting number of characters to be converted
+            // and calculate extra space
+            int n = 0;
+            int value;
+            foreach (char c in s)
+            {
+                if ((value = Convert.ToInt32(c)) > 127)
+                {
+                    if (value > 9999)
+                        n += 7;
+                    else if (value > 999)
+                        n += 6;
+                    else
+                        n += 5;
+                }
+            }
+
+            // To avoid new string instantiating
+            // allocate memory buffer for final string
+            char[] res = new char[HTML.Length + n];
+
+            // Conversion
+            int i = 0;
+            int div;
+            const int zero = (int)'0';
+            foreach (char c in s)
+            {
+                if ((value = Convert.ToInt32(c)) > 127)
+                {
+                    res[i++] = '&';
+                    res[i++] = '#';
+
+                    if (value > 9999)
+                        div = 10000;
+                    else if (value > 999)
+                        div = 1000;
+                    else
+                        div = 100;
+
+                    while (div > 0)
+                    {
+                        res[i++] = (char)(zero + value / div);
+                        value %= div;
+                        div /= 10;
+                    }
+
+                    res[i++] = ';';
+                }
+                else
+                {
+                    res[i] = c;
+                    i++;
+                }
+            }
+
+            return new string(res);
         }
 
         private void share_Click(object sender, EventArgs e)
@@ -136,7 +200,7 @@ namespace Smartfiction
                 if (StoryRepository.AddNewStory(value.post.title,
                                                 DateTime.Parse(value.post.date),
                                                 value.post.url,
-                                                value.post.excerpt))
+                                                value.post.excerpt) > 0)
                     mi.Text = RemoveFromFavoritsString;
             }
         }
