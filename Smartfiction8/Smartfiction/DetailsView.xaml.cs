@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Windows;
+using System.Windows.Media;
 using BugSense;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
@@ -26,13 +27,8 @@ namespace Smartfiction
             ContentWebBrowser.ScriptNotify += ContentWebBrowser_ScriptNotify;
         }
 
-
-
         void DetailsView_Loaded(object sender, RoutedEventArgs e)
         {
-
-
-
             string itemURL = "";
             string randURI = "";
             pi.IsIndeterminate = true;
@@ -98,6 +94,12 @@ namespace Smartfiction
                                            tbCaption.Text = caption[0];
                                            if (caption.Length > 1)
                                                tbCaptionAuthor.Text = caption[1].Trim();
+                                           //if (NavigationContext.QueryString["b"] != null)
+                                           //{
+                                           //    value.post.content = "<div style='background-color:black;color:white;margin:0;padding:0'>" + value.post.content + "</div>";
+                                           //ContentWebBrowser.Background = new SolidColorBrush(Colors.Black);
+                                           //}
+                                    
                                            ContentWebBrowser.NavigateToString(JSInjectionScript + value.post.content);
                                            pi.IsVisible = false;
 
@@ -155,6 +157,28 @@ namespace Smartfiction
             }
         }
 
+        private void invert_Click(object sender, EventArgs e)
+        {
+            //SolidColorBrush b = new SolidColorBrush(Colors.White);
+            //if (ContentWebBrowser.Background != null)
+            //    b = (SolidColorBrush)ContentWebBrowser.Background;
+            //if (b.Color == Colors.White)
+            //{
+            //    b.Color = Colors.Black;
+            //    ContentWebBrowser.Background = b;
+            //    SolidColorBrush f = new SolidColorBrush(Colors.White);
+            //    ContentWebBrowser.Foreground = f;
+            //}
+            //else
+            //{
+            //    b.Color = Colors.White;
+            //    ContentWebBrowser.Background = b;
+            //    SolidColorBrush f = new SolidColorBrush(Colors.Black);
+            //    ContentWebBrowser.Foreground = f;
+            //}
+
+        }
+
         private void copy_Click(object sender, EventArgs e)
         {
             if (value.post != null)
@@ -175,7 +199,9 @@ function onScroll(e) {
 }
  
 window.onload = initialize;</script>";
+
         private int _visibleHeight = 0;
+
         private int _scrollHeight = 0;
 
         private void ContentWebBrowser_ScriptNotify(object sender, NotifyEventArgs e)
