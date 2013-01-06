@@ -5,7 +5,7 @@ namespace Smartfiction.Model
 {
     public class StoryRepository
     {
-        public static bool AddNewStory(string title,
+        public static int AddNewStory(string title,
                                         DateTime datePublished,
                                         string link,
                                         string details)
@@ -15,7 +15,7 @@ namespace Smartfiction.Model
                 using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
                 {
                     if (CheckStoryTitle(title))
-                        return true;
+                        return 0;
                     Story s = new Story();
                     s.Title = title;
                     s.DateCreated = DateTime.Now;
@@ -26,14 +26,14 @@ namespace Smartfiction.Model
                     context.Stories.InsertOnSubmit(s);
 
                     context.SubmitChanges();
-                    return true;
+                    return s.StoryID;
                 }
             }
             catch (Exception e)
             {
                 BugSense.BugSenseHandler.Instance.LogError(e);
             }
-            return false;
+            return -1;
         }
 
         public static bool RemoveStory(Story story)
@@ -97,6 +97,14 @@ namespace Smartfiction.Model
             using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
             {
                 return context.Stories.Any(s => s.Title == title);
+            }
+        } 
+        
+        public static Story GetSingleStory(int storyID)
+        {
+            using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
+            {
+                return context.Stories.FirstOrDefault(s => s.StoryID == storyID);
             }
         }
     }

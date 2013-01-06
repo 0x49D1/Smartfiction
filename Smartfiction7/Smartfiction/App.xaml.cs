@@ -16,7 +16,7 @@ namespace Smartfiction
         public PhoneApplicationFrame RootFrame { get; private set; }
 
         public static FeedHelper.FeedData Data;
-        public static ViewModel.MainModel Model;
+        public static ViewModel.MainViewModel ViewModel;
 
         // Constructor
         public App()
@@ -46,10 +46,10 @@ namespace Smartfiction
                 }
             }
 
-            Model = new ViewModel.MainModel();
+            ViewModel = new ViewModel.MainViewModel();
 
             //ADDED
-            Model.FeedItems = new ObservableCollection<ViewModel.ItemModel>();
+            ViewModel.FeedItems = new ObservableCollection<ViewModel.ContentItem>();
             BugSenseHandler.Instance.UnhandledException += Application_UnhandledException; 
             //UnhandledException += Application_UnhandledException;
             InitializeComponent();

@@ -15,7 +15,7 @@ namespace Smartfiction
     public partial class MainPage : PhoneApplicationPage
     {
 
-        public ObservableCollection<Story> Favorits { get; set; }
+
 
         // Constructor
         // http://code.msdn.microsoft.com/wpapps/Database-in-Windows-Phone-7-d69c13c9
@@ -29,7 +29,7 @@ namespace Smartfiction
                                    MainList.SelectedIndex = -1;
                                    FavoritsList.SelectedIndex = -1;
 
-                                   if (App.Model.FeedItems.Count != 0)
+                                   if (App.ViewModel.FeedItems.Count != 0)
                                    {
                                        return;
                                    }
@@ -37,12 +37,9 @@ namespace Smartfiction
                                    FeedHelper.FeedData.pb = new ProgressIndicator();
                                    SystemTray.SetProgressIndicator(this, FeedHelper.FeedData.pb);
 
-
-                                   FavoritsList.DataContext = this.Favorits;
+                                   //FavoritsList.DataContext = this.Favorits;
 
                                    FeedHelper.FeedData.GetItems();
-
-                                   RefreshFavorits();
                                };
 
 
@@ -52,14 +49,14 @@ namespace Smartfiction
         {
             using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
             {
-                Favorits = new ObservableCollection<Story>(context.Stories.OrderByDescending(s => s.DateCreated).ToList());
-                FavoritsList.DataContext = Favorits; // todo fix this
+                App.ViewModel.Favorits = new ObservableCollection<Story>(context.Stories.OrderByDescending(s => s.DateCreated).ToList());
+                //FavoritsList.DataContext = Favorits; // todo fix this
             }
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
-            this.DataContext = App.Model;
+            this.DataContext = App.ViewModel;
 
             base.OnNavigatedTo(e);
         }
@@ -81,7 +78,7 @@ namespace Smartfiction
                 }
                 else
                 {
-                    var item = ((ListBox)sender).SelectedItem as ItemModel;
+                    var item = ((ListBox)sender).SelectedItem as ContentItem;
                     itemURL = HttpUtility.UrlEncode(item.Link);
                 }
 
@@ -107,7 +104,7 @@ namespace Smartfiction
             }
             else
             {
-                var item = ((MenuItem)sender).DataContext as ItemModel;
+                var item = ((MenuItem)sender).DataContext as ContentItem;
 
                 slt.LinkUri = new Uri(item.Link);
                 slt.Title = item.Title;
@@ -118,19 +115,16 @@ namespace Smartfiction
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Smartfiction.ViewModel.ItemModel item = (Smartfiction.ViewModel.ItemModel)((MenuItem)sender).DataContext;
+            Smartfiction.ViewModel.ContentItem item = (Smartfiction.ViewModel.ContentItem)((MenuItem)sender).DataContext;
 
-            StoryRepository.AddNewStory(item.Title, item.ItemPublishDate, item.Link, item.ItemDetails);
-            RefreshFavorits();
+            App.ViewModel.AddFavorite(item.Title, item.ItemPublishDate, item.Link, item.ItemDetails);
         }
 
         private void RemoveFavorit_click(object sender, RoutedEventArgs e)
         {
             Story item = (Story)((MenuItem)sender).DataContext;
 
-            StoryRepository.RemoveStory(item);
-
-            RefreshFavorits();
+            App.ViewModel.RemoveFavorite(item);
         }
 
         private void about_Click(object sender, EventArgs e)
@@ -148,7 +142,7 @@ namespace Smartfiction
             }
             else
             {
-                var item = ((MenuItem)sender).DataContext as ItemModel;
+                var item = ((MenuItem)sender).DataContext as ContentItem;
 
                 Clipboard.SetText(item.Title + " " + item.Link);
             }
