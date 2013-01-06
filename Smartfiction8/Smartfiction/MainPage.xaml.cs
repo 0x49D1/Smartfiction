@@ -95,17 +95,14 @@ namespace Smartfiction
         {
             Smartfiction.ViewModel.ContentItem item = (Smartfiction.ViewModel.ContentItem)((MenuItem)sender).DataContext;
 
-            StoryRepository.AddNewStory(item.Title, item.ItemPublishDate, item.Link, item.ItemDetails);
-            RefreshFavorits();
+            App.ViewModel.AddFavorite(item.Title, item.ItemPublishDate, item.Link, item.ItemDetails);
         }
 
         private void RemoveFavorit_click(object sender, RoutedEventArgs e)
         {
             Story item = (Story)((MenuItem)sender).DataContext;
 
-            StoryRepository.RemoveStory(item);
-
-            RefreshFavorits();
+            App.ViewModel.RemoveFavorite(item);
         }
 
         private void about_Click(object sender, EventArgs e)
