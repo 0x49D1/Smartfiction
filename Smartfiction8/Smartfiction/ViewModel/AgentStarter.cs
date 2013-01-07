@@ -1,9 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.IO.IsolatedStorage;
 using System.Net;
 using System.ServiceModel.Syndication;
 using System.Windows;
 using System.Xml;
+using System.Xml.Serialization;
 using Microsoft.Phone.Scheduler;
 
 namespace Smartfiction.ViewModel
@@ -15,8 +17,8 @@ namespace Smartfiction.ViewModel
     {
         private static string periodicTaskName = "SmartfictionTileUpdater";
         private static PeriodicTask periodicTask;
-        private static DateTime lastScheduledTime = DateTime.MinValue;
         private static string previousTaskDescription = "";
+        private static DateTime? lastCheckTime = null;
 
         public static void StartPeriodicAgent()
         {
@@ -27,17 +29,17 @@ namespace Smartfiction.ViewModel
                 try
                 {
                     previousTaskDescription = periodicTask.Description;
-                    lastScheduledTime = periodicTask.LastScheduledTime;
                     ScheduledActionService.Remove(periodicTaskName);
                 }
                 catch (Exception)
                 {
                 }
             }
+            lastCheckTime = RetrieveCheckTime();
             // create a new task
             periodicTask = new PeriodicTask(periodicTaskName);
             // Adding this condition to run task once a day
-            if (lastScheduledTime == DateTime.MinValue || lastScheduledTime - DateTime.Now < TimeSpan.FromDays(-1))
+            if (lastCheckTime == null || lastCheckTime - DateTime.Now < TimeSpan.FromDays(-1))
             {
                 foreach (string item in App.Data.FeedList)
                 {
@@ -56,9 +58,66 @@ namespace Smartfiction.ViewModel
             }
         }
 
+        private static void StoreLastCheckTime()
+        {
+            // get user's store
+            var storage = IsolatedStorageFile.GetUserStoreForApplication();
+
+            if (storage.DirectoryExists("SmartfictionStorage") == false)
+            {
+                // if directory does not exist, create it
+                storage.CreateDirectory("SmartfictionStorage");
+            }
+
+            if (storage.FileExists("checktime.xml"))
+            {
+                // if file already exists, delete it to reset
+                storage.DeleteFile("checktime.xml");
+            }
+
+            using (var storageFile = storage.CreateFile("SmartfictionStorage\\checktime.xml"))
+            {
+                // create the file and serialize the value
+                var xmlSerializer = new XmlSerializer(typeof(string));
+                xmlSerializer.Serialize(storageFile, DateTime.Now.ToString());
+            }
+        }
+
+        private static DateTime? RetrieveCheckTime()
+        {
+            // get the user's store
+            var storage = IsolatedStorageFile.GetUserStoreForApplication();
+
+            if (storage.DirectoryExists("SmartfictionStorage")
+                    && storage.FileExists("SmartfictionStorage\\checktime.xml"))
+            {
+                // if file exists in directory, open the file to read
+                using (var storageFile =
+                    storage.OpenFile("SmartfictionStorage\\checktime.xml", FileMode.Open))
+                {
+                    var xmlSerializer = new XmlSerializer(typeof(string));
+
+                    // deserialize and return the value
+                    DateTime date = DateTime.MinValue;
+                    try
+                    {
+                        if (DateTime.TryParse(xmlSerializer.Deserialize(storageFile).ToString(), out date))
+                            return date;
+                    }
+                    catch (Exception e)
+                    {
+                        
+                    }
+                }
+            }
+
+            return null; // return default value, for the first time
+        }
+
         private static void client_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
-            if (e != null && !string.IsNullOrEmpty(e.Result) && (lastScheduledTime == DateTime.MinValue || lastScheduledTime - DateTime.Now < TimeSpan.FromDays(0)))
+            if (e != null && !string.IsNullOrEmpty(e.Result) &&
+                (lastCheckTime == null || lastCheckTime - DateTime.Now < TimeSpan.FromDays(-1)))
             {
                 XmlReader reader = XmlReader.Create(new StringReader(e.Result));
                 SyndicationFeed feed = SyndicationFeed.Load(reader);
@@ -66,12 +125,16 @@ namespace Smartfiction.ViewModel
                 {
                     periodicTask.Description = sItem.Title.Text +
                                                " is story of the day, and this updater will update your story of the day tile.";
+                    StoreLastCheckTime();
                     break;
                 }
             }
             else
+            {
+                if (string.IsNullOrEmpty(previousTaskDescription))
+                    previousTaskDescription = "Updater will update your story of the day tile.";
                 periodicTask.Description = previousTaskDescription;
-
+            }
             // set expiration days
             periodicTask.ExpirationTime = DateTime.Now.AddDays(10);
             try
