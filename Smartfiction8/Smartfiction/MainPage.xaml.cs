@@ -87,7 +87,7 @@ namespace Smartfiction
 
             slt.LinkUri = new Uri(item.Link);
             slt.Title = item.Title;
-            slt.Message = "";
+            slt.Message = item.Title + " #smartfiction #wp";
             slt.Show();
         }
 
