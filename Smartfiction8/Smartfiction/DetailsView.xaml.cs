@@ -99,7 +99,7 @@ namespace Smartfiction
                                            //    value.post.content = "<div style='background-color:black;color:white;margin:0;padding:0'>" + value.post.content + "</div>";
                                            //ContentWebBrowser.Background = new SolidColorBrush(Colors.Black);
                                            //}
-                                    
+
                                            ContentWebBrowser.NavigateToString(JSInjectionScript + value.post.content);
                                            pi.IsVisible = false;
 
@@ -116,7 +116,7 @@ namespace Smartfiction
 
             slt.LinkUri = new Uri(value.post.url);
             slt.Title = value.post.title;
-            slt.Message = "";
+            slt.Message = value.post.title + " #smartfiction #wp";
             slt.Show();
         }
 
