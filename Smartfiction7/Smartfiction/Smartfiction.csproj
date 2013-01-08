@@ -118,6 +118,7 @@
     </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Serialization" />
     <Reference Include="YourLastAboutDialog">
       <HintPath>..\packages\YLAD.2.0.0\lib\sl40-wp71\YourLastAboutDialog.dll</HintPath>
     </Reference>
