@@ -31,9 +31,16 @@ namespace Smartfiction
         {
             string itemURL = "";
             string randURI = "";
+            string title = "";
             pi.IsIndeterminate = true;
             pi.IsVisible = true;
             SystemTray.SetProgressIndicator(this, pi);
+
+            if (NavigationContext.QueryString.TryGetValue("title", out title))
+            {
+                var story = StoryRepository.GetSingleStoryByTitle(title);
+                // todo finish this
+            }
 
             wc = new WebClient();
             wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_OpenReadCompleted);
@@ -136,7 +143,7 @@ namespace Smartfiction
                 if (StoryRepository.AddNewStory(value.post.title,
                                                 DateTime.Parse(value.post.date),
                                                 value.post.url,
-                                                value.post.excerpt) > 0)
+                                                value.post.content) > 0)
                     mi.Text = RemoveFromFavoritsString;
             }
         }

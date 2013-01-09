@@ -70,7 +70,7 @@ namespace Smartfiction
                 dynamic item = ((ListBox)sender).SelectedItem;
                 string itemURL = HttpUtility.UrlEncode(item.Link);
 
-                NavigationService.Navigate(new Uri("/DetailsView.xaml?item=" + itemURL, UriKind.Relative));
+                NavigationService.Navigate(new Uri("/DetailsView.xaml?item=" + itemURL + "&title=" + item.Title, UriKind.Relative));
             }
         }
 
