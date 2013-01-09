@@ -1,10 +1,17 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
+using System.Threading;
+using BugSense;
+using Newtonsoft.Json;
 
 namespace Smartfiction.Model
 {
     public class StoryRepository
     {
+        private static bool flag = false;
+        private static string detailsGlobal = null;
+
         public static int AddNewStory(string title,
                                         DateTime datePublished,
                                         string link,
@@ -12,6 +19,31 @@ namespace Smartfiction.Model
         {
             try
             {
+                flag = false;
+
+                if (details.Contains("[...]"))
+                {
+                    // try to get full content from server
+                    var wc = new WebClient();
+                    wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_OpenReadCompleted);
+                    try
+                    {
+                        wc.DownloadStringAsync(new Uri(link + "?json=1"));
+                    }
+                    catch (Exception exception)
+                    {
+                        BugSenseHandler.Instance.LogException(exception);
+                        flag = true;
+                    }
+                }
+                else
+                    flag = true;
+
+                while (flag)
+                {
+                    Thread.Sleep(100);
+                }
+
                 using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
                 {
                     if (CheckStoryTitle(title))
@@ -21,7 +53,7 @@ namespace Smartfiction.Model
                     s.DateCreated = DateTime.Now;
                     s.DatePublished = datePublished;
                     s.Link = link;
-                    s.Details = details;
+                    s.Details = detailsGlobal ?? details;
 
                     context.Stories.InsertOnSubmit(s);
 
@@ -34,6 +66,16 @@ namespace Smartfiction.Model
                 BugSense.BugSenseHandler.Instance.LogException(e);
             }
             return -1;
+        }
+
+        private static void webClient_OpenReadCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            flag = true;
+            if (e.Cancelled || e.Result == null)
+                return;
+
+            var value = JsonConvert.DeserializeObject<PostRoot>(e.Result);
+            detailsGlobal = value.post.content;
         }
 
         public static bool RemoveStory(Story story)
@@ -98,13 +140,21 @@ namespace Smartfiction.Model
             {
                 return context.Stories.Any(s => s.Title == title);
             }
-        } 
-        
+        }
+
         public static Story GetSingleStory(int storyID)
         {
             using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
             {
                 return context.Stories.FirstOrDefault(s => s.StoryID == storyID);
+            }
+        }
+
+        public static Story GetSingleStoryByTitle(string title)
+        {
+            using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
+            {
+                return context.Stories.FirstOrDefault(s => s.Title == title);
             }
         }
     }
