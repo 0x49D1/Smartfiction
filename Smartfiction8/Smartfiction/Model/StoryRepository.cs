@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 using BugSense;
 using Newtonsoft.Json;
 
@@ -11,71 +12,92 @@ namespace Smartfiction.Model
     {
         private static bool flag = false;
         private static string detailsGlobal = null;
+        public static int InsertedID = 0;
 
         public static int AddNewStory(string title,
                                         DateTime datePublished,
                                         string link,
-                                        string details)
+                                        string details, Action<int> callback)
         {
             try
             {
-                flag = false;
+                InsertedID = 0;
+                if (!Utilities.CheckNetwork())
+                    return 0;
+                // try to get full content from server
+                var wc = new WebClient();
 
-                if (details.Contains("[...]"))
+                wc.DownloadStringCompleted += (s, e) =>
+                                                  {
+                                                      if (e.Cancelled || e.Result == null)
+                                                          return;
+
+                                                      var value = JsonConvert.DeserializeObject<PostRoot>(e.Result);
+                                                      detailsGlobal = value.post.content;
+
+                                                      using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
+                                                      {
+                                                          if (CheckStoryTitle(value.post.title))
+                                                              return;
+                                                          Story st = new Story();
+                                                          st.Title = value.post.title;
+                                                          st.DateCreated = DateTime.Now;
+                                                          st.DatePublished = DateTime.Parse(value.post.date);
+                                                          st.Link = value.post.url;
+                                                          st.Details = detailsGlobal;
+
+                                                          context.Stories.InsertOnSubmit(st);
+
+                                                          try
+                                                          {
+                                                              context.SubmitChanges();
+                                                          }
+                                                          catch (Exception exception)
+                                                          {
+                                                              
+                                                          }
+                                                          if (callback != null)
+                                                              callback(st.StoryID);
+                                                      }
+                                                  };
+                try
                 {
-                    // try to get full content from server
-                    var wc = new WebClient();
-                    wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_OpenReadCompleted);
-                    try
-                    {
-                        wc.DownloadStringAsync(new Uri(link + "?json=1"));
-                    }
-                    catch (Exception exception)
-                    {
-                        BugSenseHandler.Instance.LogException(exception);
-                        flag = true;
-                    }
+                    wc.DownloadStringAsync(new Uri(link + "?json=1"));
+                    return 1;
                 }
-                else
-                    flag = true;
-
-                while (flag)
+                catch (Exception exception)
                 {
-                    Thread.Sleep(100);
+                    BugSenseHandler.Instance.LogException(exception);
                 }
 
-                using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
-                {
-                    if (CheckStoryTitle(title))
-                        return 0;
-                    Story s = new Story();
-                    s.Title = title;
-                    s.DateCreated = DateTime.Now;
-                    s.DatePublished = datePublished;
-                    s.Link = link;
-                    s.Details = detailsGlobal ?? details;
 
-                    context.Stories.InsertOnSubmit(s);
+                //while (!flag)
+                //{
+                //    Thread.Sleep(100);
+                //}
 
-                    context.SubmitChanges();
-                    return s.StoryID;
-                }
+                //using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
+                //{
+                //    if (CheckStoryTitle(title))
+                //        return 0;
+                //    Story s = new Story();
+                //    s.Title = title;
+                //    s.DateCreated = DateTime.Now;
+                //    s.DatePublished = datePublished;
+                //    s.Link = link;
+                //    s.Details = detailsGlobal ?? details;
+
+                //    context.Stories.InsertOnSubmit(s);
+
+                //    context.SubmitChanges();
+                //    return s.StoryID;
+                //}
             }
             catch (Exception e)
             {
                 BugSense.BugSenseHandler.Instance.LogException(e);
             }
             return -1;
-        }
-
-        private static void webClient_OpenReadCompleted(object sender, DownloadStringCompletedEventArgs e)
-        {
-            flag = true;
-            if (e.Cancelled || e.Result == null)
-                return;
-
-            var value = JsonConvert.DeserializeObject<PostRoot>(e.Result);
-            detailsGlobal = value.post.content;
         }
 
         public static bool RemoveStory(Story story)
