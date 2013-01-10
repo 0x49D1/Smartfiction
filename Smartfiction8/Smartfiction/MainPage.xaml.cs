@@ -37,8 +37,7 @@ namespace Smartfiction
                                    SystemTray.SetProgressIndicator(this, FeedHelper.FeedData.pb);
 
                                    //FavoritsList.DataContext = this.Favorits;
-
-                                   FeedHelper.FeedData.GetItems();
+                                   ReloadFeed();
                                };
         }
 
@@ -60,7 +59,13 @@ namespace Smartfiction
 
         private void reloadFeeds_Click(object sender, EventArgs e)
         {
-            FeedHelper.FeedData.GetItems();
+            ReloadFeed();
+        }
+
+        private static void ReloadFeed()
+        {
+            if (Utilities.CheckNetwork())
+                FeedHelper.FeedData.GetItems();
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
