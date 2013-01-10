@@ -70,6 +70,8 @@ namespace Smartfiction
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!Utilities.CheckNetwork())
+                return;
             if (((ListBox)sender).SelectedItems.Count != 0)
             {
                 dynamic item = ((ListBox)sender).SelectedItem;
@@ -81,12 +83,16 @@ namespace Smartfiction
 
         private void randomFeeds_Click(object sender, EventArgs e)
         {
+            if (!Utilities.CheckNetwork())
+                return;
             string url = HttpUtility.UrlEncode("http://smartfiction.ru/random?random");
             NavigationService.Navigate(new Uri(string.Format("/DetailsView.xaml?randURI={0}", url), UriKind.Relative));
         }
 
         private void ShareItem_Click(object sender, RoutedEventArgs e)
         {
+            if (!Utilities.CheckNetwork())
+                return;
             ShareLinkTask slt = new ShareLinkTask();
             dynamic item = ((MenuItem)sender).DataContext;
 
