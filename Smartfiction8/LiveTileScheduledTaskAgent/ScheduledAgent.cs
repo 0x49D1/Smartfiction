@@ -61,6 +61,7 @@ namespace LiveTileScheduledTaskAgent
                         new Uri("/Images/black.png", UriKind.Relative);
                             //: new Uri("/Images/white.png", UriKind.Relative);
                     data.BackContent = task.Description.Substring(0, task.Description.IndexOf("is"));
+                    AgentStarter.CheckTileTextUpdate();
                     // take just TITLE from description
                     // update tile
                     tile.Update(data);

@@ -38,17 +38,22 @@ namespace LiveTileScheduledTaskAgent
             lastCheckTime = RetrieveCheckTime();
             // create a new task
             periodicTask = new PeriodicTask(periodicTaskName);
+            CheckTileTextUpdate();
+        }
+
+        public static void CheckTileTextUpdate()
+        {
             // Adding this condition to run task once a day
             if (lastCheckTime == null || lastCheckTime - DateTime.Now < TimeSpan.FromHours(13))
             {
-                    WebClient client = new WebClient();
+                WebClient client = new WebClient();
 
-                    client.Encoding = System.Text.Encoding.UTF8;
+                client.Encoding = System.Text.Encoding.UTF8;
 
-                    client.DownloadStringCompleted +=
-                        new DownloadStringCompletedEventHandler(client_DownloadStringCompleted);
-                    client.DownloadStringAsync(new Uri("http://smartfiction.ru/feed"));
-                }
+                client.DownloadStringCompleted +=
+                    new DownloadStringCompletedEventHandler(client_DownloadStringCompleted);
+                client.DownloadStringAsync(new Uri("http://smartfiction.ru/feed"));
+            }
             else
             {
                 client_DownloadStringCompleted(null, null);
@@ -116,6 +121,11 @@ namespace LiveTileScheduledTaskAgent
             if (e != null && !string.IsNullOrEmpty(e.Result) &&
                 (lastCheckTime == null || lastCheckTime - DateTime.Now < TimeSpan.FromDays(-1)))
             {
+                if (periodicTask == null)
+                    periodicTask = ScheduledActionService.Find(periodicTaskName) as PeriodicTask;
+                if (periodicTask == null)
+                    return;
+
                 XmlReader reader = XmlReader.Create(new StringReader(e.Result));
                 SyndicationFeed feed = SyndicationFeed.Load(reader);
                 foreach (SyndicationItem sItem in feed.Items)
