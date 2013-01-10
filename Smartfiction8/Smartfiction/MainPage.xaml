@@ -19,7 +19,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <!--TitlePanel contains the name of the application and page title-->
-        <phone:Pivot Title="SMARTFICTION Качественная литература по будням. Коротко." >
+        <phone:Pivot Name="mainPivot" Title="SMARTFICTION Качественная литература по будням. Коротко." >
 
             <phone:PivotItem Header="Последние" >
                 <!--ContentPanel - place additional content here-->
