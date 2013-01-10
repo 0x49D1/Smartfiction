@@ -8,12 +8,12 @@ using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.Phone.Scheduler;
 
-namespace Smartfiction.ViewModel
+namespace LiveTileScheduledTaskAgent
 {
     /// <summary>
     /// Updates live tile with story of the day
     /// </summary>
-    public class AgentStarter
+    public static class AgentStarter
     {
         private static string periodicTaskName = "SmartfictionTileUpdater";
         private static PeriodicTask periodicTask;
@@ -41,17 +41,14 @@ namespace Smartfiction.ViewModel
             // Adding this condition to run task once a day
             if (lastCheckTime == null || lastCheckTime - DateTime.Now < TimeSpan.FromHours(13))
             {
-                foreach (string item in App.Data.FeedList)
-                {
                     WebClient client = new WebClient();
 
                     client.Encoding = System.Text.Encoding.UTF8;
 
                     client.DownloadStringCompleted +=
                         new DownloadStringCompletedEventHandler(client_DownloadStringCompleted);
-                    client.DownloadStringAsync(new Uri(item));
+                    client.DownloadStringAsync(new Uri("http://smartfiction.ru/feed"));
                 }
-            }
             else
             {
                 client_DownloadStringCompleted(null, null);
@@ -106,7 +103,7 @@ namespace Smartfiction.ViewModel
                     }
                     catch (Exception e)
                     {
-                        
+
                     }
                 }
             }

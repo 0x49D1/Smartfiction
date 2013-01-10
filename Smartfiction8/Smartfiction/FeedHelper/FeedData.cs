@@ -5,6 +5,7 @@ using System.ServiceModel.Syndication;
 using System.Xml;
 using System.Net;
 using System.IO;
+using LiveTileScheduledTaskAgent;
 using Microsoft.Phone.Shell;
 using Smartfiction.ViewModel;
 

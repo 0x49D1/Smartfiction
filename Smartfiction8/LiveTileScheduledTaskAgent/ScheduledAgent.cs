@@ -42,6 +42,7 @@ namespace LiveTileScheduledTaskAgent
         /// </remarks>
         protected override void OnInvoke(ScheduledTask task)
         {
+            
                 // get application tile
                 ShellTile tile = ShellTile.ActiveTiles.First();
                 if (null != tile)
