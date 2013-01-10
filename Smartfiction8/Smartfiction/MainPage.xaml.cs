@@ -62,10 +62,18 @@ namespace Smartfiction
             ReloadFeed();
         }
 
-        private static void ReloadFeed()
+        private void ReloadFeed()
         {
             if (Utilities.CheckNetwork())
                 FeedHelper.FeedData.GetItems();
+            else
+            {
+                // If there is no internet - show favorits if there are items in favorits list
+                if (App.ViewModel.Favorits.Count > 0)
+                {
+                    mainPivot.SelectedIndex = 1;
+                }
+            }
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
