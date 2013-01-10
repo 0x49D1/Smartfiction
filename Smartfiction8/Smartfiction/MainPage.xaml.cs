@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,9 +13,6 @@ namespace Smartfiction
 {
     public partial class MainPage : PhoneApplicationPage
     {
-
-
-
         // Constructor
         // http://code.msdn.microsoft.com/wpapps/Database-in-Windows-Phone-7-d69c13c9
         public MainPage()
