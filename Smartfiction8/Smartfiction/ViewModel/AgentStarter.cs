@@ -39,7 +39,7 @@ namespace Smartfiction.ViewModel
             // create a new task
             periodicTask = new PeriodicTask(periodicTaskName);
             // Adding this condition to run task once a day
-            if (lastCheckTime == null || lastCheckTime - DateTime.Now < TimeSpan.FromDays(-1))
+            if (lastCheckTime == null || lastCheckTime - DateTime.Now < TimeSpan.FromHours(13))
             {
                 foreach (string item in App.Data.FeedList)
                 {
