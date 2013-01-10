@@ -39,7 +39,20 @@ namespace Smartfiction
             if (NavigationContext.QueryString.TryGetValue("title", out title))
             {
                 var story = StoryRepository.GetSingleStoryByTitle(title);
-                // todo finish this
+                if (story != null && !story.Details.Contains("[..."))
+                {
+                    value = new PostRoot();
+                    value.post = new Post();
+                    value.post.title = story.Title;
+                    value.post.url = story.Link;
+                    ContentWebBrowser.NavigateToString(JSInjectionScript + story.Details);
+                    pi.IsVisible = false;
+                    var caption = story.Title.Split('.');
+                    tbCaption.Text = caption[0];
+                    if (caption.Length > 1)
+                        tbCaptionAuthor.Text = caption[1].Trim();
+                    return;
+                }
             }
 
             wc = new WebClient();
@@ -119,6 +132,8 @@ namespace Smartfiction
 
         private void share_Click(object sender, EventArgs e)
         {
+            if (!Utilities.CheckNetwork())
+                return;
             ShareLinkTask slt = new ShareLinkTask();
 
             slt.LinkUri = new Uri(value.post.url);
@@ -143,7 +158,7 @@ namespace Smartfiction
                 if (StoryRepository.AddNewStory(value.post.title,
                                                 DateTime.Parse(value.post.date),
                                                 value.post.url,
-                                                value.post.content) > 0)
+                                                value.post.content, null) > 0)
                     mi.Text = RemoveFromFavoritsString;
             }
         }
