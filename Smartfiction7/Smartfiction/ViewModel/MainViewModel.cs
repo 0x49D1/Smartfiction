@@ -35,14 +35,22 @@ namespace Smartfiction.ViewModel
             string link,
             string details)
         {
-            int insertedID = StoryRepository.AddNewStory(title, publishedDate, link, details);
-            if (insertedID > 0)
+   try
             {
-                var story = StoryRepository.GetSingleStory(insertedID);
-                Favorits.Insert(0, story);
+                StoryRepository.AddNewStory(title, publishedDate, link, details,StoreFavorit);
                 return true;
             }
+ catch (Exception e)
+            {
+                
+            }
             return false;
+        }
+
+ private void StoreFavorit(int insertedID)
+        {
+            var story = StoryRepository.GetSingleStory(insertedID);
+            Favorits.Insert(0, story);
         }
 
         #region INPC

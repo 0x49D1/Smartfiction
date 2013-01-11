@@ -31,10 +31,29 @@ namespace Smartfiction
         {
             string itemURL = "";
             string randURI = "";
+            string title = "";
             pi.IsIndeterminate = true;
             pi.IsVisible = true;
             SystemTray.SetProgressIndicator(this, pi);
 
+  if (NavigationContext.QueryString.TryGetValue("title", out title))
+            {
+                var story = StoryRepository.GetSingleStoryByTitle(title);
+                if (story != null && !story.Details.Contains("[..."))
+                {
+                    value = new PostRoot();
+                    value.post = new Post();
+                    value.post.title = story.Title;
+                    value.post.url = story.Link;
+                    ContentWebBrowser.NavigateToString(JSInjectionScript + story.Details);
+                    pi.IsVisible = false;
+                    var caption = story.Title.Split('.');
+                    tbCaption.Text = caption[0];
+                    if (caption.Length > 1)
+                        tbCaptionAuthor.Text = caption[1].Trim();
+                    return;
+                }
+            }
             wc = new WebClient();
             wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_OpenReadCompleted);
 
@@ -176,11 +195,13 @@ namespace Smartfiction
 
         private void share_Click(object sender, EventArgs e)
         {
+if (!Utilities.CheckNetwork())
+                return;
             ShareLinkTask slt = new ShareLinkTask();
 
             slt.LinkUri = new Uri(value.post.url);
             slt.Title = value.post.title;
-            slt.Message = "";
+slt.Message = value.post.title + " #smartfiction #wp";
             slt.Show();
         }
 
@@ -197,10 +218,10 @@ namespace Smartfiction
             }
             else
             {
-                if (StoryRepository.AddNewStory(value.post.title,
+    if (StoryRepository.AddNewStory(value.post.title,
                                                 DateTime.Parse(value.post.date),
                                                 value.post.url,
-                                                value.post.excerpt) > 0)
+                                                value.post.content, null) > 0)
                     mi.Text = RemoveFromFavoritsString;
             }
         }

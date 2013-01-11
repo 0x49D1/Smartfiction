@@ -5,33 +5,91 @@ namespace Smartfiction.Model
 {
     public class StoryRepository
     {
+ private static bool flag = false;
+        private static string detailsGlobal = null;
+        public static int InsertedID = 0;
         public static int AddNewStory(string title,
                                         DateTime datePublished,
                                         string link,
-                                        string details)
+                     string details, Action<int> callback)
         {
             try
             {
-                using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
+  InsertedID = 0;
+                if (!Utilities.CheckNetwork())
+                    return 0;
+                // try to get full content from server
+                var wc = new WebClient();
+
+                wc.DownloadStringCompleted += (s, e) =>
+                                                  {
+                                                      if (e.Cancelled || e.Result == null)
+                                                          return;
+
+                                                      var value = JsonConvert.DeserializeObject<PostRoot>(e.Result);
+                                                      detailsGlobal = value.post.content;
+
+                                                      using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
+                                                      {
+                                                          if (CheckStoryTitle(value.post.title))
+                                                              return;
+                                                          Story st = new Story();
+                                                          st.Title = value.post.title;
+                                                          st.DateCreated = DateTime.Now;
+                                                          st.DatePublished = DateTime.Parse(value.post.date);
+                                                          st.Link = value.post.url;
+                                                          st.Details = detailsGlobal;
+
+                                                          context.Stories.InsertOnSubmit(st);
+
+                                                          try
+                                                          {
+                                                              context.SubmitChanges();
+                                                          }
+                                                          catch (Exception exception)
+                                                          {
+                                                              
+                                                          }
+                                                          if (callback != null)
+                                                              callback(st.StoryID);
+                                                      }
+                                                  };
+                try
                 {
-                    if (CheckStoryTitle(title))
-                        return 0;
-                    Story s = new Story();
-                    s.Title = title;
-                    s.DateCreated = DateTime.Now;
-                    s.DatePublished = datePublished;
-                    s.Link = link;
-                    s.Details = details;
-
-                    context.Stories.InsertOnSubmit(s);
-
-                    context.SubmitChanges();
-                    return s.StoryID;
+                    wc.DownloadStringAsync(new Uri(link + "?json=1"));
+                    return 1;
                 }
+                catch (Exception exception)
+                {
+                    BugSenseHandler.Instance.LogException(exception);
+                }
+
+
+                //while (!flag)
+                //{
+                //    Thread.Sleep(100);
+                //}
+
+                //using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
+                //{
+                //    if (CheckStoryTitle(title))
+                //        return 0;
+                //    Story s = new Story();
+                //    s.Title = title;
+                //    s.DateCreated = DateTime.Now;
+                //    s.DatePublished = datePublished;
+                //    s.Link = link;
+                //    s.Details = detailsGlobal ?? details;
+
+                //    context.Stories.InsertOnSubmit(s);
+
+                //    context.SubmitChanges();
+                //    return s.StoryID;
+                //}
             }
             catch (Exception e)
             {
-                BugSense.BugSenseHandler.Instance.LogError(e);
+                BugSense.BugSenseHandler.Instance.LogException(e);
             }
             return -1;
         }
@@ -105,6 +163,14 @@ namespace Smartfiction.Model
             using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
             {
                 return context.Stories.FirstOrDefault(s => s.StoryID == storyID);
+            }
+        }
+
+        public static Story GetSingleStoryByTitle(string title)
+        {
+            using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
+            {
+                return context.Stories.FirstOrDefault(s => s.Title == title);
             }
         }
     }
