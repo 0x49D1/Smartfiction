@@ -38,8 +38,7 @@ namespace Smartfiction
                                    SystemTray.SetProgressIndicator(this, FeedHelper.FeedData.pb);
 
                                    //FavoritsList.DataContext = this.Favorits;
-
-                                   FeedHelper.FeedData.GetItems();
+   ReloadFeed();
                                };
 
 
@@ -63,11 +62,27 @@ namespace Smartfiction
 
         private void reloadFeeds_Click(object sender, EventArgs e)
         {
-            FeedHelper.FeedData.GetItems();
+    ReloadFeed();
+        }
+
+        private void ReloadFeed()
+        {
+            if (Utilities.CheckNetwork())
+                FeedHelper.FeedData.GetItems();
+            else
+            {
+                // If there is no internet - show favorits if there are items in favorits list
+                if (App.ViewModel.Favorits.Count > 0)
+                {
+                    mainPivot.SelectedIndex = 1;
+                }
+            }
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+
+            if (!Utilities.CheckNetwork())
+                return;
             if (((ListBox)sender).SelectedItems.Count != 0)
             {
                 string itemURL = "";
@@ -82,18 +97,22 @@ namespace Smartfiction
                     itemURL = HttpUtility.UrlEncode(item.Link);
                 }
 
-                NavigationService.Navigate(new Uri("/DetailsView.xaml?item=" + itemURL, UriKind.Relative));
+                NavigationService.Navigate(new Uri("/DetailsView.xaml?item=" + itemURL+"&title=" + item.Title, UriKind.Relative));
             }
         }
 
         private void randomFeeds_Click(object sender, EventArgs e)
         {
+if (!Utilities.CheckNetwork())
+                return;
             string url = HttpUtility.UrlEncode("http://smartfiction.ru/random?random");
             NavigationService.Navigate(new Uri(string.Format("/DetailsView.xaml?randURI={0}", url), UriKind.Relative));
         }
 
         private void ShareItem_Click(object sender, RoutedEventArgs e)
         {
+  if (!Utilities.CheckNetwork())
+                return;
             ShareLinkTask slt = new ShareLinkTask();
             if (((ListBox)sender).SelectedItem is Story)
             {
