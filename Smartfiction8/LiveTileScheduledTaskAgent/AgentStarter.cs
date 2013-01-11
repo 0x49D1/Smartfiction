@@ -1,11 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.IO.IsolatedStorage;
+using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Xml.Serialization;
 using Common;
 using Microsoft.Phone.Scheduler;
+using Microsoft.Phone.Shell;
 using Newtonsoft.Json;
 using Smartfiction.Model;
 
@@ -143,61 +145,31 @@ namespace LiveTileScheduledTaskAgent
             if (e == null || e.Cancelled)
                 return;
 
-            bool wasAdded = false;
             if (e != null && !string.IsNullOrEmpty(e.Result) &&
                 (lastCheckTime == null || DateTime.Now - lastCheckTime > TimeSpan.FromHours(10)))
             {
 
-                if (periodicTask == null)
+                ShellTile PrimaryTile = ShellTile.ActiveTiles.First();
+                if (PrimaryTile != null)
                 {
-                    periodicTask = ScheduledActionService.Find(periodicTaskName) as PeriodicTask;
-                    wasAdded = true;
+                    var value = JsonConvert.DeserializeObject<RootPostList>(e.Result);
+                    if (value.posts.Count > 0)
+                    {
+                        StandardTileData tile = new StandardTileData();
+
+                        tile.BackContent = value.posts[0].title;
+                        // to make tile flip add data to background also
+                        tile.BackTitle = "";
+                        // For white theme show white square
+                        tile.BackBackgroundImage =
+                            //((Visibility)Application.Current.Resources["PhoneDarkThemeVisibility"] == Visibility.Visible)
+                            new Uri("/Images/black.png", UriKind.Relative);
+                        PrimaryTile.Update(tile);
+                        StoreLastCheckTime();
+                    }
                 }
 
-                var value = JsonConvert.DeserializeObject<RootPostList>(e.Result);
-                if (value.posts.Count > 0)
-                {
-                    periodicTask.Description = value.posts[0].title +
-                                               " is story of the day, and this updater will update your story of the day tile.";
-                    StoreLastCheckTime();
-                }
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(previousTaskDescription))
-                    previousTaskDescription = "Updater will update your story of the day tile.";
-                periodicTask.Description = previousTaskDescription;
-            }
 
-            try
-            {
-                if (!wasAdded)
-                {
-                    // add thas to scheduled action service
-                    ScheduledActionService.Add(periodicTask);
-                }
-                // debug, so run in every 30 secs
-#if DEBUG_AGENT
-                    ScheduledActionService.LaunchForTest(periodicTaskName, TimeSpan.FromSeconds(10));
-                    System.Diagnostics.Debug.WriteLine("Periodic task is started: " + periodicTaskName);
-#endif
-
-            }
-            catch (InvalidOperationException exception)
-            {
-                if (exception.Message.Contains("BNS Error: The action is disabled"))
-                {
-                    // load error text from localized strings
-                    MessageBox.Show("Background agents for this application have been disabled by the user.");
-                }
-                if (exception.Message.Contains("BNS Error: The maximum number of ScheduledActions of this type have already been added."))
-                {
-                    // No user action required. The system prompts the user when the hard limit of periodic tasks has been reached.
-                }
-            }
-            catch (SchedulerServiceException)
-            {
-                // No user action required.
             }
         }
     }

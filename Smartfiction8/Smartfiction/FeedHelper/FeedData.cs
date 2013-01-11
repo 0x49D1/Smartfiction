@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ServiceModel.Syndication;
-using System.Xml;
 using System.Net;
-using System.IO;
-using LiveTileScheduledTaskAgent;
+using Common;
 using Microsoft.Phone.Shell;
+using Newtonsoft.Json;
+using Smartfiction.Model;
+using Smartfiction.ViewModel;
 
 namespace Smartfiction.FeedHelper
 {
@@ -33,7 +33,7 @@ namespace Smartfiction.FeedHelper
 
         public static void GetItems()
         {
-            AgentStarter.StartPeriodicAgent();
+            ScheduleAgentReseter.StartPeriodicAgent();
             pb.IsIndeterminate = true;
             pb.IsVisible = true;
             pb.Text = l[new Random().Next(l.Count)]; // Get random loading captions
@@ -45,6 +45,9 @@ namespace Smartfiction.FeedHelper
 
         public static void GetFeed()
         {
+            if (!Utilities.CheckNetwork())
+                return;
+
             foreach (string item in App.Data.FeedList)
             {
                 WebClient client = new WebClient();
@@ -60,20 +63,19 @@ namespace Smartfiction.FeedHelper
         {
             if (!string.IsNullOrEmpty(e.Result))
             {
-                XmlReader reader = XmlReader.Create(new StringReader(e.Result));
-                SyndicationFeed feed = SyndicationFeed.Load(reader);
+                var value = JsonConvert.DeserializeObject<RootPostList>(e.Result);
 
-                foreach (SyndicationItem sItem in feed.Items)
+                foreach (Post sItem in value.posts)
                 {
-                    if ((sItem != null) && (sItem.Summary != null) && (sItem.Title != null))
+                    if ((sItem != null) && (sItem.title != null))
                     {
                         App.ViewModel.FeedItems.Add(
                             new ViewModel.ContentItem()
                             {
-                                ItemDetails = sItem.Summary.Text,
-                                Title = sItem.Title.Text,
-                                ItemPublishDate = sItem.PublishDate.DateTime,
-                                Link = sItem.Links[0].Uri.ToString()
+                                ItemDetails = string.Format(" {0}", sItem.excerpt.Substring(sItem.excerpt.IndexOf("/*") + 2)),
+                                Title = sItem.title,
+                                ItemPublishDate = DateTime.Parse(sItem.date),
+                                Link = sItem.url
                             });
                     }
                 }
