@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smartfiction", "Smartfictio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveTileScheduledTaskAgent", "LiveTileScheduledTaskAgent\LiveTileScheduledTaskAgent.csproj", "{4D0A9D0E-8972-48D5-AA23-C1A00E27E85A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{1EC7C343-8D34-4C74-AB5A-617661F6C6CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,18 @@ Global
 		{4D0A9D0E-8972-48D5-AA23-C1A00E27E85A}.Release|ARM.Build.0 = Release|ARM
 		{4D0A9D0E-8972-48D5-AA23-C1A00E27E85A}.Release|x86.ActiveCfg = Release|x86
 		{4D0A9D0E-8972-48D5-AA23-C1A00E27E85A}.Release|x86.Build.0 = Release|x86
+		{1EC7C343-8D34-4C74-AB5A-617661F6C6CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EC7C343-8D34-4C74-AB5A-617661F6C6CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EC7C343-8D34-4C74-AB5A-617661F6C6CC}.Debug|ARM.ActiveCfg = Debug|ARM
+		{1EC7C343-8D34-4C74-AB5A-617661F6C6CC}.Debug|ARM.Build.0 = Debug|ARM
+		{1EC7C343-8D34-4C74-AB5A-617661F6C6CC}.Debug|x86.ActiveCfg = Debug|x86
+		{1EC7C343-8D34-4C74-AB5A-617661F6C6CC}.Debug|x86.Build.0 = Debug|x86
+		{1EC7C343-8D34-4C74-AB5A-617661F6C6CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EC7C343-8D34-4C74-AB5A-617661F6C6CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EC7C343-8D34-4C74-AB5A-617661F6C6CC}.Release|ARM.ActiveCfg = Release|ARM
+		{1EC7C343-8D34-4C74-AB5A-617661F6C6CC}.Release|ARM.Build.0 = Release|ARM
+		{1EC7C343-8D34-4C74-AB5A-617661F6C6CC}.Release|x86.ActiveCfg = Release|x86
+		{1EC7C343-8D34-4C74-AB5A-617661F6C6CC}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
