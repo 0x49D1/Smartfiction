@@ -117,6 +117,7 @@
     </Compile>
     <Compile Include="ViewModel\ContentItem.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\ScheduleAgentReseter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -202,9 +203,6 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\sl4-windowsphone71\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceModel.Syndication">
-      <HintPath>C:\Program Files (x86)\Microsoft SDKs\Silverlight\v4.0\Libraries\Client\System.ServiceModel.Syndication.dll</HintPath>
     </Reference>
     <Reference Include="YourLastAboutDialog">
       <HintPath>..\packages\YLAD.2.0.0\lib\sl40-wp71\YourLastAboutDialog.dll</HintPath>

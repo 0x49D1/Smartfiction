@@ -35,7 +35,7 @@ namespace Smartfiction
                 }
             }
             if (Data.FeedList.Count == 0)
-                App.Data.FeedList.Add("http://smartfiction.ru/feed/");
+                App.Data.FeedList.Add("http://smartfiction.ru?json=get_recent_posts&count=4");
 
             using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
             {
