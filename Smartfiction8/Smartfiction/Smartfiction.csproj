@@ -103,15 +103,10 @@
     <Compile Include="ManageFeeds.xaml.cs">
       <DependentUpon>ManageFeeds.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\Author.cs" />
-    <Compile Include="Model\Category.cs" />
     <Compile Include="Model\ConnectionFactory.cs" />
-    <Compile Include="Model\Post.cs" />
-    <Compile Include="Model\PostRoot.cs" />
     <Compile Include="Model\Story.cs" />
     <Compile Include="Model\StoryDataContext.cs" />
     <Compile Include="Model\StoryRepository.cs" />
-    <Compile Include="Model\Tag.cs" />
     <Compile Include="Model\Utilities.cs" />
     <Compile Include="ObservableCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -216,6 +211,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{1EC7C343-8D34-4C74-AB5A-617661F6C6CC}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LiveTileScheduledTaskAgent\LiveTileScheduledTaskAgent.csproj">
       <Project>{4D0A9D0E-8972-48D5-AA23-C1A00E27E85A}</Project>
       <Name>LiveTileScheduledTaskAgent</Name>

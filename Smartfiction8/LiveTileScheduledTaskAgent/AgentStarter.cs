@@ -2,11 +2,12 @@
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Net;
-using System.ServiceModel.Syndication;
 using System.Windows;
-using System.Xml;
 using System.Xml.Serialization;
+using Common;
 using Microsoft.Phone.Scheduler;
+using Newtonsoft.Json;
+using Smartfiction.Model;
 
 namespace LiveTileScheduledTaskAgent
 {
@@ -35,16 +36,19 @@ namespace LiveTileScheduledTaskAgent
                 {
                 }
             }
+            ZeroLastCheckTime();
             lastCheckTime = RetrieveCheckTime();
             // create a new task
             periodicTask = new PeriodicTask(periodicTaskName);
+            // set expiration days
+            periodicTask.ExpirationTime = DateTime.Now.AddDays(10);
             CheckTileTextUpdate();
         }
 
         public static void CheckTileTextUpdate()
         {
             // Adding this condition to run task once a day
-            if (lastCheckTime == null || lastCheckTime - DateTime.Now < TimeSpan.FromHours(13))
+            if (lastCheckTime == null || DateTime.Now - lastCheckTime > TimeSpan.FromHours(10))
             {
                 WebClient client = new WebClient();
 
@@ -52,11 +56,29 @@ namespace LiveTileScheduledTaskAgent
 
                 client.DownloadStringCompleted +=
                     new DownloadStringCompletedEventHandler(client_DownloadStringCompleted);
-                client.DownloadStringAsync(new Uri("http://smartfiction.ru/feed"));
+                client.DownloadStringAsync(new Uri("http://smartfiction.ru/" + "?json=get_recent_posts&count=1"));
             }
             else
             {
                 client_DownloadStringCompleted(null, null);
+            }
+        }
+
+        public static void ZeroLastCheckTime()
+        {
+            // get user's store
+            var storage = IsolatedStorageFile.GetUserStoreForApplication();
+
+            if (storage.DirectoryExists("SmartfictionStorage") == false)
+            {
+                // if directory does not exist, create it
+                storage.CreateDirectory("SmartfictionStorage");
+            }
+
+            if (storage.FileExists("checktime.xml"))
+            {
+                // if file already exists, delete it to reset
+                storage.DeleteFile("checktime.xml");
             }
         }
 
@@ -118,22 +140,26 @@ namespace LiveTileScheduledTaskAgent
 
         private static void client_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
-            if (e != null && !string.IsNullOrEmpty(e.Result) &&
-                (lastCheckTime == null || lastCheckTime - DateTime.Now < TimeSpan.FromDays(-1)))
-            {
-                if (periodicTask == null)
-                    periodicTask = ScheduledActionService.Find(periodicTaskName) as PeriodicTask;
-                if (periodicTask == null)
-                    return;
+            if (e == null || e.Cancelled)
+                return;
 
-                XmlReader reader = XmlReader.Create(new StringReader(e.Result));
-                SyndicationFeed feed = SyndicationFeed.Load(reader);
-                foreach (SyndicationItem sItem in feed.Items)
+            bool wasAdded = false;
+            if (e != null && !string.IsNullOrEmpty(e.Result) &&
+                (lastCheckTime == null || DateTime.Now - lastCheckTime > TimeSpan.FromHours(10)))
+            {
+
+                if (periodicTask == null)
                 {
-                    periodicTask.Description = sItem.Title.Text +
+                    periodicTask = ScheduledActionService.Find(periodicTaskName) as PeriodicTask;
+                    wasAdded = true;
+                }
+
+                var value = JsonConvert.DeserializeObject<RootPostList>(e.Result);
+                if (value.posts.Count > 0)
+                {
+                    periodicTask.Description = value.posts[0].title +
                                                " is story of the day, and this updater will update your story of the day tile.";
                     StoreLastCheckTime();
-                    break;
                 }
             }
             else
@@ -142,12 +168,14 @@ namespace LiveTileScheduledTaskAgent
                     previousTaskDescription = "Updater will update your story of the day tile.";
                 periodicTask.Description = previousTaskDescription;
             }
-            // set expiration days
-            periodicTask.ExpirationTime = DateTime.Now.AddDays(10);
+
             try
             {
-                // add thas to scheduled action service
-                ScheduledActionService.Add(periodicTask);
+                if (!wasAdded)
+                {
+                    // add thas to scheduled action service
+                    ScheduledActionService.Add(periodicTask);
+                }
                 // debug, so run in every 30 secs
 #if DEBUG_AGENT
                     ScheduledActionService.LaunchForTest(periodicTaskName, TimeSpan.FromSeconds(10));

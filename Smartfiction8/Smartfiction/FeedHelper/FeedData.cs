@@ -7,7 +7,6 @@ using System.Net;
 using System.IO;
 using LiveTileScheduledTaskAgent;
 using Microsoft.Phone.Shell;
-using Smartfiction.ViewModel;
 
 namespace Smartfiction.FeedHelper
 {
