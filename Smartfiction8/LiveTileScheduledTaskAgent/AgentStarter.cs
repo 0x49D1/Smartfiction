@@ -50,7 +50,7 @@ namespace LiveTileScheduledTaskAgent
         public static void CheckTileTextUpdate()
         {
             // Adding this condition to run task once a day
-            if (lastCheckTime == null || DateTime.Now - lastCheckTime > TimeSpan.FromHours(10))
+            if (lastCheckTime == null || DateTime.Now - lastCheckTime > TimeSpan.FromHours(6))
             {
                 WebClient client = new WebClient();
 
@@ -146,7 +146,7 @@ namespace LiveTileScheduledTaskAgent
                 return;
 
             if (e != null && !string.IsNullOrEmpty(e.Result) &&
-                (lastCheckTime == null || DateTime.Now - lastCheckTime > TimeSpan.FromHours(10)))
+                (lastCheckTime == null || DateTime.Now - lastCheckTime > TimeSpan.FromHours(6)))
             {
 
                 ShellTile PrimaryTile = ShellTile.ActiveTiles.First();

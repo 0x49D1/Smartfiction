@@ -51,8 +51,8 @@ namespace Smartfiction
 
             ViewModel = new ViewModel.MainViewModel();
 
-            CopyToIsolatedStorage();
-            Utilities.hyphenator = OpenLocal("Hyphenator.js");
+            //CopyToIsolatedStorage();
+            //Utilities.hyphenator = OpenLocal("Hyphenator.js");
 
             //ADDED
             ViewModel.FeedItems = new ObservableCollection<ViewModel.ContentItem>();
