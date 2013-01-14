@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
+using System.IO.IsolatedStorage;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Resources;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
@@ -18,7 +22,7 @@ namespace Smartfiction
         public MainPage()
         {
             InitializeComponent();
-
+         
             this.Loaded += (s, e) =>
                                {
                                    RefreshFavorits();

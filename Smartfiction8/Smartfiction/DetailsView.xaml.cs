@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.IO.IsolatedStorage;
 using System.Net;
 using System.Windows;
 using BugSense;
@@ -95,11 +97,13 @@ namespace Smartfiction
 
         private string InjectedString(string content)
         {
-            content = content.Replace("<p", "<p class='hyphenate'");
-            return "<html lang='ru'><head><script src='./Html/Hyphenator.js' type='text/javascript'></script><meta name='viewport' content='width=400, initial-scale=1,maximim-scale=1.4'></head>" + JSInjectionScript + "<body><style>" + css + "</style>" + "<div class='wrapper'>" + content + "<div class='end'>&diams; &diams; &diams;</div></div></body></html>";
+            //content = content.Replace("<p", "<p class='hyphenate'");
+            return "<html lang='ru'><head><script type='text/javascript'>" + Utilities.hyphenator + "</script><meta name='viewport' content='width=400, initial-scale=1,maximim-scale=1.4'></head>" + JSInjectionScript + "<body><style>" + css + "</style>" + "<div id='wrapper_div' class='wrapper hyphenate' style='display:none;'>" + content + "<div class='end'>&diams; &diams; &diams;</div></div><script>Hyphenator.config({minwordlength : 10}); Hyphenator.run();</script></body></html>";
         }
 
-        private void GetResponseCallback(IAsyncResult asynchronousResult)
+
+        private
+              void GetResponseCallback(IAsyncResult asynchronousResult)
         {
             HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
             // End the operation
@@ -231,7 +235,7 @@ function onScroll(e) {
 }
  
 window.onload = initialize;
-    Hyphenator.run();
+    
 </script>";
 
         private int _visibleHeight = 0;

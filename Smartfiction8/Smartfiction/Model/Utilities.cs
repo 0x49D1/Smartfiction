@@ -12,6 +12,9 @@ namespace Smartfiction.Model
 {
     public static class Utilities
     {
+        public static string hyphenator = "";
+
+
         /// <summary>
         /// Method to check internet connection to the host
         /// </summary>

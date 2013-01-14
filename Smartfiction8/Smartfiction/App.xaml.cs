@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.IO;
+using System.Windows;
 using System.Windows.Navigation;
+using System.Windows.Resources;
 using BugSense;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
@@ -22,7 +25,7 @@ namespace Smartfiction
         public App()
         {
             BugSenseHandler.Instance.Init(this, "a9b557af");
-            
+
             Data = new FeedHelper.FeedData();
             Data.FeedList = new ObservableCollection<string>();
 
@@ -48,12 +51,111 @@ namespace Smartfiction
 
             ViewModel = new ViewModel.MainViewModel();
 
+            CopyToIsolatedStorage();
+            Utilities.hyphenator = OpenLocal("Hyphenator.js");
+
             //ADDED
             ViewModel.FeedItems = new ObservableCollection<ViewModel.ContentItem>();
-            BugSenseHandler.Instance.UnhandledException += Application_UnhandledException; 
+            BugSenseHandler.Instance.UnhandledException += Application_UnhandledException;
             //UnhandledException += Application_UnhandledException;
             InitializeComponent();
             InitializePhoneApplication();
+        }
+
+
+        private string OpenLocal(string path)
+        {
+            string rawData = "";
+            using (IsolatedStorageFile appStorage =
+                IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                using (IsolatedStorageFileStream isStream = new IsolatedStorageFileStream(path, FileMode.Open,
+                                                                                       FileAccess.Read, appStorage))
+                {
+                    using (StreamReader sr = new StreamReader(isStream))
+                    {
+                        rawData = sr.ReadToEnd();
+                    }
+                }
+            }
+
+            return rawData;
+        }
+
+        private void CopyLocal(string path)
+        {
+            using (IsolatedStorageFile appStorage =
+                IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                var fileResourceStreamInfo = Application.GetResourceStream(new Uri("Html/"+path, UriKind.Relative));
+                if (fileResourceStreamInfo != null)
+                {
+                    using (BinaryReader br = new BinaryReader(fileResourceStreamInfo.Stream))
+                    {
+                        byte[] data = br.ReadBytes((int)fileResourceStreamInfo.Stream.Length);
+
+                        //string strBaseDir = path.Substring(0, path.LastIndexOf(System.IO.Path.DirectorySeparatorChar));
+
+                        //if (!appStorage.DirectoryExists(strBaseDir))
+                        //{
+                        //    //Debug.WriteLine("Creating Directory :: " + strBaseDir);
+                        //    appStorage.CreateDirectory(strBaseDir);
+                        //}
+
+                        // This will truncate/overwrite an existing file, or 
+                        using (IsolatedStorageFileStream outFile = appStorage.OpenFile(path, FileMode.Create))
+                        {
+                            //Debug.WriteLine("Writing data for " + AppRoot + path + " and length = " + data.Length);
+                            using (var writer = new BinaryWriter(outFile))
+                            {
+                                writer.Write(data);
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+
+        private void CopyToIsolatedStorage()
+        {
+            using (IsolatedStorageFile storage =
+                IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                string[] files = new string[] 
+                { 
+                  "Hyphenator.js"
+                };
+                foreach (var _fileName in files)
+                {
+                    if (!storage.FileExists(_fileName))
+                    {
+                        string _filePath = "Html/" + _fileName;
+                        StreamResourceInfo resource =
+                            Application.GetResourceStream(
+                            new Uri(_filePath, UriKind.Relative));
+
+                        using (IsolatedStorageFileStream file =
+                            storage.CreateFile(_fileName))
+                        {
+                            int chunkSize = 4096;
+                            byte[] bytes = new byte[chunkSize];
+                            int byteCount;
+
+                            while ((byteCount =
+                                resource.Stream.Read(
+                                bytes, 0, chunkSize)) > 0)
+                            {
+                                file.Write(bytes, 0, byteCount);
+                            }
+
+                            file.Close();
+                        }
+
+
+                    }
+                }
+            }
         }
 
         // Code to execute when the application is launching (eg, from Start)
