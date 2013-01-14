@@ -48,7 +48,8 @@ namespace Smartfiction
                     value.post.url = story.Link;
                     ContentWebBrowser.NavigateToString(InjectedString(story.Details));
                     pi.IsVisible = false;
-                    var caption = story.Title.Split('.');
+                    var caption = story.Title.Split(new char[] { '.', '!', '?' });
+
                     tbCaption.Text = caption[0];
                     if (caption.Length > 1)
                         tbCaptionAuthor.Text = caption[1].Trim();
@@ -98,7 +99,8 @@ namespace Smartfiction
         private string InjectedString(string content)
         {
             //content = content.Replace("<p", "<p class='hyphenate'");
-            return "<html lang='ru'><head><script type='text/javascript'>" + Utilities.hyphenator + "</script><meta name='viewport' content='width=400, initial-scale=1,maximim-scale=1.4'></head>" + JSInjectionScript + "<body><style>" + css + "</style>" + "<div id='wrapper_div' class='wrapper hyphenate' style='display:none;'>" + content + "<div class='end'>&diams; &diams; &diams;</div></div><script>Hyphenator.config({minwordlength : 10}); Hyphenator.run();</script></body></html>";
+            //return "<html lang='ru'><head><script type='text/javascript'>" + Utilities.hyphenator + "</script><meta name='viewport' content='width=400, initial-scale=1,maximim-scale=1'></head>" + JSInjectionScript + "<body><style>" + css + "</style>" + "<div id='wrapper_div' class='wrapper hyphenate' style='display:none;'>" + content + "<div class='end'>&diams; &diams; &diams;</div></div><script>Hyphenator.config({minwordlength : 10}); Hyphenator.run();</script></body></html>";
+            return "<html lang='ru'><head><script type='text/javascript'>" + Utilities.hyphenator + "</script><meta name='viewport' content='width=400, initial-scale=1,maximim-scale=1'></head>" + JSInjectionScript + "<body><style>" + css + "</style>" + "<div id='wrapper_div' class='wrapper hyphenate'>" + content + "<div class='end'>&diams; &diams; &diams;</div></div></body></html>";
         }
 
 
@@ -119,7 +121,7 @@ namespace Smartfiction
             Dispatcher.BeginInvoke(() =>
                                        {
                                            value = JsonConvert.DeserializeObject<PostRoot>(e.Result);
-                                           var caption = value.post.title.Split('.');
+                                           var caption = value.post.title.Split('.', '!', '?');
                                            tbCaption.Text = caption[0];
                                            if (caption.Length > 1)
                                                tbCaptionAuthor.Text = caption[1].Trim();
@@ -219,8 +221,8 @@ namespace Smartfiction
         #region Dirty hack to show scrollbar in webrowser control with javascript injection..
 
         private string css =
-            @".wrapper {font-family:Georgia;font-size:14pt;line-height:24pt;color:#222;margin:0px 3% 0px 3%; width:98%;}
-p {text-indent:30px;-ms-hyphens: auto;hyphens: auto;}
+            @".wrapper {font-family:Georgia;font-size:14pt;line-height:20pt;color:#222;margin:0px 1% 0px 1%; width:99%;}
+p {text-indent:10px;-ms-hyphens: auto;hyphens: auto;}
 div.end {text-align:center;color:#999;font-size:150%;margin-top:30px;width:100%;}";
 
         private string JSInjectionScript = @"<script>function initialize() { 
