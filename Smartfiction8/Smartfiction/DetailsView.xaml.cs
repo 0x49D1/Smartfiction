@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Windows;
-using System.Windows.Media;
 using BugSense;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
@@ -45,7 +44,7 @@ namespace Smartfiction
                     value.post = new Post();
                     value.post.title = story.Title;
                     value.post.url = story.Link;
-                    ContentWebBrowser.NavigateToString(JSInjectionScript + story.Details);
+                    ContentWebBrowser.NavigateToString(InjectedString(story.Details));
                     pi.IsVisible = false;
                     var caption = story.Title.Split('.');
                     tbCaption.Text = caption[0];
@@ -94,6 +93,12 @@ namespace Smartfiction
             }
         }
 
+        private string InjectedString(string content)
+        {
+            content = content.Replace("<p", "<p class='hyphenate'");
+            return "<html lang='ru'><head><script src='./Html/Hyphenator.js' type='text/javascript'></script><meta name='viewport' content='width=400, initial-scale=1,maximim-scale=1.4'></head>" + JSInjectionScript + "<body><style>" + css + "</style>" + "<div class='wrapper'>" + content + "<div class='end'>&diams; &diams; &diams;</div></div></body></html>";
+        }
+
         private void GetResponseCallback(IAsyncResult asynchronousResult)
         {
             HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
@@ -120,7 +125,7 @@ namespace Smartfiction
                                            //ContentWebBrowser.Background = new SolidColorBrush(Colors.Black);
                                            //}
 
-                                           ContentWebBrowser.NavigateToString(JSInjectionScript + value.post.content);
+                                           ContentWebBrowser.NavigateToString(InjectedString(value.post.content));
                                            pi.IsVisible = false;
 
                                            ApplicationBarMenuItem mi = ApplicationBar.MenuItems[1] as ApplicationBarMenuItem;
@@ -209,6 +214,11 @@ namespace Smartfiction
 
         #region Dirty hack to show scrollbar in webrowser control with javascript injection..
 
+        private string css =
+            @".wrapper {font-family:Georgia;font-size:14pt;line-height:24pt;color:#222;margin:0px 3% 0px 3%; width:98%;}
+p {text-indent:30px;-ms-hyphens: auto;hyphens: auto;}
+div.end {text-align:center;color:#999;font-size:150%;margin-top:30px;width:100%;}";
+
         private string JSInjectionScript = @"<script>function initialize() { 
   window.external.notify('scrollHeight=' + document.body.scrollHeight.toString()); 
   window.external.notify('clientHeight=' + document.body.clientHeight.toString()); 
@@ -220,7 +230,9 @@ function onScroll(e) {
   window.external.notify('scrollTop=' + scrollPosition.toString()); 
 }
  
-window.onload = initialize;</script>";
+window.onload = initialize;
+    Hyphenator.run();
+</script>";
 
         private int _visibleHeight = 0;
 
