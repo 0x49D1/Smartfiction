@@ -174,7 +174,9 @@
     <Content Include="Content\About\Data.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Html\Hyphenator.js" />
+    <Content Include="Html\Hyphenator.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\appbar.refresh.png" />
     <Content Include="Images\appbar.shuffle.png" />
     <Content Include="Images\black.png" />
@@ -219,6 +221,7 @@
       <Name>LiveTileScheduledTaskAgent</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
