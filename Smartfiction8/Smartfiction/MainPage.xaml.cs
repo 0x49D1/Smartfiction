@@ -78,7 +78,7 @@ namespace Smartfiction
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!Utilities.CheckNetwork())
+            if (mainPivot.SelectedIndex == 0 && !Utilities.CheckNetwork())
                 return;
             if (((ListBox)sender).SelectedItems.Count != 0)
             {

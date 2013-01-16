@@ -42,34 +42,31 @@ namespace LiveTileScheduledTaskAgent
         /// </remarks>
         protected override void OnInvoke(ScheduledTask task)
         {
-                // get application tile
-                ShellTile tile = ShellTile.ActiveTiles.First();
-                if (null != tile)
-                {
-                    // creata a new data for tile
-                    StandardTileData data = new StandardTileData();
-                    // tile foreground data
-                    data.Title = "";
-                    data.BackgroundImage = new Uri("/Images/logo.jpg", UriKind.Relative);
 
-                    // to make tile flip add data to background also
-                    data.BackTitle = "";
-                    // For white theme show white square
-                    data.BackBackgroundImage =
-                        //((Visibility)Application.Current.Resources["PhoneDarkThemeVisibility"] == Visibility.Visible)
-                        new Uri("/Images/black.png", UriKind.Relative);
-                            //: new Uri("/Images/white.png", UriKind.Relative);
-                    data.BackContent = task.Description.Substring(0, task.Description.IndexOf("is"));
-                    // take just TITLE from description
-                    // update tile
-                    tile.Update(data);
-                }
+            // get application tile
+            ShellTile tile = ShellTile.ActiveTiles.First();
+            if (null != tile)
+            {
+                // creata a new data for tile
+                StandardTileData data = new StandardTileData();
+                // tile foreground data
+                data.Title = "";
+                data.BackgroundImage = new Uri("/Images/logo.jpg", UriKind.Relative);
+
+             
+                //: new Uri("/Images/white.png", UriKind.Relative);
+
+                AgentStarter.CheckTileTextUpdate(NotifyComplete);
+                // take just TITLE from description
+                // update tile
+                //tile.Update(data);
+            }
 #if DEBUG_AGENT
 	ScheduledActionService.LaunchForTest(task.Name, TimeSpan.FromSeconds(30));
 	System.Diagnostics.Debug.WriteLine("Periodic task is started again: " + task.Name);
 #endif
 
-            NotifyComplete();
+            //NotifyComplete();
         }
     }
 }
