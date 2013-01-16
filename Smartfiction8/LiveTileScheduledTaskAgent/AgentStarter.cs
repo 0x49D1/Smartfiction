@@ -43,12 +43,12 @@ namespace LiveTileScheduledTaskAgent
             // Adding this condition to run task once a day
             if (lastCheckTime == null || DateTime.Now - lastCheckTime > TimeSpan.FromHours(5))
             {
-                WebClient webClient = new WebClient();
-                webClient.Encoding = System.Text.Encoding.UTF8;
+                WebClient client = new WebClient();
+                client.Encoding = System.Text.Encoding.UTF8;
 
-                webClient.DownloadStringCompleted +=
+                client.DownloadStringCompleted +=
                     new DownloadStringCompletedEventHandler(client_DownloadStringCompleted);
-                webClient.DownloadStringAsync(new Uri("http://smartfiction.ru/" + "?json=get_recent_posts&count=1"));
+                client.DownloadStringAsync(new Uri("http://smartfiction.ru/" + "?json=get_recent_posts&count=1"));
             }
             //else
             //{
