@@ -19,6 +19,8 @@ namespace LiveTileScheduledTaskAgent
         //private static string periodicTaskName = "SmartfictionTileUpdater";
         //private static PeriodicTask periodicTask;
         private static DateTime? lastCheckTime = null;
+        private const string DirectoryName = "SmartfictionStorage";
+        private const string FileName = "checktime.xml";
 
         //public static void StartPeriodicAgent()
         //{
@@ -41,7 +43,8 @@ namespace LiveTileScheduledTaskAgent
         {
             completeAction = action;
             // Adding this condition to run task once a day
-            if (lastCheckTime == null || DateTime.Now - lastCheckTime > TimeSpan.FromHours(5))
+            lastCheckTime = RetrieveCheckTime();
+            if (lastCheckTime == null || DateTime.Now - lastCheckTime > TimeSpan.FromHours(6))
             {
                 WebClient client = new WebClient();
                 client.Encoding = System.Text.Encoding.UTF8;
@@ -60,18 +63,17 @@ namespace LiveTileScheduledTaskAgent
         {
             // get user's store
             var storage = IsolatedStorageFile.GetUserStoreForApplication();
-            lastCheckTime = null;
 
-            if (storage.DirectoryExists("SmartfictionStorage") == false)
+            if (storage.DirectoryExists(DirectoryName) == false)
             {
                 // if directory does not exist, create it
-                storage.CreateDirectory("SmartfictionStorage");
+                storage.CreateDirectory(DirectoryName);
             }
 
-            if (storage.FileExists("checktime.xml"))
+            if (storage.FileExists(DirectoryName + "\\" + FileName))
             {
                 // if file already exists, delete it to reset
-                storage.DeleteFile("checktime.xml");
+                storage.DeleteFile(DirectoryName + "\\" + FileName);
             }
         }
 
@@ -80,19 +82,19 @@ namespace LiveTileScheduledTaskAgent
             // get user's store
             var storage = IsolatedStorageFile.GetUserStoreForApplication();
 
-            if (storage.DirectoryExists("SmartfictionStorage") == false)
+            if (storage.DirectoryExists(DirectoryName) == false)
             {
                 // if directory does not exist, create it
-                storage.CreateDirectory("SmartfictionStorage");
+                storage.CreateDirectory(DirectoryName);
             }
 
-            if (storage.FileExists("checktime.xml"))
+            if (storage.FileExists(DirectoryName + "\\" + FileName))
             {
                 // if file already exists, delete it to reset
-                storage.DeleteFile("checktime.xml");
+                storage.DeleteFile(DirectoryName + "\\" + FileName);
             }
 
-            using (var storageFile = storage.CreateFile("SmartfictionStorage\\checktime.xml"))
+            using (var storageFile = storage.CreateFile(DirectoryName + "\\" + FileName))
             {
                 // create the file and serialize the value
                 var xmlSerializer = new XmlSerializer(typeof(string));
@@ -105,12 +107,12 @@ namespace LiveTileScheduledTaskAgent
             // get the user's store
             var storage = IsolatedStorageFile.GetUserStoreForApplication();
 
-            if (storage.DirectoryExists("SmartfictionStorage")
-                    && storage.FileExists("SmartfictionStorage\\checktime.xml"))
+            if (storage.DirectoryExists(DirectoryName)
+                    && storage.FileExists(DirectoryName + "\\" + FileName))
             {
                 // if file exists in directory, open the file to read
                 using (var storageFile =
-                    storage.OpenFile("SmartfictionStorage\\checktime.xml", FileMode.Open))
+                    storage.OpenFile(DirectoryName + "\\" + FileName, FileMode.Open))
                 {
                     var xmlSerializer = new XmlSerializer(typeof(string));
 
@@ -137,7 +139,7 @@ namespace LiveTileScheduledTaskAgent
                 return;
 
             if (e != null && !string.IsNullOrEmpty(e.Result) &&
-                (lastCheckTime == null || DateTime.Now - lastCheckTime > TimeSpan.FromHours(5)))
+                (lastCheckTime == null || DateTime.Now - lastCheckTime > TimeSpan.FromHours(6)))
             {
 
                 ShellTile PrimaryTile = ShellTile.ActiveTiles.First();
