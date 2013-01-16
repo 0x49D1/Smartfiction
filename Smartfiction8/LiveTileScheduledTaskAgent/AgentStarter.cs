@@ -3,13 +3,11 @@ using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Net;
-using System.Windows;
 using System.Xml.Serialization;
 using Common;
 using Microsoft.Phone.Scheduler;
 using Microsoft.Phone.Shell;
 using Newtonsoft.Json;
-using Smartfiction.Model;
 
 namespace LiveTileScheduledTaskAgent
 {
@@ -20,56 +18,49 @@ namespace LiveTileScheduledTaskAgent
     {
         private static string periodicTaskName = "SmartfictionTileUpdater";
         private static PeriodicTask periodicTask;
-        private static string previousTaskDescription = "";
         private static DateTime? lastCheckTime = null;
 
         public static void StartPeriodicAgent()
         {
             // is old task running, remove it
             periodicTask = ScheduledActionService.Find(periodicTaskName) as PeriodicTask;
-            if (periodicTask != null)
-            {
-                try
-                {
-                    previousTaskDescription = periodicTask.Description;
-                    ScheduledActionService.Remove(periodicTaskName);
-                }
-                catch (Exception)
-                {
-                }
-            }
+            if (periodicTask == null)
+                return;
             ZeroLastCheckTime();
             lastCheckTime = RetrieveCheckTime();
             // create a new task
-            periodicTask = new PeriodicTask(periodicTaskName);
+            //periodicTask = new PeriodicTask(periodicTaskName);
             // set expiration days
             periodicTask.ExpirationTime = DateTime.Now.AddDays(10);
             CheckTileTextUpdate();
         }
 
-        public static void CheckTileTextUpdate()
+        private static Action completeAction { get; set; }
+
+        public static void CheckTileTextUpdate(Action action = null)
         {
+            completeAction = action;
             // Adding this condition to run task once a day
-            if (lastCheckTime == null || DateTime.Now - lastCheckTime > TimeSpan.FromHours(10))
+            if (lastCheckTime == null || DateTime.Now - lastCheckTime > TimeSpan.FromHours(5))
             {
-                WebClient client = new WebClient();
+                WebClient webClient = new WebClient();
+                webClient.Encoding = System.Text.Encoding.UTF8;
 
-                client.Encoding = System.Text.Encoding.UTF8;
-
-                client.DownloadStringCompleted +=
+                webClient.DownloadStringCompleted +=
                     new DownloadStringCompletedEventHandler(client_DownloadStringCompleted);
-                client.DownloadStringAsync(new Uri("http://smartfiction.ru/" + "?json=get_recent_posts&count=1"));
+                webClient.DownloadStringAsync(new Uri("http://smartfiction.ru/" + "?json=get_recent_posts&count=1"));
             }
-            else
-            {
-                client_DownloadStringCompleted(null, null);
-            }
+            //else
+            //{
+            //    client_DownloadStringCompleted(null, null);
+            //}
         }
 
         public static void ZeroLastCheckTime()
         {
             // get user's store
             var storage = IsolatedStorageFile.GetUserStoreForApplication();
+            lastCheckTime = null;
 
             if (storage.DirectoryExists("SmartfictionStorage") == false)
             {
@@ -142,11 +133,11 @@ namespace LiveTileScheduledTaskAgent
 
         private static void client_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
-            if (e == null || e.Cancelled)
+            if (e == null || e.Error != null || e.Cancelled)
                 return;
 
             if (e != null && !string.IsNullOrEmpty(e.Result) &&
-                (lastCheckTime == null || DateTime.Now - lastCheckTime > TimeSpan.FromHours(10)))
+                (lastCheckTime == null || DateTime.Now - lastCheckTime > TimeSpan.FromHours(5)))
             {
 
                 ShellTile PrimaryTile = ShellTile.ActiveTiles.First();
@@ -164,11 +155,14 @@ namespace LiveTileScheduledTaskAgent
                         tile.BackBackgroundImage =
                             //((Visibility)Application.Current.Resources["PhoneDarkThemeVisibility"] == Visibility.Visible)
                             new Uri("/Images/black.png", UriKind.Relative);
+
                         PrimaryTile.Update(tile);
+
                         StoreLastCheckTime();
+                        if (completeAction != null)
+                            completeAction();
                     }
                 }
-
 
             }
         }

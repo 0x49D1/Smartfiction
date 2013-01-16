@@ -56,17 +56,17 @@ namespace LiveTileScheduledTaskAgent
              
                 //: new Uri("/Images/white.png", UriKind.Relative);
 
-                AgentStarter.CheckTileTextUpdate();
+                AgentStarter.CheckTileTextUpdate(NotifyComplete);
                 // take just TITLE from description
                 // update tile
-                tile.Update(data);
+                //tile.Update(data);
             }
 #if DEBUG_AGENT
 	ScheduledActionService.LaunchForTest(task.Name, TimeSpan.FromSeconds(30));
 	System.Diagnostics.Debug.WriteLine("Periodic task is started again: " + task.Name);
 #endif
 
-            NotifyComplete();
+            //NotifyComplete();
         }
     }
 }
