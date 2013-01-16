@@ -16,24 +16,24 @@ namespace LiveTileScheduledTaskAgent
     /// </summary>
     public static class AgentStarter
     {
-        private static string periodicTaskName = "SmartfictionTileUpdater";
-        private static PeriodicTask periodicTask;
+        //private static string periodicTaskName = "SmartfictionTileUpdater";
+        //private static PeriodicTask periodicTask;
         private static DateTime? lastCheckTime = null;
 
-        public static void StartPeriodicAgent()
-        {
-            // is old task running, remove it
-            periodicTask = ScheduledActionService.Find(periodicTaskName) as PeriodicTask;
-            if (periodicTask == null)
-                return;
-            ZeroLastCheckTime();
-            lastCheckTime = RetrieveCheckTime();
-            // create a new task
-            //periodicTask = new PeriodicTask(periodicTaskName);
-            // set expiration days
-            periodicTask.ExpirationTime = DateTime.Now.AddDays(10);
-            CheckTileTextUpdate();
-        }
+        //public static void StartPeriodicAgent()
+        //{
+        //    // is old task running, remove it
+        //    periodicTask = ScheduledActionService.Find(periodicTaskName) as PeriodicTask;
+        //    if (periodicTask == null)
+        //        return;
+        //    ZeroLastCheckTime();
+        //    lastCheckTime = RetrieveCheckTime();
+        //    // create a new task
+        //    //periodicTask = new PeriodicTask(periodicTaskName);
+        //    // set expiration days
+        //    periodicTask.ExpirationTime = DateTime.Now.AddDays(10);
+        //    CheckTileTextUpdate();
+        //}
 
         private static Action completeAction { get; set; }
 
