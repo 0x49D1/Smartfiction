@@ -16,7 +16,7 @@
     <TargetFrameworkProfile>WindowsPhone71</TargetFrameworkProfile>
     <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
     <SilverlightApplication>true</SilverlightApplication>
-    <SupportedCultures>en-US%3bru%3bru-RU</SupportedCultures>
+    <SupportedCultures>ru-RU</SupportedCultures>
     <XapOutputs>true</XapOutputs>
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
     <XapFilename>Smartfiction_$(Configuration)_$(Platform).xap</XapFilename>
@@ -137,20 +137,16 @@
     <Compile Include="ManageFeeds.xaml.cs">
       <DependentUpon>ManageFeeds.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\Author.cs" />
-    <Compile Include="Model\Category.cs" />
     <Compile Include="Model\ConnectionFactory.cs" />
-    <Compile Include="Model\Post.cs" />
-    <Compile Include="Model\PostRoot.cs" />
     <Compile Include="Model\Story.cs" />
     <Compile Include="Model\StoryDataContext.cs" />
     <Compile Include="Model\StoryRepository.cs" />
-    <Compile Include="Model\Tag.cs" />
+    <Compile Include="Model\Utilities.cs" />
     <Compile Include="ObservableCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModel\AgentStarter.cs" />
     <Compile Include="ViewModel\ContentItem.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\ScheduleAgentReseter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -189,6 +185,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\About\Data.xml" />
+    <Content Include="Html\Hyphenator.js" />
     <Content Include="Images\appbar.refresh.png" />
     <Content Include="Images\appbar.shuffle.png" />
     <Content Include="Images\black.png" />
@@ -203,6 +200,10 @@
     <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{11EC54B6-EBE8-4AF5-B5B6-9469156B6D8F}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LiveTileScheduledTaskAgent\LiveTileScheduledTaskAgent.csproj">
       <Project>{EC11B894-228E-4890-B4CE-CF8B1236D181}</Project>
       <Name>LiveTileScheduledTaskAgent</Name>

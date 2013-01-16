@@ -1,12 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.IO.IsolatedStorage;
+using System.Linq;
 using System.Net;
-using System.ServiceModel.Syndication;
-using System.Windows;
-using System.Xml;
 using System.Xml.Serialization;
+using Common;
 using Microsoft.Phone.Scheduler;
+using Microsoft.Phone.Shell;
+using Newtonsoft.Json;
 
 namespace LiveTileScheduledTaskAgent
 {
@@ -15,48 +16,64 @@ namespace LiveTileScheduledTaskAgent
     /// </summary>
     public static class AgentStarter
     {
-        private static string periodicTaskName = "SmartfictionTileUpdater";
-        private static PeriodicTask periodicTask;
-        private static string previousTaskDescription = "";
+        //private static string periodicTaskName = "SmartfictionTileUpdater";
+        //private static PeriodicTask periodicTask;
         private static DateTime? lastCheckTime = null;
+        private const string DirectoryName = "SmartfictionStorage";
+        private const string FileName = "checktime.xml";
 
-        public static void StartPeriodicAgent()
-        {
-            // is old task running, remove it
-            periodicTask = ScheduledActionService.Find(periodicTaskName) as PeriodicTask;
-            if (periodicTask != null)
-            {
-                try
-                {
-                    previousTaskDescription = periodicTask.Description;
-                    ScheduledActionService.Remove(periodicTaskName);
-                }
-                catch (Exception)
-                {
-                }
-            }
-            lastCheckTime = RetrieveCheckTime();
-            // create a new task
-            periodicTask = new PeriodicTask(periodicTaskName);
-            CheckTileTextUpdate();
-        }
+        //public static void StartPeriodicAgent()
+        //{
+        //    // is old task running, remove it
+        //    periodicTask = ScheduledActionService.Find(periodicTaskName) as PeriodicTask;
+        //    if (periodicTask == null)
+        //        return;
+        //    ZeroLastCheckTime();
+        //    lastCheckTime = RetrieveCheckTime();
+        //    // create a new task
+        //    //periodicTask = new PeriodicTask(periodicTaskName);
+        //    // set expiration days
+        //    periodicTask.ExpirationTime = DateTime.Now.AddDays(10);
+        //    CheckTileTextUpdate();
+        //}
 
-        public static void CheckTileTextUpdate()
+        private static Action completeAction { get; set; }
+
+        public static void CheckTileTextUpdate(Action action = null)
         {
+            completeAction = action;
             // Adding this condition to run task once a day
-            if (lastCheckTime == null || lastCheckTime - DateTime.Now < TimeSpan.FromHours(13))
+            lastCheckTime = RetrieveCheckTime();
+            if (lastCheckTime == null || DateTime.Now - lastCheckTime > TimeSpan.FromHours(6))
             {
                 WebClient client = new WebClient();
-
                 client.Encoding = System.Text.Encoding.UTF8;
 
                 client.DownloadStringCompleted +=
                     new DownloadStringCompletedEventHandler(client_DownloadStringCompleted);
-                client.DownloadStringAsync(new Uri("http://smartfiction.ru/feed"));
+                client.DownloadStringAsync(new Uri("http://smartfiction.ru/" + "?json=get_recent_posts&count=1"));
             }
-            else
+            //else
+            //{
+            //    client_DownloadStringCompleted(null, null);
+            //}
+        }
+
+        public static void ZeroLastCheckTime()
+        {
+            // get user's store
+            var storage = IsolatedStorageFile.GetUserStoreForApplication();
+
+            if (storage.DirectoryExists(DirectoryName) == false)
             {
-                client_DownloadStringCompleted(null, null);
+                // if directory does not exist, create it
+                storage.CreateDirectory(DirectoryName);
+            }
+
+            if (storage.FileExists(DirectoryName + "\\" + FileName))
+            {
+                // if file already exists, delete it to reset
+                storage.DeleteFile(DirectoryName + "\\" + FileName);
             }
         }
 
@@ -65,19 +82,19 @@ namespace LiveTileScheduledTaskAgent
             // get user's store
             var storage = IsolatedStorageFile.GetUserStoreForApplication();
 
-            if (storage.DirectoryExists("SmartfictionStorage") == false)
+            if (storage.DirectoryExists(DirectoryName) == false)
             {
                 // if directory does not exist, create it
-                storage.CreateDirectory("SmartfictionStorage");
+                storage.CreateDirectory(DirectoryName);
             }
 
-            if (storage.FileExists("checktime.xml"))
+            if (storage.FileExists(DirectoryName + "\\" + FileName))
             {
                 // if file already exists, delete it to reset
-                storage.DeleteFile("checktime.xml");
+                storage.DeleteFile(DirectoryName + "\\" + FileName);
             }
 
-            using (var storageFile = storage.CreateFile("SmartfictionStorage\\checktime.xml"))
+            using (var storageFile = storage.CreateFile(DirectoryName + "\\" + FileName))
             {
                 // create the file and serialize the value
                 var xmlSerializer = new XmlSerializer(typeof(string));
@@ -90,12 +107,12 @@ namespace LiveTileScheduledTaskAgent
             // get the user's store
             var storage = IsolatedStorageFile.GetUserStoreForApplication();
 
-            if (storage.DirectoryExists("SmartfictionStorage")
-                    && storage.FileExists("SmartfictionStorage\\checktime.xml"))
+            if (storage.DirectoryExists(DirectoryName)
+                    && storage.FileExists(DirectoryName + "\\" + FileName))
             {
                 // if file exists in directory, open the file to read
                 using (var storageFile =
-                    storage.OpenFile("SmartfictionStorage\\checktime.xml", FileMode.Open))
+                    storage.OpenFile(DirectoryName + "\\" + FileName, FileMode.Open))
                 {
                     var xmlSerializer = new XmlSerializer(typeof(string));
 
@@ -118,58 +135,37 @@ namespace LiveTileScheduledTaskAgent
 
         private static void client_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
+            if (e == null || e.Error != null || e.Cancelled)
+                return;
+
             if (e != null && !string.IsNullOrEmpty(e.Result) &&
-                (lastCheckTime == null || lastCheckTime - DateTime.Now < TimeSpan.FromDays(-1)))
+                (lastCheckTime == null || DateTime.Now - lastCheckTime > TimeSpan.FromHours(6)))
             {
-                if (periodicTask == null)
-                    periodicTask = ScheduledActionService.Find(periodicTaskName) as PeriodicTask;
-                if (periodicTask == null)
-                    return;
 
-                XmlReader reader = XmlReader.Create(new StringReader(e.Result));
-                SyndicationFeed feed = SyndicationFeed.Load(reader);
-                foreach (SyndicationItem sItem in feed.Items)
+                ShellTile PrimaryTile = ShellTile.ActiveTiles.First();
+                if (PrimaryTile != null)
                 {
-                    periodicTask.Description = sItem.Title.Text +
-                                               " is story of the day, and this updater will update your story of the day tile.";
-                    StoreLastCheckTime();
-                    break;
-                }
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(previousTaskDescription))
-                    previousTaskDescription = "Updater will update your story of the day tile.";
-                periodicTask.Description = previousTaskDescription;
-            }
-            // set expiration days
-            periodicTask.ExpirationTime = DateTime.Now.AddDays(10);
-            try
-            {
-                // add thas to scheduled action service
-                ScheduledActionService.Add(periodicTask);
-                // debug, so run in every 30 secs
-#if DEBUG_AGENT
-                    ScheduledActionService.LaunchForTest(periodicTaskName, TimeSpan.FromSeconds(10));
-                    System.Diagnostics.Debug.WriteLine("Periodic task is started: " + periodicTaskName);
-#endif
+                    var value = JsonConvert.DeserializeObject<RootPostList>(e.Result);
+                    if (value.posts.Count > 0)
+                    {
+                        StandardTileData tile = new StandardTileData();
 
-            }
-            catch (InvalidOperationException exception)
-            {
-                if (exception.Message.Contains("BNS Error: The action is disabled"))
-                {
-                    // load error text from localized strings
-                    MessageBox.Show("Background agents for this application have been disabled by the user.");
+                        tile.BackContent = value.posts[0].title;
+                        // to make tile flip add data to background also
+                        tile.BackTitle = "";
+                        // For white theme show white square
+                        tile.BackBackgroundImage =
+                            //((Visibility)Application.Current.Resources["PhoneDarkThemeVisibility"] == Visibility.Visible)
+                            new Uri("/Images/black.png", UriKind.Relative);
+
+                        PrimaryTile.Update(tile);
+
+                        StoreLastCheckTime();
+                        if (completeAction != null)
+                            completeAction();
+                    }
                 }
-                if (exception.Message.Contains("BNS Error: The maximum number of ScheduledActions of this type have already been added."))
-                {
-                    // No user action required. The system prompts the user when the hard limit of periodic tasks has been reached.
-                }
-            }
-            catch (SchedulerServiceException)
-            {
-                // No user action required.
+
             }
         }
     }

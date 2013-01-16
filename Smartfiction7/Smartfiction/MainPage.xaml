@@ -20,9 +20,9 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <!--TitlePanel contains the name of the application and page title-->
-        <controls:Pivot Title="SMARTFICTION Качественная литература по будням. Коротко." >
+        <controls:Pivot Title="SMARTFICTION Качественная литература по будням. Коротко."  x:Name="mainPivot" >
 
-            <controls:PivotItem Header="Последние" >
+            <controls:PivotItem Header="Последние">
                 <!--ContentPanel - place additional content here-->
                 <Grid x:Name="ContentGrid" >
 

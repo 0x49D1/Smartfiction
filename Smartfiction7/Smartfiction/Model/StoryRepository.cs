@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
+using BugSense;
+using Newtonsoft.Json;
 
 namespace Smartfiction.Model
 {
@@ -61,7 +64,7 @@ namespace Smartfiction.Model
                 }
                 catch (Exception exception)
                 {
-                    BugSenseHandler.Instance.LogException(exception);
+                    BugSenseHandler.Instance.LogError(exception);
                 }
 
 
@@ -89,7 +92,7 @@ namespace Smartfiction.Model
             }
             catch (Exception e)
             {
-                BugSense.BugSenseHandler.Instance.LogException(e);
+                BugSense.BugSenseHandler.Instance.LogError(e);
             }
             return -1;
         }

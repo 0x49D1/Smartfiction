@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Windows;
-using System.Windows.Media;
 using BugSense;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
@@ -36,7 +35,7 @@ namespace Smartfiction
             pi.IsVisible = true;
             SystemTray.SetProgressIndicator(this, pi);
 
-  if (NavigationContext.QueryString.TryGetValue("title", out title))
+            if (NavigationContext.QueryString.TryGetValue("title", out title))
             {
                 var story = StoryRepository.GetSingleStoryByTitle(title);
                 if (story != null && !story.Details.Contains("[..."))
@@ -45,9 +44,10 @@ namespace Smartfiction
                     value.post = new Post();
                     value.post.title = story.Title;
                     value.post.url = story.Link;
-                    ContentWebBrowser.NavigateToString(JSInjectionScript + story.Details);
+                    ContentWebBrowser.NavigateToString(InjectedString(story.Details));
                     pi.IsVisible = false;
-                    var caption = story.Title.Split('.');
+                    var caption = story.Title.Split(new char[] { '.', '!', '?' });
+
                     tbCaption.Text = caption[0];
                     if (caption.Length > 1)
                         tbCaptionAuthor.Text = caption[1].Trim();
@@ -93,7 +93,16 @@ namespace Smartfiction
             }
         }
 
-        private void GetResponseCallback(IAsyncResult asynchronousResult)
+        private string InjectedString(string content)
+        {
+            //content = content.Replace("<p", "<p class='hyphenate'");
+            //return "<html lang='ru'><head><script type='text/javascript'>" + Utilities.hyphenator + "</script><meta name='viewport' content='width=400, initial-scale=1,maximim-scale=1'></head>" + JSInjectionScript + "<body><style>" + css + "</style>" + "<div id='wrapper_div' class='wrapper hyphenate' style='display:none;'>" + content + "<div class='end'>&diams; &diams; &diams;</div></div><script>Hyphenator.config({minwordlength : 10}); Hyphenator.run();</script></body></html>";
+            return "<html lang='ru'><head><script type='text/javascript'>" + Utilities.hyphenator + "</script><meta name='viewport' content='width=400, initial-scale=1,maximim-scale=1'></head>" + JSInjectionScript + "<body><style>" + css + "</style>" + "<div id='wrapper_div' class='wrapper hyphenate'>" +FastConvertExtendedASCII(content) + "<div class='end'>&diams; &diams; &diams;</div></div></body></html>";
+        }
+
+
+        private
+              void GetResponseCallback(IAsyncResult asynchronousResult)
         {
             HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
             // End the operation
@@ -109,7 +118,7 @@ namespace Smartfiction
             Dispatcher.BeginInvoke(() =>
                                        {
                                            value = JsonConvert.DeserializeObject<PostRoot>(e.Result);
-                                           var caption = value.post.title.Split('.');
+                                           var caption = value.post.title.Split('.', '!', '?');
                                            tbCaption.Text = caption[0];
                                            if (caption.Length > 1)
                                                tbCaptionAuthor.Text = caption[1].Trim();
@@ -118,10 +127,8 @@ namespace Smartfiction
                                            //    value.post.content = "<div style='background-color:black;color:white;margin:0;padding:0'>" + value.post.content + "</div>";
                                            //ContentWebBrowser.Background = new SolidColorBrush(Colors.Black);
                                            //}
-                                           value.post.content = value.post.content.Remove(0,
-                                                                                          value.post.content.IndexOf(
-                                                                                              "</script>") + 9);
-                                           ContentWebBrowser.NavigateToString("<html><head></head><body>" + JSInjectionScript + FastConvertExtendedASCII(value.post.content) + "</body></html>");
+
+                                           ContentWebBrowser.NavigateToString(InjectedString(value.post.content));
                                            pi.IsVisible = false;
 
                                            ApplicationBarMenuItem mi = ApplicationBar.MenuItems[1] as ApplicationBarMenuItem;
@@ -195,13 +202,13 @@ namespace Smartfiction
 
         private void share_Click(object sender, EventArgs e)
         {
-if (!Utilities.CheckNetwork())
+            if (!Utilities.CheckNetwork())
                 return;
             ShareLinkTask slt = new ShareLinkTask();
 
             slt.LinkUri = new Uri(value.post.url);
             slt.Title = value.post.title;
-slt.Message = value.post.title + " #smartfiction #wp";
+            slt.Message = value.post.title + " #smartfiction #wp";
             slt.Show();
         }
 
@@ -218,10 +225,10 @@ slt.Message = value.post.title + " #smartfiction #wp";
             }
             else
             {
-    if (StoryRepository.AddNewStory(value.post.title,
-                                                DateTime.Parse(value.post.date),
-                                                value.post.url,
-                                                value.post.content, null) > 0)
+                if (StoryRepository.AddNewStory(value.post.title,
+                                                            DateTime.Parse(value.post.date),
+                                                            value.post.url,
+                                                            value.post.content, null) > 0)
                     mi.Text = RemoveFromFavoritsString;
             }
         }
@@ -272,6 +279,11 @@ slt.Message = value.post.title + " #smartfiction #wp";
 
         #region Dirty hack to show scrollbar in webrowser control with javascript injection..
 
+        private string css =
+                  @".wrapper {font-family:Georgia;font-size:14pt;line-height:20pt;color:#222;margin:0px 1% 0px 1%; width:99%;}
+p {text-indent:10px;-ms-hyphens: auto;hyphens: auto;}
+div.end {text-align:center;color:#999;font-size:150%;margin-top:30px;width:100%;}";
+
         private string JSInjectionScript = @"<script>function initialize() { 
   window.external.notify('scrollHeight=' + document.body.scrollHeight.toString()); 
   window.external.notify('clientHeight=' + document.body.clientHeight.toString()); 
@@ -283,7 +295,9 @@ function onScroll(e) {
   window.external.notify('scrollTop=' + scrollPosition.toString()); 
 }
  
-window.onload = initialize;</script>";
+window.onload = initialize;
+    
+</script>";
 
         private int _visibleHeight = 0;
 

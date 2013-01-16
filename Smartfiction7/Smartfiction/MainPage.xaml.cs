@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
+using System.IO.IsolatedStorage;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Resources;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
@@ -80,8 +84,8 @@ namespace Smartfiction
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-
-            if (!Utilities.CheckNetwork())
+  {
+            if (mainPivot.SelectedIndex == 0 && !Utilities.CheckNetwork())
                 return;
             if (((ListBox)sender).SelectedItems.Count != 0)
             {
@@ -90,14 +94,16 @@ namespace Smartfiction
                 {
                     var item = ((ListBox)sender).SelectedItem as Story;
                     itemURL = HttpUtility.UrlEncode(item.Link);
+                    NavigationService.Navigate(new Uri("/DetailsView.xaml?item=" + itemURL + "&title=" + item.Title, UriKind.Relative));
                 }
                 else
                 {
                     var item = ((ListBox)sender).SelectedItem as ContentItem;
                     itemURL = HttpUtility.UrlEncode(item.Link);
+                    NavigationService.Navigate(new Uri("/DetailsView.xaml?item=" + itemURL + "&title=" + item.Title, UriKind.Relative));
                 }
 
-                NavigationService.Navigate(new Uri("/DetailsView.xaml?item=" + itemURL+"&title=" + item.Title, UriKind.Relative));
+                
             }
         }
 
@@ -120,6 +126,7 @@ if (!Utilities.CheckNetwork())
 
                 slt.LinkUri = new Uri(item.Link);
                 slt.Title = item.Title;
+                slt.Message = item.Title + " #smartfiction #wp";
             }
             else
             {
@@ -127,8 +134,9 @@ if (!Utilities.CheckNetwork())
 
                 slt.LinkUri = new Uri(item.Link);
                 slt.Title = item.Title;
+                slt.Message = item.Title + " #smartfiction #wp";
             }
-            slt.Message = "";
+      
             slt.Show();
         }
 

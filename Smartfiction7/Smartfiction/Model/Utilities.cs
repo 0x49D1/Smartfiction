@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Phone.Net.NetworkInformation;
 
@@ -12,6 +11,9 @@ namespace Smartfiction.Model
 {
     public static class Utilities
     {
+     public static string hyphenator = "";
+
+
         /// <summary>
         /// Method to check internet connection to the host
         /// </summary>
