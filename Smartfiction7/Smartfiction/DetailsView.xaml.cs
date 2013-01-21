@@ -97,7 +97,7 @@ namespace Smartfiction
         {
             //content = content.Replace("<p", "<p class='hyphenate'");
             //return "<html lang='ru'><head><script type='text/javascript'>" + Utilities.hyphenator + "</script><meta name='viewport' content='width=400, initial-scale=1,maximim-scale=1'></head>" + JSInjectionScript + "<body><style>" + css + "</style>" + "<div id='wrapper_div' class='wrapper hyphenate' style='display:none;'>" + content + "<div class='end'>&diams; &diams; &diams;</div></div><script>Hyphenator.config({minwordlength : 10}); Hyphenator.run();</script></body></html>";
-            return "<html lang='ru'><head><script type='text/javascript'>" + Utilities.hyphenator + "</script><meta name='viewport' content='width=400, initial-scale=1,maximim-scale=1'></head>" + JSInjectionScript + "<body><style>" + css + "</style>" + "<div id='wrapper_div' class='wrapper hyphenate'>" +FastConvertExtendedASCII(content) + "<div class='end'>&diams; &diams; &diams;</div></div></body></html>";
+            return "<html lang='ru'><head><script type='text/javascript'>" + Utilities.hyphenator + "</script><meta name='viewport' content='width=400, initial-scale=1,maximim-scale=1'></head>" + JSInjectionScript + "<body><style>" + css + "</style>" + "<div id='wrapper_div' class='wrapper hyphenate'>" + FastConvertExtendedASCII(content) + "<div class='end'>&diams; &diams; &diams;</div></div></body></html>";
         }
 
 
@@ -113,11 +113,15 @@ namespace Smartfiction
 
         private void webClient_OpenReadCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
-            if (e.Cancelled)
+            if (e == null || e.Error != null || e.Cancelled)
                 return;
             Dispatcher.BeginInvoke(() =>
                                        {
                                            value = JsonConvert.DeserializeObject<PostRoot>(e.Result);
+
+                                           if (value == null || string.IsNullOrEmpty(value.post.content))
+                                               return;
+
                                            var caption = value.post.title.Split('.', '!', '?');
                                            tbCaption.Text = caption[0];
                                            if (caption.Length > 1)

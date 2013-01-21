@@ -44,7 +44,7 @@ namespace LiveTileScheduledTaskAgent
             completeAction = action;
             // Adding this condition to run task once a day
             lastCheckTime = RetrieveCheckTime();
-            if (lastCheckTime == null || DateTime.Now - lastCheckTime > TimeSpan.FromHours(6))
+            if (lastCheckTime == null || DateTime.Now - lastCheckTime > TimeSpan.FromHours(7))
             {
                 WebClient client = new WebClient();
                 client.Encoding = System.Text.Encoding.UTF8;
@@ -139,7 +139,7 @@ namespace LiveTileScheduledTaskAgent
                 return;
 
             if (e != null && !string.IsNullOrEmpty(e.Result) &&
-                (lastCheckTime == null || DateTime.Now - lastCheckTime > TimeSpan.FromHours(6)))
+                (lastCheckTime == null || DateTime.Now - lastCheckTime > TimeSpan.FromHours(7)))
             {
 
                 ShellTile PrimaryTile = ShellTile.ActiveTiles.First();
