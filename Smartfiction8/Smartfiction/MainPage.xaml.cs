@@ -19,6 +19,8 @@ namespace Smartfiction
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        Popup p = new Popup() { Child = new SearchUC() };
+
         // Constructor
         // http://code.msdn.microsoft.com/wpapps/Database-in-Windows-Phone-7-d69c13c9
         public MainPage()
@@ -97,9 +99,7 @@ namespace Smartfiction
 
         private void search_Click(object sender, EventArgs e)
         {
-            Popup p = new Popup();
-            p.Child = new SearchUC();
-            p.IsOpen = true;
+            p.IsOpen = !p.IsOpen;
         }
 
         private void ShareItem_Click(object sender, RoutedEventArgs e)
