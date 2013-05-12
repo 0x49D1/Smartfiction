@@ -11,6 +11,9 @@ namespace Smartfiction.UserControls
         public SearchUC()
         {
             InitializeComponent();
+
+            Height = Application.Current.Host.Content.ActualHeight;
+            Width = Application.Current.Host.Content.ActualWidth;
         }
 
         private void BtnSearch_OnClick(object sender, RoutedEventArgs e)
@@ -26,7 +29,7 @@ namespace Smartfiction.UserControls
 
         private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
         {
-            ((Popup) this.Parent).IsOpen = false;
+            ((Popup)this.Parent).IsOpen = false;
         }
     }
 }

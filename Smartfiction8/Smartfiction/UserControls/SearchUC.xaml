@@ -6,20 +6,21 @@
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
-    Foreground="{StaticResource PhoneForegroundBrush}" Height="Auto">
+    Foreground="{StaticResource PhoneForegroundBrush}" 
+            VerticalAlignment="Center" HorizontalAlignment="Center">
 
-    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneChromeBrush}" Height="150">
+    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneChromeBrush}" VerticalAlignment="Top" Margin="0,200,0,0">
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition ></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="txtSearch" Grid.Row="0" Grid.ColumnSpan="2" />
-        <Button Name="btnSearch" Grid.Row="1" Grid.Column="0" Click="BtnSearch_OnClick">Search</Button>
-        <Button Name="btnCancel" Grid.Row="1" Grid.Column="1" Click="BtnCancel_OnClick">Cancel</Button>
+        <TextBox x:Name="txtSearch" Grid.Row="0" Grid.ColumnSpan="2" Height="74" />
+        <Button Name="btnSearch" Grid.Row="1" Grid.Column="0" Click="BtnSearch_OnClick" Height="74">Search</Button>
+        <Button Name="btnCancel" Grid.Row="1" Grid.Column="1" Click="BtnCancel_OnClick" Height="74">Cancel</Button>
 
     </Grid>
 </UserControl>
