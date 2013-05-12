@@ -42,7 +42,7 @@ namespace Smartfiction
                                    SystemTray.SetProgressIndicator(this, FeedHelper.FeedData.pb);
 
                                    //FavoritsList.DataContext = this.Favorits;
-   ReloadFeed();
+                                   ReloadFeed();
                                };
 
 
@@ -50,11 +50,7 @@ namespace Smartfiction
 
         public void RefreshFavorits()
         {
-            using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
-            {
-                App.ViewModel.Favorits = new ObservableCollection<Story>(context.Stories.OrderByDescending(s => s.DateCreated).ToList());
-                //FavoritsList.DataContext = Favorits; // todo fix this
-            }
+            TxtSearch_OnTextChanged(null, null);
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
@@ -66,7 +62,7 @@ namespace Smartfiction
 
         private void reloadFeeds_Click(object sender, EventArgs e)
         {
-    ReloadFeed();
+            ReloadFeed();
         }
 
         private void ReloadFeed()
@@ -84,7 +80,7 @@ namespace Smartfiction
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-  {
+        {
             if (mainPivot.SelectedIndex == 0 && !Utilities.CheckNetwork())
                 return;
             if (((ListBox)sender).SelectedItems.Count != 0)
@@ -103,13 +99,13 @@ namespace Smartfiction
                     NavigationService.Navigate(new Uri("/DetailsView.xaml?item=" + itemURL + "&title=" + item.Title, UriKind.Relative));
                 }
 
-                
+
             }
         }
 
         private void randomFeeds_Click(object sender, EventArgs e)
         {
-if (!Utilities.CheckNetwork())
+            if (!Utilities.CheckNetwork())
                 return;
             string url = HttpUtility.UrlEncode("http://smartfiction.ru/random?random");
             NavigationService.Navigate(new Uri(string.Format("/DetailsView.xaml?randURI={0}", url), UriKind.Relative));
@@ -117,7 +113,7 @@ if (!Utilities.CheckNetwork())
 
         private void ShareItem_Click(object sender, RoutedEventArgs e)
         {
-  if (!Utilities.CheckNetwork())
+            if (!Utilities.CheckNetwork())
                 return;
             ShareLinkTask slt = new ShareLinkTask();
             if (((ListBox)sender).SelectedItem is Story)
@@ -136,7 +132,7 @@ if (!Utilities.CheckNetwork())
                 slt.Title = item.Title;
                 slt.Message = item.Title + " #smartfiction #wp";
             }
-      
+
             slt.Show();
         }
 
@@ -172,6 +168,38 @@ if (!Utilities.CheckNetwork())
                 var item = ((MenuItem)sender).DataContext as ContentItem;
 
                 Clipboard.SetText(item.Title + " " + item.Link);
+            }
+        }
+
+        private void TxtSearch_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.Compare(txtSearch.Text, "поиск", StringComparison.InvariantCultureIgnoreCase) == 0)
+            {
+                txtSearch.Text = string.Empty;
+            }
+        }
+
+        private void TxtSearch_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtSearch.Text)
+                && string.Compare(txtSearch.Text, "поиск", StringComparison.InvariantCultureIgnoreCase) != 0)
+            {
+                using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
+                {
+                    App.ViewModel.Favorits =
+                        new ObservableCollection<Story>(
+                            context.Stories.Where(s => s.Title.Contains(txtSearch.Text))
+                                   .OrderByDescending(s => s.DateCreated)
+                                   .ToList());
+                }
+            }
+            else
+            {
+                using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
+                {
+                    App.ViewModel.Favorits = new ObservableCollection<Story>(context.Stories.OrderByDescending(s => s.DateCreated).ToList());
+                    //FavoritsList.DataContext = Favorits; // todo fix this
+                }
             }
         }
     }
