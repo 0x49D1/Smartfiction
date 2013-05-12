@@ -104,8 +104,7 @@ namespace Smartfiction
         }
 
 
-        private
-              void GetResponseCallback(IAsyncResult asynchronousResult)
+        private void GetResponseCallback(IAsyncResult asynchronousResult)
         {
             HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
             // End the operation

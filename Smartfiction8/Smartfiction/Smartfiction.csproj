@@ -115,6 +115,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\SearchUC.xaml.cs">
+      <DependentUpon>SearchUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\ContentItem.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ScheduleAgentReseter.cs" />
@@ -139,6 +142,10 @@
     <Page Include="ManageFeeds.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\SearchUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +187,7 @@
     <Content Include="Images\appbar.refresh.png" />
     <Content Include="Images\appbar.shuffle.png" />
     <Content Include="Images\black.png" />
+    <Content Include="Images\feature.search.png" />
     <Content Include="Images\logo.jpg" />
     <Content Include="Images\white.png" />
     <Content Include="README_FIRST.txt" />
