@@ -6,12 +6,14 @@ using System.IO.IsolatedStorage;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Resources;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using Smartfiction.Model;
 using System.Linq;
+using Smartfiction.UserControls;
 
 namespace Smartfiction
 {
@@ -91,6 +93,13 @@ namespace Smartfiction
                 return;
             string url = HttpUtility.UrlEncode("http://smartfiction.ru/random?random");
             NavigationService.Navigate(new Uri(string.Format("/DetailsView.xaml?randURI={0}", url), UriKind.Relative));
+        }
+
+        private void search_Click(object sender, EventArgs e)
+        {
+            Popup p = new Popup();
+            p.Child = new SearchUC();
+            p.IsOpen = true;
         }
 
         private void ShareItem_Click(object sender, RoutedEventArgs e)
