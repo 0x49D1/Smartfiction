@@ -115,6 +115,9 @@ namespace Smartfiction
 
         private void RemoveFavorit_click(object sender, RoutedEventArgs e)
         {
+            if (sender == null || !(sender is MenuItem))
+                return;
+
             Story item = (Story)((MenuItem)sender).DataContext;
 
             App.ViewModel.RemoveFavorite(item);

@@ -54,7 +54,7 @@ namespace Smartfiction.Model
                                                           }
                                                           catch (Exception exception)
                                                           {
-                                                              
+
                                                           }
                                                           if (callback != null)
                                                               callback(st.StoryID);
@@ -106,6 +106,9 @@ namespace Smartfiction.Model
             {
                 using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
                 {
+                    if (!context.Stories.Any(s => string.Compare(s.Title, story.Title) == 0))
+                        return true;
+
                     context.Stories.Attach(story);
                     context.Stories.DeleteOnSubmit(story);
                     context.SubmitChanges();
