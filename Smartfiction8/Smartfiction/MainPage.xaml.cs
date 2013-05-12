@@ -22,7 +22,7 @@ namespace Smartfiction
         public MainPage()
         {
             InitializeComponent();
-         
+
             this.Loaded += (s, e) =>
                                {
                                    RefreshFavorits();
@@ -43,11 +43,7 @@ namespace Smartfiction
 
         public void RefreshFavorits()
         {
-            using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
-            {
-                App.ViewModel.Favorits = new ObservableCollection<Story>(context.Stories.OrderByDescending(s => s.DateCreated).ToList());
-                //FavoritsList.DataContext = Favorits; // todo fix this
-            }
+            TxtSearch_OnTextChanged(null, null);
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
@@ -134,6 +130,38 @@ namespace Smartfiction
             dynamic item = ((MenuItem)sender).DataContext;
 
             Clipboard.SetText(item.Title + " " + item.Link);
+        }
+
+        private void TxtSearch_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.Compare(txtSearch.Text, "поиск", StringComparison.InvariantCultureIgnoreCase) == 0)
+            {
+                txtSearch.Text = string.Empty;
+            }
+        }
+
+        private void TxtSearch_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtSearch.Text)
+                && string.Compare(txtSearch.Text, "поиск", StringComparison.InvariantCultureIgnoreCase) != 0)
+            {
+                using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
+                {
+                    App.ViewModel.Favorits =
+                        new ObservableCollection<Story>(
+                            context.Stories.Where(s => s.Title.Contains(txtSearch.Text))
+                                   .OrderByDescending(s => s.DateCreated)
+                                   .ToList());
+                }
+            }
+            else
+            {
+                using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
+                {
+                    App.ViewModel.Favorits = new ObservableCollection<Story>(context.Stories.OrderByDescending(s => s.DateCreated).ToList());
+                    //FavoritsList.DataContext = Favorits; // todo fix this
+                }
+            }
         }
     }
 }

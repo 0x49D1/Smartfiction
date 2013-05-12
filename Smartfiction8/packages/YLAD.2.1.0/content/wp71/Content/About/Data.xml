@@ -18,70 +18,44 @@
   <!-- The App element allows you to override the values that are extracted from the WMAppManifest.xml file automatically -->
   <!-- The AdditionalNotes attribute has no equivalent in the WMAppManifest.xml; you can only define its content here -->
   <!-- Explicitly set any of the attributes to an empty string to remove it (including its label) from the dialog -->
-  <App Author="Dmitry Pursanov"
-       AdditionalNotes="Клиент для замечательного веб ресурса smartfiction.ru" />
+  <App Author="[Your name here]"
+       Publisher="[Publisher]"       
+       AdditionalNotes="[Fill in additional info here]" />
   <Items>
     <!-- Create a MainItem entry to configure the front page -->
     <!-- The Titel attribute defines the title of the pivot item -->
     <!-- The Label (and review buttong content) attributes can override the default values to what you like, and also help with localization -->
     <!-- By default, the "Buy this app!" button is only shown when the app runs in trial mode (more on trial mode and how to configure YLAD accordingly here:
           http://ylad.codeplex.com/documentation). Explicitly set any of the button contents to an empty string to override the default behavior, and remove the button from the page. -->
-    <MainItem Title="О программе"
+    <MainItem Title="about"
               AppAuthorLabel="by"
               AppDescriptionLabel="Description:"
               AppPublisherLabel="Publisher:"
               AppVersionLabel="Version:"
               AppAdditionalNotesLabel="Additional Notes:"
-              AppReviewButtonContent="Review this app!">
+              AppReviewButtonContent="Review this app!"
+              AppBuyButtonContent="Buy this app!">
       <Links>
         <!-- A collection of links presented on the front page. -->
         <!-- By using different protocols like http or mailto you can invoke the respective applications -->
         <!-- The Label attribute defines an additional label placed in front of the hyperlink -->
         <!-- Use this to provide contact/support details for your app -->
-        <Link NavigateUri="http://smartfiction.ru"
-                   Content="http://smartfiction.ru"
-                   Label="Web:" />
-        <Link NavigateUri="mailto:dpursanov@live.com"
-              Content="mail"
+        <Link NavigateUri="http://www.example.com"
+              Content="http://www.example.com"
+              Label="Web:" />
+        <Link NavigateUri="mailto:support@example.com"
+              Content="support@example.com"
               Label="Support:" />
       </Links>
     </MainItem>
-    <Item Title="Помощь"
-     Type="text">
-      Какая-никакая помощь!
-      Списки можно обновлять из меню(3 точки внизу экрана)
-      При долгом нажатии на элемент списка выпадает дополнительное меню, позволяющее перенести элемент в избранное или поделиться ссылкой.
-      Если вы сохраните рассказ в избранное, то его можно будет читать и без интернета.
-    </Item>
     <!-- For each additional pivot item, add a separate Item entry. Ideas for items are: license, tutorial or help, version history, show room for other apps from you etc. -->
     <!-- The Title attribute defines the title of the pivot item -->
     <!-- Each Item can be a remote item (fetched from a Uri) or a local item (using its content), or both (local content is the fallback value if fetching the network content fails) -->
     <!-- Supported types are "text" and "xaml", where text is nicely formatted automatically, and XAML is handled by the built-in XamlReader -->
-    <Item Title="История"
+    <Item Title="history"
           Type="text">
-      1.2.0.0
-      Добавлен поиск по избранным
-      Улучшения стабильности
-      1.1.0.0
-      Добавился режим чтения без сети для избранных рассказов
-      Добавились живые плитки с рассказом дня
-      Добавлен режим ночного чтения
-      Исправление ошибок
-      Всякие мелкие "удобства"
       1.0.0.0
-      Релиз ради релиза и старта!
-    </Item>
-    <Item Title="Люди"
-      Type="text">
-      Разработчики
-      Дмитрий Пурсанов / @0x49D1
-
-      Помощь в типографике
-      Тото Твалавадзе / @totocaster
-
-      Комманда Smartfiction
-      Алексей Гусев, Владимир Завьялов
-
+      This is the initial public version.      
     </Item>
   </Items>
 </About>

@@ -46,8 +46,13 @@
                 </Grid>
             </phone:PivotItem>
             <phone:PivotItem Header="Избранные" >
-                <Grid x:Name="FavoritsGrid" Grid.Row="1">
-                    <ListBox x:Name="FavoritsList" ItemsSource="{Binding Favorits}" Margin="13,0,13,0"  SelectionChanged="ListBox_SelectionChanged">
+                <Grid x:Name="FavoritsGrid" Grid.Row="2" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition ></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBox x:Name="txtSearch" Text="Поиск" Height="Auto" GotFocus="TxtSearch_OnGotFocus" TextChanged="TxtSearch_OnTextChanged"/>
+                    <ListBox x:Name="FavoritsList" ItemsSource="{Binding Favorits}" Margin="13,0,13,0"  SelectionChanged="ListBox_SelectionChanged" Grid.Row="1">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="0,10,0,10">
