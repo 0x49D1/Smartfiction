@@ -51,8 +51,9 @@ namespace Smartfiction
                     var caption = story.Title.Split(new char[] { '.', '!', '?' });
 
                     tbCaption.Text = caption[0];
+                    // Need some smarter trim here, for O.Henry for example
                     if (caption.Length > 1)
-                        tbCaptionAuthor.Text = caption[1].Trim();
+                        tbCaptionAuthor.Text = value.post.title.Replace(caption[0], "").Trim(new char[] { '.', '!', '?' });
                     return;
                 }
             }
@@ -122,8 +123,9 @@ namespace Smartfiction
                                            value = JsonConvert.DeserializeObject<PostRoot>(e.Result);
                                            var caption = value.post.title.Split('.', '!', '?');
                                            tbCaption.Text = caption[0];
+                                           // Need some smarter trim here, for O.Henry for example
                                            if (caption.Length > 1)
-                                               tbCaptionAuthor.Text = caption[1].Trim();
+                                               tbCaptionAuthor.Text = value.post.title.Replace(caption[0],"").Trim(new char[]{'.','!','?'});
                                            //if (NavigationContext.QueryString["b"] != null)
                                            //{
                                            //    value.post.content = "<div style='background-color:black;color:white;margin:0;padding:0'>" + value.post.content + "</div>";
