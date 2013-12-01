@@ -59,6 +59,10 @@
     <!-- Supported types are "text" and "xaml", where text is nicely formatted automatically, and XAML is handled by the built-in XamlReader -->
     <Item Title="История"
           Type="text">
+      1.3.1.0
+      Добавлен широкий тайл
+      Испралено удаление из избранных
+      Исправлена грамматика
       1.2.1.0
       Исправление ошибки заголовка при открытии рассказа
       1.2.0.0

@@ -148,16 +148,17 @@ namespace LiveTileScheduledTaskAgent
                     var value = JsonConvert.DeserializeObject<RootPostList>(e.Result);
                     if (value.posts.Count > 0)
                     {
-                        StandardTileData tile = new StandardTileData();
+                        FlipTileData tile = new FlipTileData();
 
                         tile.BackContent = value.posts[0].title;
                         // to make tile flip add data to background also
                         tile.BackTitle = "";
                         // For white theme show white square
-                        tile.BackBackgroundImage =
+                        tile.WideBackBackgroundImage = tile.BackBackgroundImage =
                             //((Visibility)Application.Current.Resources["PhoneDarkThemeVisibility"] == Visibility.Visible)
                             new Uri("/Images/black.png", UriKind.Relative);
-
+                        
+                        
                         PrimaryTile.Update(tile);
 
                         StoreLastCheckTime();

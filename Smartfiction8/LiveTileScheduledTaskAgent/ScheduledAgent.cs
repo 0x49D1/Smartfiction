@@ -47,6 +47,7 @@ namespace LiveTileScheduledTaskAgent
             ShellTile tile = ShellTile.ActiveTiles.First();
             if (null != tile)
             {
+                
                 // creata a new data for tile
                 StandardTileData data = new StandardTileData();
                 // tile foreground data

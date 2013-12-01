@@ -4,7 +4,7 @@
   <Languages xmlns="">
     <Language code="ru-RU" />
   </Languages>
-  <App xmlns="" ProductID="{2000117e-eb15-4eca-afb2-0c24192ffebc}" Title="Smartfiction" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Smartfiction author" Description="Client for Smartfiction.ru" Publisher="Smartfiction" PublisherID="{ab5f1881-1b5f-4893-a710-c0ed17e4b2f7}">
+  <App xmlns="" ProductID="{2000117e-eb15-4eca-afb2-0c24192ffebc}" Title="Smartfiction" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Dmitry Pursanov" Description="Client for Smartfiction.ru" Publisher="Smartfiction" PublisherID="{ab5f1881-1b5f-4893-a710-c0ed17e4b2f7}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
@@ -26,14 +26,17 @@
           </Title>
           <BackContent>
           </BackContent>
-          <BackBackgroundImageURI>
+          <BackBackgroundImageURI IsRelative="true" IsResource="false">
           </BackBackgroundImageURI>
           <BackTitle>
           </BackTitle>
-          <DeviceLockImageURI>
+          <LargeBackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileWide.png</LargeBackgroundImageURI>
+          <LargeBackContent />
+          <LargeBackBackgroundImageURI IsRelative="true" IsResource="false">
+          </LargeBackBackgroundImageURI>
+          <DeviceLockImageURI IsRelative="true" IsResource="false">
           </DeviceLockImageURI>
-          <HasLarge>
-          </HasLarge>
+          <HasLarge>True</HasLarge>
         </TemplateFlip>
       </PrimaryToken>
     </Tokens>
