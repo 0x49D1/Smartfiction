@@ -106,11 +106,12 @@ namespace Smartfiction.Model
             {
                 using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
                 {
-                    if (!context.Stories.Any(s => string.Compare(s.Title, story.Title) == 0))
+                    var fav = context.Stories.FirstOrDefault(s => s.Title == story.Title);
+                    if (fav == null)
                         return true;
 
-                    context.Stories.Attach(story);
-                    context.Stories.DeleteOnSubmit(story);
+                    //context.Stories.Attach(story);
+                    context.Stories.DeleteOnSubmit(fav);
                     context.SubmitChanges();
                     return true;
                 }

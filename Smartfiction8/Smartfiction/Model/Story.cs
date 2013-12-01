@@ -18,7 +18,8 @@ namespace Smartfiction.Model
         [Column(CanBeNull = false)]
         public string Link { get; set; }
 
-        [Column(CanBeNull = true, DbType = "NTEXT")]
+        //http://stackoverflow.com/a/6992479
+        [Column(CanBeNull = true, DbType = "NTEXT", UpdateCheck = UpdateCheck.Never)]
         public string Details { get; set; }
 
         [Column(CanBeNull = false)]
