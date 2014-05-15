@@ -24,5 +24,8 @@ namespace Smartfiction.Model
 
         [Column(CanBeNull = false)]
         public DateTime DateCreated { get; set; }
+
+        [Column(CanBeNull = true)]
+        public bool IsFavorite { get; set; }
     }
 }

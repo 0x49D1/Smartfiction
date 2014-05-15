@@ -17,7 +17,7 @@ namespace Smartfiction.Model
         public static int AddNewStory(string title,
                                         DateTime datePublished,
                                         string link,
-                                        string details, Action<int> callback)
+                                        string details, bool isFavorite = false, Action<int> callback = null)
         {
             try
             {
@@ -37,14 +37,30 @@ namespace Smartfiction.Model
 
                                                       using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
                                                       {
-                                                          if (CheckStoryTitle(value.post.title))
-                                                              return;
+                                                          if (!isFavorite)
+                                                          {
+                                                              if (CheckStoryTitle(value.post.title))
+                                                                  return;
+                                                          }
+                                                          else
+                                                          {
+                                                              if (CheckStoryTitle(value.post.title))
+                                                              {
+                                                                  var favstory = context.Stories.FirstOrDefault(sa => sa.Title == value.post.title); ;
+                                                                  favstory.IsFavorite = true;
+                                                                  context.SubmitChanges();
+                                                                  if (callback != null)
+                                                                      callback(favstory.StoryID);
+                                                                  return;
+                                                              }
+                                                          }
                                                           Story st = new Story();
                                                           st.Title = value.post.title;
                                                           st.DateCreated = DateTime.Now;
                                                           st.DatePublished = DateTime.Parse(value.post.date);
                                                           st.Link = value.post.url;
                                                           st.Details = detailsGlobal;
+                                                          st.IsFavorite = isFavorite;
 
                                                           context.Stories.InsertOnSubmit(st);
 
