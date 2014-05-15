@@ -20,6 +20,17 @@ namespace Smartfiction.ViewModel
             }
         }
 
+        private ObservableCollection<Story> _history;
+        public ObservableCollection<Story> History
+        {
+            get { return _history; }
+            set
+            {
+                _history = value;
+                NotifyPropertyChanged("History");
+            }
+        }
+
         public bool RemoveFavorite(Story story)
         {
             if (StoryRepository.RemoveStory(story))
@@ -37,14 +48,14 @@ namespace Smartfiction.ViewModel
         {
             try
             {
-                StoryRepository.AddNewStory(title, publishedDate, link, details,StoreFavorit);
+                StoryRepository.AddNewStory(title, publishedDate, link, details, true, StoreFavorit);
                 return true;
             }
             catch (Exception e)
             {
-                
+
             }
-            
+
             return false;
         }
 

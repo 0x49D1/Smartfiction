@@ -19,7 +19,7 @@ namespace Smartfiction
         private static WebClient wc;
 
         private const string RemoveFromFavoritsString = "Удалить из избранного";
-        private const string AddToFavoritsString = "Добвить в избранное";
+        private const string AddToFavoritsString = "Добавить в избранное";
 
         public DetailsView()
         {
@@ -135,6 +135,12 @@ namespace Smartfiction
                                            ContentWebBrowser.NavigateToString(InjectedString(value.post.content));
                                            pi.IsVisible = false;
 
+                                           // Save downloaded story to HISTORY
+                                           StoryRepository.AddNewStory(value.post.title,
+                                               DateTime.Parse(value.post.date),
+                                               value.post.url,
+                                               value.post.content, false, null);
+
                                            ApplicationBarMenuItem mi = ApplicationBar.MenuItems[1] as ApplicationBarMenuItem;
                                            if (mi != null)
                                                mi.Text = StoryRepository.CheckStoryTitle(value.post.title) ? RemoveFromFavoritsString : AddToFavoritsString;
@@ -170,7 +176,7 @@ namespace Smartfiction
                 if (StoryRepository.AddNewStory(value.post.title,
                                                 DateTime.Parse(value.post.date),
                                                 value.post.url,
-                                                value.post.content, null) > 0)
+                                                value.post.content,true, null) > 0)
                     mi.Text = RemoveFromFavoritsString;
             }
         }

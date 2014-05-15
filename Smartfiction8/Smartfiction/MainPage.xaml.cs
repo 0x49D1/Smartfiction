@@ -30,8 +30,10 @@ namespace Smartfiction
             this.Loaded += (s, e) =>
                                {
                                    RefreshFavorits();
+                                   RefreshHistory();
                                    MainList.SelectedIndex = -1;
                                    FavoritsList.SelectedIndex = -1;
+                                   HistoryList.SelectedIndex = -1;
 
                                    if (App.ViewModel.FeedItems.Count != 0)
                                    {
@@ -48,6 +50,11 @@ namespace Smartfiction
         public void RefreshFavorits()
         {
             TxtSearch_OnTextChanged(null, null);
+        }
+
+        public void RefreshHistory()
+        {
+            TxtSearchHistory_OnTextChanged(null, null);
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
@@ -73,6 +80,8 @@ namespace Smartfiction
                 {
                     mainPivot.SelectedIndex = 1;
                 }
+                else if (App.ViewModel.History.Count > 0)
+                    mainPivot.SelectedIndex = 2;
             }
         }
 
@@ -146,9 +155,9 @@ namespace Smartfiction
 
         private void TxtSearch_OnGotFocus(object sender, RoutedEventArgs e)
         {
-            if (string.Compare(txtSearch.Text, "поиск", StringComparison.InvariantCultureIgnoreCase) == 0)
+            if (string.Compare(((TextBox)sender).Text, "поиск", StringComparison.InvariantCultureIgnoreCase) == 0)
             {
-                txtSearch.Text = string.Empty;
+                ((TextBox)sender).Text = string.Empty;
             }
         }
 
@@ -161,7 +170,7 @@ namespace Smartfiction
                 {
                     App.ViewModel.Favorits =
                         new ObservableCollection<Story>(
-                            context.Stories.Where(s => s.Title.Contains(txtSearch.Text))
+                            context.Stories.Where(s => s.Title.Contains(txtSearch.Text) && s.IsFavorite)
                                    .OrderByDescending(s => s.DateCreated)
                                    .ToList());
                 }
@@ -170,8 +179,31 @@ namespace Smartfiction
             {
                 using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
                 {
-                    App.ViewModel.Favorits = new ObservableCollection<Story>(context.Stories.OrderByDescending(s => s.DateCreated).ToList());
+                    App.ViewModel.Favorits = new ObservableCollection<Story>(context.Stories.Where(s => s.IsFavorite == true).OrderByDescending(s => s.DateCreated).ToList());
                     //FavoritsList.DataContext = Favorits; // todo fix this
+                }
+            }
+        }
+
+        private void TxtSearchHistory_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtSearchHistory.Text)
+                && string.Compare(txtSearchHistory.Text, "поиск", StringComparison.InvariantCultureIgnoreCase) != 0)
+            {
+                using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
+                {
+                    App.ViewModel.History =
+                        new ObservableCollection<Story>(
+                            context.Stories.Where(s => s.Title.Contains(txtSearchHistory.Text))
+                                   .OrderByDescending(s => s.DateCreated)
+                                   .ToList());
+                }
+            }
+            else
+            {
+                using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
+                {
+                    App.ViewModel.History = new ObservableCollection<Story>(context.Stories.OrderByDescending(s => s.DateCreated).ToList());
                 }
             }
         }
