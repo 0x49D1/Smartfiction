@@ -14,6 +14,7 @@ using Microsoft.Phone.Tasks;
 using Smartfiction.Model;
 using System.Linq;
 using Smartfiction.UserControls;
+using Smartfiction.ViewModel;
 
 namespace Smartfiction
 {
@@ -126,9 +127,19 @@ namespace Smartfiction
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Smartfiction.ViewModel.ContentItem item = (Smartfiction.ViewModel.ContentItem)((MenuItem)sender).DataContext;
+            try
+            {
+                // Dirty hack.. .
+                Smartfiction.ViewModel.ContentItem item = (Smartfiction.ViewModel.ContentItem) ((MenuItem) sender).DataContext;
 
-            App.ViewModel.AddFavorite(item.Title, item.ItemPublishDate, item.Link, item.ItemDetails);
+                App.ViewModel.AddFavorite(item.Title, item.ItemPublishDate, item.Link, item.ItemDetails);
+            }
+            catch (Exception ex)
+            {
+                Story item = (Story)((MenuItem)sender).DataContext;
+
+                App.ViewModel.AddFavorite(item.Title, item.DatePublished, item.Link, item.Details);
+            }
         }
 
         private void RemoveFavorit_click(object sender, RoutedEventArgs e)
