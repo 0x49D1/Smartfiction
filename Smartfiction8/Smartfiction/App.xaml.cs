@@ -197,6 +197,12 @@ namespace Smartfiction
         // Code to execute on Unhandled Exceptions
         private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
+           // If its crash because new version
+            if (e.ExceptionObject != null && e.ExceptionObject.Message.Contains("IsFavorite"))
+            {
+                MessageBox.Show("При обновлении была изменена локальная база рассказов. К сожалению новая версия не совместима со старой. Пожалуйста, переустановите приложение заново, это должно помочь. Приношу извинения за неудобство.");
+            }
+
             if (System.Diagnostics.Debugger.IsAttached)
             {
                 // An unhandled exception has occurred; break into the debugger
