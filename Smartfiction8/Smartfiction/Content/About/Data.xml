@@ -60,6 +60,8 @@
     <!-- Supported types are "text" and "xaml", where text is nicely formatted automatically, and XAML is handled by the built-in XamlReader -->
     <Item Title="История"
           Type="text">
+      1.4.0.2
+      Фикс краша при попытке добавить в избранное из истории
       1.4.0.0
       Добавлена История. Все элементы оттуда можно просматривать без интернета. Рассказ попадает туда при открытии.
       Исправления орфографии
