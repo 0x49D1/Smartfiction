@@ -44,7 +44,7 @@ namespace Smartfiction.Model
                                                           }
                                                           else
                                                           {
-                                                              if (CheckStoryTitle(value.post.title))
+                                                              if (CheckStoryTitle(value.post.title, true))
                                                               {
                                                                   var favstory = context.Stories.FirstOrDefault(sa => sa.Title == value.post.title); ;
                                                                   favstory.IsFavorite = true;
@@ -143,8 +143,9 @@ namespace Smartfiction.Model
         /// Remove story by title
         /// </summary>
         /// <param name="title">Title to remove from stories</param>
+        /// <param name="fromFavorits">Remove story completely or just from favorits</param>
         /// <returns>Success/Failure</returns>
-        public static bool RemoveStory(string title)
+        public static bool RemoveStory(string title, bool fromFavorits = false)
         {
             try
             {
@@ -154,7 +155,10 @@ namespace Smartfiction.Model
                     if (story == null)
                         return true;
 
-                    context.Stories.DeleteOnSubmit(story);
+                    if (!fromFavorits)
+                        context.Stories.DeleteOnSubmit(story);
+                    else
+                        story.IsFavorite = false;
                     context.SubmitChanges();
                     return true;
                 }
@@ -176,11 +180,11 @@ namespace Smartfiction.Model
         }
 
         // Check if story with selected title already exists
-        public static bool CheckStoryTitle(string title)
+        public static bool CheckStoryTitle(string title, bool isFavorit = false)
         {
             using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
             {
-                return context.Stories.Any(s => s.Title == title);
+                return context.Stories.Any(s => s.Title == title && s.IsFavorite == isFavorit);
             }
         }
 

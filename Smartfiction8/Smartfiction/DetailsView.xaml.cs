@@ -54,6 +54,10 @@ namespace Smartfiction
                     // Need some smarter trim here, for O.Henry for example
                     if (caption.Length > 1)
                         tbCaptionAuthor.Text = value.post.title.Replace(caption[0], "").Trim(new char[] { '.', '!', '?' });
+                    ApplicationBarMenuItem mi = ApplicationBar.MenuItems[1] as ApplicationBarMenuItem;
+                    if (mi != null)
+                        mi.Text = StoryRepository.CheckStoryTitle(value.post.title, true) ? RemoveFromFavoritsString : AddToFavoritsString;
+
                     return;
                 }
             }
@@ -125,7 +129,7 @@ namespace Smartfiction
                                            tbCaption.Text = caption[0];
                                            // Need some smarter trim here, for O.Henry for example
                                            if (caption.Length > 1)
-                                               tbCaptionAuthor.Text = value.post.title.Replace(caption[0],"").Trim(new char[]{'.','!','?'});
+                                               tbCaptionAuthor.Text = value.post.title.Replace(caption[0], "").Trim(new char[] { '.', '!', '?' });
                                            //if (NavigationContext.QueryString["b"] != null)
                                            //{
                                            //    value.post.content = "<div style='background-color:black;color:white;margin:0;padding:0'>" + value.post.content + "</div>";
@@ -143,7 +147,7 @@ namespace Smartfiction
 
                                            ApplicationBarMenuItem mi = ApplicationBar.MenuItems[1] as ApplicationBarMenuItem;
                                            if (mi != null)
-                                               mi.Text = StoryRepository.CheckStoryTitle(value.post.title) ? RemoveFromFavoritsString : AddToFavoritsString;
+                                               mi.Text = StoryRepository.CheckStoryTitle(value.post.title, true) ? RemoveFromFavoritsString : AddToFavoritsString;
                                        });
 
         }
@@ -166,17 +170,18 @@ namespace Smartfiction
             ApplicationBarMenuItem mi = ApplicationBar.MenuItems[1] as ApplicationBarMenuItem;
             if (mi == null)
                 return;
-            if (StoryRepository.CheckStoryTitle(value.post.title))
+            if (StoryRepository.CheckStoryTitle(value.post.title, true))
             {
-                if (StoryRepository.RemoveStory(value.post.title))
+                if (StoryRepository.RemoveStory(value.post.title, true))
                     mi.Text = AddToFavoritsString;
             }
             else
             {
+                StoryRepository.RemoveStory(value.post.title);
                 if (StoryRepository.AddNewStory(value.post.title,
                                                 DateTime.Parse(value.post.date),
                                                 value.post.url,
-                                                value.post.content,true, null) > 0)
+                                                value.post.content, true, null) > 0)
                     mi.Text = RemoveFromFavoritsString;
             }
         }

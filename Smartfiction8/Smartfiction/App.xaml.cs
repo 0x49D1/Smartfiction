@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Navigation;
 using System.Windows.Resources;
 using BugSense;
+using BugSense.Core.Model;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.IO.IsolatedStorage;
@@ -24,7 +25,7 @@ namespace Smartfiction
         // Constructor
         public App()
         {
-            BugSenseHandler.Instance.Init(this, "a9b557af");
+            BugSenseHandler.Instance.InitAndStartSession(new ExceptionManager(Current), RootFrame, "8279d9f3"); 
 
             Data = new FeedHelper.FeedData();
             Data.FeedList = new ObservableCollection<string>();
@@ -56,7 +57,6 @@ namespace Smartfiction
 
             //ADDED
             ViewModel.FeedItems = new ObservableCollection<ViewModel.ContentItem>();
-            BugSenseHandler.Instance.UnhandledException += Application_UnhandledException;
             //UnhandledException += Application_UnhandledException;
             InitializeComponent();
             InitializePhoneApplication();
