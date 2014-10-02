@@ -60,6 +60,9 @@
     <!-- Supported types are "text" and "xaml", where text is nicely formatted automatically, and XAML is handled by the built-in XamlReader -->
     <Item Title="История"
           Type="text">
+      1.4.1.0
+      Фиксы фаворитов
+      Улучшения стабильности
       1.4.0.2
       Фикс краша при попытке добавить в избранное из истории
       1.4.0.0
