@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.IO.IsolatedStorage;
+using System.Linq;
 using System.Net;
 using System.Windows;
 using BugSense;
@@ -46,6 +47,8 @@ namespace Smartfiction
                     value.post = new Post();
                     value.post.title = story.Title;
                     value.post.url = story.Link;
+                    ShowReadDuration(story.Details);
+
                     ContentWebBrowser.NavigateToString(InjectedString(story.Details));
                     pi.IsVisible = false;
                     var caption = story.Title.Split(new char[] { '.', '!', '?' });
@@ -136,6 +139,7 @@ namespace Smartfiction
                                            //ContentWebBrowser.Background = new SolidColorBrush(Colors.Black);
                                            //}
 
+                                           ShowReadDuration(value.post.content);
                                            ContentWebBrowser.NavigateToString(InjectedString(value.post.content));
                                            pi.IsVisible = false;
 
@@ -150,6 +154,19 @@ namespace Smartfiction
                                                mi.Text = StoryRepository.CheckStoryTitle(value.post.title, true) ? RemoveFromFavoritsString : AddToFavoritsString;
                                        });
 
+        }
+
+        private void ShowReadDuration(string content)
+        {
+            int wordCount = GetWordCount(content);
+            tbReadTime.Text = string.Format("рассказ на ~{0} мин.", ((int)wordCount / 85));
+        }
+
+        private int GetWordCount(string content)
+        {
+            if (content.Contains("<p>"))
+                content = content.Substring(content.IndexOf("<p>"));
+            return content.Split(' ').Count(c => c.Length > 2 && !c.StartsWith("<"));
         }
 
         private void share_Click(object sender, EventArgs e)
