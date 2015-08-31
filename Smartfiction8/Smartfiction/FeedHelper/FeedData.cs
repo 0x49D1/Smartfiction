@@ -56,7 +56,10 @@ namespace Smartfiction.FeedHelper
                                                 "почти 2048",
                                                 "...А сегодня ведь уже "+DateTime.Now.Date,
                                                 "подсчитываем время чтения",
-                                                "прочесть за час около 100 книжных страниц"
+                                                "прочесть за час около 100 книжных страниц",
+                                                "делаем вино из одуванчиков",
+                                                "элджернон уже поумнел",
+                                                "судный день натупает",
                                             };
 
         public static void GetItems()
@@ -100,7 +103,11 @@ namespace Smartfiction.FeedHelper
                         App.ViewModel.FeedItems.Add(
                             new ViewModel.ContentItem()
                             {
-                                ItemDetails = string.Format(" {0}", sItem.excerpt.Substring(sItem.excerpt.IndexOf("/*") + 2)),
+                                ItemDetails = string.Format(" {0}", sItem.excerpt.Substring(sItem.excerpt.IndexOf("/*") + 2)
+                                .Replace("[&hellip;]","")
+                                .Replace("</p>", "")
+                                .Replace("p>", "")
+                                .Replace("p >", "")),
                                 Title = sItem.title,
                                 ItemPublishDate = DateTime.Parse(sItem.date),
                                 Link = sItem.url

@@ -194,12 +194,15 @@ namespace Smartfiction
             }
             else
             {
-                StoryRepository.RemoveStory(value.post.title);
+                StoryRepository.RemoveStory(value.post.title, true);
                 if (StoryRepository.AddNewStory(value.post.title,
                                                 DateTime.Parse(value.post.date),
                                                 value.post.url,
                                                 value.post.content, true, null) > 0)
+                {
+                    Microsoft.Devices.VibrateController.Default.Start(TimeSpan.FromMilliseconds(50));
                     mi.Text = RemoveFromFavoritsString;
+                }
             }
         }
 

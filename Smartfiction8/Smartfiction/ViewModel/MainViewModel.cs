@@ -48,7 +48,9 @@ namespace Smartfiction.ViewModel
         {
             try
             {
+                StoryRepository.RemoveStory(title, true);
                 StoryRepository.AddNewStory(title, publishedDate, link, details, true, StoreFavorit);
+                Microsoft.Devices.VibrateController.Default.Start(TimeSpan.FromMilliseconds(50));
                 return true;
             }
             catch (Exception e)

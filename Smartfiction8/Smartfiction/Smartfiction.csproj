@@ -101,9 +101,6 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ManageFeeds.xaml.cs">
-      <DependentUpon>ManageFeeds.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Model\ConnectionFactory.cs" />
     <Compile Include="Model\Story.cs" />
     <Compile Include="Model\StoryDataContext.cs" />
@@ -147,10 +144,6 @@
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ManageFeeds.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\SearchUC.xaml">
       <SubType>Designer</SubType>
