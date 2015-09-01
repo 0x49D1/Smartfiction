@@ -159,6 +159,7 @@ namespace Smartfiction.Model
                         context.Stories.DeleteOnSubmit(story);
                     else
                         story.IsFavorite = false;
+                    context.Stories.Attach(story);
                     context.SubmitChanges();
                     return true;
                 }
