@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using System.IO.IsolatedStorage;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using Microsoft.Phone.Tasks;
 using Smartfiction.Model;
 
 namespace Smartfiction
@@ -57,7 +58,7 @@ namespace Smartfiction
 
             //ADDED
             ViewModel.FeedItems = new ObservableCollection<ViewModel.ContentItem>();
-            //UnhandledException += Application_UnhandledException;
+            UnhandledException += Application_UnhandledException;
             InitializeComponent();
             InitializePhoneApplication();
         }
@@ -197,16 +198,36 @@ namespace Smartfiction
         // Code to execute on Unhandled Exceptions
         private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
-           // If its crash because new version
-            if (e.ExceptionObject != null && e.ExceptionObject.Message.Contains("IsFavorite"))
-            {
-                MessageBox.Show("При обновлении была изменена локальная база рассказов. К сожалению новая версия не совместима со старой. Пожалуйста, переустановите приложение заново, это должно помочь. Приношу извинения за неудобство.");
-            }
+            if (e != null)
+                BugSenseHandler.Instance.LogException(e.ExceptionObject);
+            SendLog("Unhandled exception " + e.ExceptionObject.Message + " stack: " + ((e.ExceptionObject.StackTrace != null) ? e.ExceptionObject.StackTrace.ToString() : ""));
+            e.Handled = true;
+        }
 
-            if (System.Diagnostics.Debugger.IsAttached)
+        public void SendLog(string message)
+        {
+            if (MessageBox.Show("Something went wrong. Do you want to send the log to developer?", "Log", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
-                // An unhandled exception has occurred; break into the debugger
-                System.Diagnostics.Debugger.Break();
+                string Subject = "Smartfiction WP LOG";
+
+                try
+                {
+                    EmailComposeTask mail = new EmailComposeTask();
+                    mail.Subject = Subject;
+                    mail.To = "dpursanov@live.com;";
+                    mail.Body = message;
+
+                    if (mail.Body.Length > 32000) // max 32K 
+                    {
+                        mail.Body = mail.Body.Substring(mail.Body.Length - 32000);
+                    }
+
+                    mail.Show();
+                }
+                catch
+                {
+                    MessageBox.Show("Unable to create the email message");
+                }
             }
         }
 

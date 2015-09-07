@@ -196,7 +196,7 @@ namespace Smartfiction
             {
                 StoryRepository.RemoveStory(value.post.title, true);
                 if (StoryRepository.AddNewStory(value.post.title,
-                                                DateTime.Parse(value.post.date),
+                                                value.post.date!= null ? DateTime.Parse(value.post.date) : DateTime.Now,
                                                 value.post.url,
                                                 value.post.content, true, null) > 0)
                 {

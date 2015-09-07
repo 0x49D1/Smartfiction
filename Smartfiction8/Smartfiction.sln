@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smartfiction", "Smartfiction\Smartfiction.csproj", "{2000117E-EB15-4ECA-AFB2-0C24192FFEBC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveTileScheduledTaskAgent", "LiveTileScheduledTaskAgent\LiveTileScheduledTaskAgent.csproj", "{4D0A9D0E-8972-48D5-AA23-C1A00E27E85A}"
@@ -17,9 +19,9 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2000117E-EB15-4ECA-AFB2-0C24192FFEBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2000117E-EB15-4ECA-AFB2-0C24192FFEBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2000117E-EB15-4ECA-AFB2-0C24192FFEBC}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{2000117E-EB15-4ECA-AFB2-0C24192FFEBC}.Debug|Any CPU.ActiveCfg = Debug|ARM
+		{2000117E-EB15-4ECA-AFB2-0C24192FFEBC}.Debug|Any CPU.Build.0 = Debug|ARM
+		{2000117E-EB15-4ECA-AFB2-0C24192FFEBC}.Debug|Any CPU.Deploy.0 = Debug|ARM
 		{2000117E-EB15-4ECA-AFB2-0C24192FFEBC}.Debug|ARM.ActiveCfg = Debug|ARM
 		{2000117E-EB15-4ECA-AFB2-0C24192FFEBC}.Debug|ARM.Build.0 = Debug|ARM
 		{2000117E-EB15-4ECA-AFB2-0C24192FFEBC}.Debug|ARM.Deploy.0 = Debug|ARM
