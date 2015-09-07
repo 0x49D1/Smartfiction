@@ -205,7 +205,7 @@ namespace Smartfiction
                 {
                     App.ViewModel.History =
                         new ObservableCollection<Story>(
-                            context.Stories.Where(s => s.Title.Contains(txtSearchHistory.Text))
+                            context.Stories.Where(s => s.Title.Contains(txtSearchHistory.Text) && !s.IsFavorite)
                                    .OrderByDescending(s => s.DateCreated)
                                    .ToList());
                 }
@@ -214,7 +214,7 @@ namespace Smartfiction
             {
                 using (StoryDataContext context = ConnectionFactory.GetStoryDataContext())
                 {
-                    App.ViewModel.History = new ObservableCollection<Story>(context.Stories.OrderByDescending(s => s.DateCreated).ToList());
+                    App.ViewModel.History = new ObservableCollection<Story>(context.Stories.Where(s=>!s.IsFavorite).OrderByDescending(s => s.DateCreated).ToList());
                 }
             }
         }
